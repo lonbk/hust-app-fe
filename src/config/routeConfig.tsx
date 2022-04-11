@@ -3,8 +3,9 @@ import React from "react";
 import { Route } from "react-router-dom";
 /* Components */
 import ProtectedRoute from "../components/ProtectedRoute";
+import Dashboard from "../pages/Dashboard";
 import QuestionsList from '../pages/QuestionsList';
-import QuestionsCreate from "../pages/QuestionsList/QuestionsCreate";
+import QuestionsCreate from "../pages/QuestionsCreate";
 import NotFound from "../pages/NotFound";
 import Login from "../pages/Login";
 
@@ -23,23 +24,29 @@ export interface RouteType extends BasicRouteType {
 
 export const routes: RouteType[] = [
     {
-        title: 'Questions',
-        path: '/questions/',
+        title: 'Questions List',
+        path: '/questions-list/',
         component: <QuestionsList />,
         hideInMenu: false,
         requireAdmin: false,
         requireLogin: true,
-        subRoutes: [
-            {
-                title: 'Create question',
-                path: 'create',
-                component: <QuestionsCreate />,
-                hideInMenu: false,
-                requireAdmin: true,
-                requireLogin: true,
-            }
-        ],
     },
+    {
+        title: 'Create question',
+        path: '/questions-create/',
+        component: <QuestionsCreate />,
+        hideInMenu: false,
+        requireAdmin: true,
+        requireLogin: true,
+    },
+    // {
+    //     title: 'Dashboard',
+    //     path: '/',
+    //     component: <Dashboard />,
+    //     hideInMenu: true,
+    //     requireAdmin: true,
+    //     requireLogin: true,
+    // },
     {
         title: 'Login',
         path: '/login',

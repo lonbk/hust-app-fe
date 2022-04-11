@@ -1,20 +1,23 @@
 /* Libs */
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
-import { Button, Grid, Box } from "@mui/material";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Box } from "@mui/material";
 /* Components */
 import Header from "../../layout/Header";
 import Sidebar from "../../layout/Sidebar";
 import Content from "../../layout/Content";
 /* Hooks */
-import { useAuth0 } from "@auth0/auth0-react";
-/* Styles */
+import { useAppDispatch } from '../../app/hooks';
+import { setAccessToken } from '../../slices/user/userSlice';
 /* Types */
 /* Styled components */
 
 const Dashboard: React.FC = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
+  const dispatch = useAppDispatch();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [open, setOpen] = useState(true);
 
@@ -26,17 +29,24 @@ const Dashboard: React.FC = () => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    const getUserAccessToken = async () => {
+      const accessToken = await getAccessTokenSilently();
+      if(accessToken) dispatch(setAccessToken(accessToken));
+    }
+    getUserAccessToken();
+  }, [isAuthenticated])
 
   useEffect(() => {
-    if(location.pathname === '/') navigate("/Questions");
-  })
+    if (location.pathname === "/") navigate("/questions-list");
+  });
 
   return (
     <Box sx={{ display: "flex" }}>
       <Header isOpen={open} onDrawerOpen={handleDrawerOpen} />
       <Sidebar isOpen={open} onDrawerClose={handleDrawerClose} />
       <Content>
-          <Outlet />
+        <Outlet />
       </Content>
     </Box>
   );

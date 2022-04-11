@@ -3,9 +3,9 @@ import React, { useEffect } from "react";
 import { Button, Grid } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAuth0 } from "@auth0/auth0-react";
 /* Components */
 /* Hooks */
-import { useAuth0 } from "@auth0/auth0-react";
 /* Styles */
 import { MainGrid, MainLogo } from '../../styles';
 /* Types */
@@ -33,7 +33,9 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(isAuthenticated) navigate('/');
+    if(isAuthenticated) {
+      navigate('/')
+    };
   }, [isLoading])
 
   return (
