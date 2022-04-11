@@ -1,14 +1,20 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../../app/store'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '../app/store';
+
+import { useAuth0 } from '@auth0/auth0-react';
+import type { User } from '@auth0/auth0-react';
 
 // Define a type for the slice state
 interface UserState {
-  value: number
+  value: number;
+  username?: string;
+  accessToken?: string;
+  auth0Info?: User;
 }
 
 // Define the initial state using that type
 const initialState: UserState = {
-  value: 0,
+  value: 0
 }
 
 export const userSlice = createSlice({

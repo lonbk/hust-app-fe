@@ -2,7 +2,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { CssBaseline } from '@mui/material';
+import { BrowserRouter as Router } from 'react-router-dom';
 /* Components */
+import Auth0ProviderWithNavigate from './auth/Auth0ProviderWithNavigate';
 import App from './App';
 import { store } from './app/store';
 /* Styles */
@@ -13,9 +16,15 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <Router>
+      <Auth0ProviderWithNavigate>
+        <React.StrictMode>
+          <CssBaseline>
+            <App />
+          </CssBaseline>
+        </React.StrictMode>
+      </Auth0ProviderWithNavigate>
+    </Router>
   </Provider>,
   document.getElementById('root')
 );
