@@ -1,69 +1,64 @@
 import React, { useState, useEffect } from "react";
-import { useAuth0 } from '@auth0/auth0-react';
-import axios from 'axios';
 import {
-  styled as muiStyled,
+  // styled as muiStyled,
   Grid,
   Select,
   Button,
-  Paper,
+  // Paper,
   MenuItem,
   InputLabel,
   FormControl,
 } from "@mui/material";
 /* Components */
+import Loading from "../../components/Loading";
+import LoadingWithChild from "../../components/LoadingWithChild";
 import Question from '../../components/Question';
-import { StyledLink } from '../../styles';
+import { StyledLink } from "../../styles";
+/* Redux */
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { selectAccessToken } from "../../features/user/userSelector";
+import { selectCategories } from "../../features/categories/categoriesSelector";
+import { selectQuestions } from "../../features/questions/questionsSelector";
+import { resetQuestionsList } from '../../features/questions/questionsSlice';
+import { getCategories } from "../../features/categories/categoriesThunk";
+import { getQuestionsByCategory } from "../../features/questions/questionsThunk";
 /* Types */
 /* Styles */
 
 const QuestionsList: React.FC = () => {
-  const { isLoading, getAccessTokenSilently } = useAuth0();
-
-  const [category, setCategory] = useState<string>("");
-  const [questions, setQuestions] = useState(
-    [
-      {
-        id: '1',
-        content: 'What are you doing?'
-      },
-      {
-        id: '2',
-        content: 'How are you doing?'
-      }
-    ]
-  );
-  const [user, setUser] = useState<any>();
-
-  const handleCategoryChange = (inputCategory: string) => {
-      const getQuestionsByCategory = async () => {
-        const accessToken = await getAccessTokenSilently();
-        const config = {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
-        }
-          const { data } = await axios.get(`https://questionare01.herokuapp.com/questions/category${inputCategory}`, config)
-          setQuestions(data);
-      }
-      getQuestionsByCategory();
-  }
+  /* Dispatch */
+  const dispatch = useAppDispatch();
+  /* Selector */
+  const accessToken = useAppSelector(selectAccessToken);
+  const { questionsList, status, error } = useAppSelector(selectQuestions);
+  const categories = useAppSelector(selectCategories);
+  /* Local state */
+  const [category, setCategory] = useState<string>('');
+  /* Local methods */
+  const handleCategoryChange = async (inputCategory: string | any) => {
+    setCategory(inputCategory);
+    dispatch(
+      getQuestionsByCategory({
+        accessToken,
+        category: inputCategory,
+      })
+    );
+  };
+  /* Effects */
+  useEffect(() => {
+    if (accessToken) dispatch(getCategories(accessToken));
+    console.log('got here')
+  }, [accessToken]);
 
   useEffect(() => {
-    const getCategory = async () => {
-        const accessToken = await getAccessTokenSilently();
-        console.log(accessToken);
-        const config = {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
-        }
-        const { data } = await axios.get("https://questionare01.herokuapp.com/questions/categories", config)
-        console.log('data', data)
-        setCategory(data);
-    }
-    getCategory();
+    return () =>  {
+      dispatch(resetQuestionsList())
+    };
   }, [])
+
+  if (!categories) {
+    return <Loading />;
+  }
 
   return (
     <Grid container spacing={2}>
@@ -74,18 +69,26 @@ const QuestionsList: React.FC = () => {
             autoWidth={true}
             labelId="categorySelect"
             id="categorySelect"
-            value={category}
             label="Category"
+            value={category}
             onChange={(e) => handleCategoryChange(e.target.value)}
           >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            {categories.map((category) => (
+                <MenuItem key={category.id} value={category.title}>
+                  {category.title}
+                </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={false} sm={false} md={8} />
-      <Grid item xs={false} sm={false} md={2} sx={{display: 'flex', alignItems: 'center'}}>
+      <Grid item xs={false} sm={false} md={7} />
+      <Grid
+        item
+        xs={false}
+        sm={false}
+        md={3}
+        sx={{ display: "flex", alignItems: "center", justifyContent: 'flex-end' }}
+      >
         <StyledLink to="/questions-create">
           <Button variant="contained" color="primary">
             Create questions
@@ -93,9 +96,11 @@ const QuestionsList: React.FC = () => {
         </StyledLink>
       </Grid>
       <Grid item xs={false} sm={false} md={12}>
-        {questions.map((question) => (
-          <Question key={question.id} question={question} withAnswer={false} />
-        ))}
+        <LoadingWithChild status={status} onIdle={"Select a category"} onError={error} >
+            {questionsList?.questions.map((question, index) => (
+              <Question key={question.id} index={index} question={question} withAnswer={false} />
+            ))}
+        </LoadingWithChild>
       </Grid>
     </Grid>
   );

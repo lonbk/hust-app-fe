@@ -1,5 +1,4 @@
 /* Libs */
-import React from "react";
 import { List, ListItemButton, Divider, IconButton, ListItemIcon, ListItemText } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";

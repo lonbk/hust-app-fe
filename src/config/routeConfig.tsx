@@ -5,7 +5,7 @@ import { Route } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Dashboard from "../pages/Dashboard";
 import QuestionsList from '../pages/QuestionsList';
-import QuestionsCreate from "../pages/QuestionsCreate";
+import QuestionCreate from "../pages/QuestionCreate";
 import NotFound from "../pages/NotFound";
 import Login from "../pages/Login";
 
@@ -34,7 +34,7 @@ export const routes: RouteType[] = [
     {
         title: 'Create question',
         path: '/questions-create/',
-        component: <QuestionsCreate />,
+        component: <QuestionCreate />,
         hideInMenu: false,
         requireAdmin: true,
         requireLogin: true,

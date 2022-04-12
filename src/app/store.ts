@@ -1,13 +1,15 @@
 /* Libs */
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 /* Reducers */
-import userReducer from '../slices/user/userSlice';
+import userReducer from '../features/user/userSlice';
+import categoriesReducer from '../features/categories/categoriesSlice';
+import quesionsReducer from '../features/questions/questionsSlice';
 
 export const store = configureStore({
   reducer: {
-    // posts: postsReducer,
-    // comments: commentsReducer,
-    user: userReducer
+    categories: categoriesReducer,
+    user: userReducer,
+    questions: quesionsReducer
   },
 })
 

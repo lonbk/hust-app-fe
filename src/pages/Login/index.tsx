@@ -29,18 +29,18 @@ const PaperDiv = styled.div`
 `;
 
 const Login: React.FC = () => {
-  const { isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
   const navigate = useNavigate();
 
   useEffect(() => {
     if(isAuthenticated) {
       navigate('/')
     };
-  }, [isLoading])
+  }, [isAuthenticated])
 
   return (
     <MainGrid container spacing={2}>
-      <Grid item xs={false} sm={false} md={5}>
+      <Grid item xs={6} sm={6} md={5}>
         <PaperDiv>
         <MainLogo className="app-logo" src={logo} />
           <Button variant="contained" color="primary" onClick={loginWithRedirect}>
@@ -48,7 +48,7 @@ const Login: React.FC = () => {
           </Button>
         </PaperDiv>
       </Grid>
-      <GridImage className="app-img" item xs={false} sm={false} md={7} />
+      <GridImage className="app-img" item xs={6} sm={6} md={7} />
     </MainGrid>
   );
 };

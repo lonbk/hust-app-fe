@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material'; 
 
-
 export const MainGrid = styled(Grid)`
   height: 100vh;
 `;

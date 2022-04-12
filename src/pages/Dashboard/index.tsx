@@ -9,7 +9,7 @@ import Sidebar from "../../layout/Sidebar";
 import Content from "../../layout/Content";
 /* Hooks */
 import { useAppDispatch } from '../../app/hooks';
-import { setAccessToken } from '../../slices/user/userSlice';
+import { setAccessToken } from '../../features/user/userSlice';
 /* Types */
 /* Styled components */
 

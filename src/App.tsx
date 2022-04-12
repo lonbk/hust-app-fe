@@ -8,7 +8,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import QuestionsList from "./pages/QuestionsList";
-import QuestionsCreate from "./pages/QuestionsCreate";
+import QuestionCreate from "./pages/QuestionCreate";
 /* Styles */
 /* Hooks */
 import { useAuth0 } from "@auth0/auth0-react";
@@ -38,7 +38,7 @@ const App: React.FC = () => {
         }
       >
         <Route path="questions-list" element={<QuestionsList />} />
-        <Route path="questions-create" element={<QuestionsCreate />} />
+        <Route path="questions-create" element={<QuestionCreate />} />
       </Route>
       <Route path="404" element={<NotFound />} />
       <Route path="*" element={<Navigate to="/404" />} />
