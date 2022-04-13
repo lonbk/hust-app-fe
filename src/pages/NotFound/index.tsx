@@ -35,7 +35,7 @@ const NotFound: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <MainGrid container spacing={2}>
+    <MainGrid container>
       <Grid item xs={false} sm={false} md={5}>
         <PaperDiv>
           <MainLogo className="app-logo" src={logo}></MainLogo>

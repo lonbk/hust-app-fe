@@ -4,7 +4,7 @@ import {
   Grid,
   Select,
   Button,
-  // Paper,
+  Paper,
   MenuItem,
   InputLabel,
   FormControl,
@@ -12,16 +12,18 @@ import {
 /* Components */
 import Loading from "../../components/Loading";
 import LoadingWithChild from "../../components/LoadingWithChild";
-import Question from '../../components/Question';
+import Question from "../../components/Question";
 import { StyledLink } from "../../styles";
 /* Redux */
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectAccessToken } from "../../features/user/userSelector";
 import { selectCategories } from "../../features/categories/categoriesSelector";
 import { selectQuestions } from "../../features/questions/questionsSelector";
-import { resetQuestionsList } from '../../features/questions/questionsSlice';
+import { selectUserAuth } from "../../features/user/userSelector";
 import { getCategories } from "../../features/categories/categoriesThunk";
 import { getQuestionsByCategory } from "../../features/questions/questionsThunk";
+import { resetStatus } from "../../features/questions/questionsSlice";
+/* Hooks */
+import { useAxiosInstance } from "../../utils/axiosInstance";
 /* Types */
 /* Styles */
 
@@ -29,32 +31,30 @@ const QuestionsList: React.FC = () => {
   /* Dispatch */
   const dispatch = useAppDispatch();
   /* Selector */
-  const accessToken = useAppSelector(selectAccessToken);
   const { questionsList, status, error } = useAppSelector(selectQuestions);
+  const { accessToken } = useAppSelector(selectUserAuth);
   const categories = useAppSelector(selectCategories);
+  const axiosInstance = useAxiosInstance();
   /* Local state */
-  const [category, setCategory] = useState<string>('');
+  const [category, setCategory] = useState<string>("");
   /* Local methods */
-  const handleCategoryChange = async (inputCategory: string | any) => {
+  const handleCategoryChange = async (inputCategory: string) => {
     setCategory(inputCategory);
-    dispatch(
-      getQuestionsByCategory({
-        accessToken,
-        category: inputCategory,
-      })
-    );
   };
   /* Effects */
   useEffect(() => {
-    if (accessToken) dispatch(getCategories(accessToken));
-    console.log('got here')
+    if (accessToken) dispatch(getCategories({ axiosInstance }));
   }, [accessToken]);
 
   useEffect(() => {
-    return () =>  {
-      dispatch(resetQuestionsList())
-    };
-  }, [])
+    if (!category)
+      dispatch(
+        getQuestionsByCategory({
+          axiosInstance,
+          category: category,
+        })
+      );
+  }, [category]);
 
   if (!categories) {
     return <Loading />;
@@ -62,44 +62,63 @@ const QuestionsList: React.FC = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={false} sm={false} md={2}>
-        <FormControl fullWidth>
-          <InputLabel id="categorySelect">Category</InputLabel>
-          <Select
-            autoWidth={true}
-            labelId="categorySelect"
-            id="categorySelect"
-            label="Category"
-            value={category}
-            onChange={(e) => handleCategoryChange(e.target.value)}
+      <Grid item xs={12} sm={12} md={12}>
+        <Grid container spacing={0}>
+          <Grid item xs={6} sm={6} md={2}>
+            <Paper>
+              <FormControl fullWidth>
+                <InputLabel id="categorySelect">Category</InputLabel>
+                <Select
+                  autoWidth={true}
+                  labelId="categorySelect"
+                  id="categorySelect"
+                  label="Category"
+                  value={category}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
+                >
+                  {categories.map((category) => (
+                    <MenuItem key={category.id} value={category.title}>
+                      {category.title}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Paper>
+          </Grid>
+          <Grid item xs={false} sm={false} md={7} />
+          <Grid
+            item
+            xs={3}
+            sm={3}
+            md={3}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
           >
-            {categories.map((category) => (
-                <MenuItem key={category.id} value={category.title}>
-                  {category.title}
-                </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={false} sm={false} md={7} />
-      <Grid
-        item
-        xs={false}
-        sm={false}
-        md={3}
-        sx={{ display: "flex", alignItems: "center", justifyContent: 'flex-end' }}
-      >
-        <StyledLink to="/questions-create">
-          <Button variant="contained" color="primary">
-            Create questions
-          </Button>
-        </StyledLink>
+            <StyledLink to="/questions-create">
+              <Button variant="contained" color="primary">
+                Create questions
+              </Button>
+            </StyledLink>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item xs={false} sm={false} md={12}>
-        <LoadingWithChild status={status} onIdle={"Select a category"} onError={error} >
-            {questionsList?.questions.map((question, index) => (
-              <Question key={question.id} index={index} question={question} withAnswer={false} />
-            ))}
+        <LoadingWithChild
+          status={status}
+          onIdle={"Select a category"}
+          onError={error}
+        >
+          {questionsList?.questions.map((question, index) => (
+            <Question
+              key={question.id}
+              index={index}
+              question={question}
+              withAnswer={question.answers.length > 0}
+            />
+          ))}
         </LoadingWithChild>
       </Grid>
     </Grid>

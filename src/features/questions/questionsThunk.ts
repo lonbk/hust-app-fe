@@ -1,10 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from 'axios';
-import type { AxiosError } from 'axios';
-
-interface BaseArgument {
-    accessToken: string;
-}
+import type { BaseArgument } from '../../utils/axiosInstance';
+import { setStatusSuccess } from './questionsSlice';
 
 interface GetQuestionsArguments extends BaseArgument {
     category: string;
@@ -22,14 +18,12 @@ interface CreateQuestionArguments  extends BaseArgument {
 
 export const getQuestionsByCategory = createAsyncThunk(
     'questions/getQuestionsByCategory',
-    async ({accessToken, category}: GetQuestionsArguments , ThunkAPI) => {
+    async ({axiosInstance, category}: GetQuestionsArguments , ThunkAPI) => {
         try {
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }    
-            }
-            const { data } = await axios.get(`https://questionare01.herokuapp.com/categories/search?title=${category}`, config);
+            const { data } = await axiosInstance.instance.get(
+                `/categories/search?title=${category}`, 
+                axiosInstance.config);
+            ThunkAPI.dispatch(setStatusSuccess);
             return data;
         }
         catch (error) {
@@ -40,14 +34,12 @@ export const getQuestionsByCategory = createAsyncThunk(
 
 export const createQuestionByCategory = createAsyncThunk(
     'questions/createQuestionByCategory',
-    async ({accessToken, questionToUpload}: CreateQuestionArguments, ThunkAPI) => {
+    async ({axiosInstance, questionToUpload}: CreateQuestionArguments, ThunkAPI) => {
         try {
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }    
-            }
-            const { data } = await axios.post("https://questionare01.herokuapp.com/questions/create", questionToUpload, config);
+            const { data } = await axiosInstance.instance.post(
+                "https://questionare01.herokuapp.com/questions/create", 
+                questionToUpload, 
+                axiosInstance.config);
             return data
         }
         catch (error) {

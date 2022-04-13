@@ -21,9 +21,10 @@ import StyledAlert from "../../components/StyledAlert";
 /*Redux */
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectCategories } from "../../features/categories/categoriesSelector";
-import { selectAccessToken } from "../../features/user/userSelector";
 import { selectQuestions } from "../../features/questions/questionsSelector";
 import { createQuestionByCategory } from '../../features/questions/questionsThunk';
+/* Hooks */
+import { useAxiosInstance } from '../../utils/axiosInstance';
 /* Types */
 type Answer = {
   description: string;
@@ -46,8 +47,8 @@ const QuestionCreate: React.FC = () => {
   const dispatch = useAppDispatch();
   /* Selector */
   const categories = useAppSelector(selectCategories);
-  const accessToken = useAppSelector(selectAccessToken);
   const { status, error } = useAppSelector(selectQuestions);
+  const axiosInstance = useAxiosInstance();
   /* Local state */
   const [category, setCategory] = useState<string>("");
   const [categoriesSelectOptions, setCategoriesSelectOptions] = useState(() => {
@@ -120,12 +121,10 @@ const QuestionCreate: React.FC = () => {
 
   const handleAddQuestion = () => {
     dispatch(createQuestionByCategory({
-      accessToken,
+      axiosInstance,
       questionToUpload
     }))
   }
-
-  console.log('Question', questionToUpload)
 
   return (
     <>

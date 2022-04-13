@@ -39,7 +39,7 @@ const Login: React.FC = () => {
   }, [isAuthenticated])
 
   return (
-    <MainGrid container spacing={2}>
+    <MainGrid container>
       <Grid item xs={6} sm={6} md={5}>
         <PaperDiv>
         <MainLogo className="app-logo" src={logo} />

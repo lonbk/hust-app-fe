@@ -1,15 +1,22 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { getQuestionsByCategory, createQuestionByCategory } from './questionsThunk';
-
 // Define a type for the slice state
-interface QuestionType {
+export interface AnswerType {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    description: string;
+    questionId: string; 
+}
+export interface QuestionType {
     id: string;
     createdAt: string;
     updatedAt: string;
     description: string;
     questionCategoryId: string;
+    answers: AnswerType[];
 }
-interface QuestionsList {
+export interface QuestionsList {
     id: string;
     createdAt: string;
     updatedAt: string;
@@ -33,33 +40,40 @@ export const questionsSlice = createSlice({
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
-        resetQuestionsList: (state) => {
-            state.questionsList = undefined;
-            state.status = 'idle';
+        setStatusSuccess: (state) =>{
+            console.log('got here bro')
+            state.status = 'success';
         }
     },
     // extraReducers: {
     extraReducers: (builder) => {
         builder
-            .addCase(getQuestionsByCategory.pending || createQuestionByCategory.pending, (state, action) => {
+            .addCase(getQuestionsByCategory.pending, (state, action) => {
                 state.status = 'pending';
             })
+            .addCase(createQuestionByCategory.pending, (state, action) => {
+                state.status = 'pending';
+            })   
             .addCase(getQuestionsByCategory.fulfilled, (state, action) => {
                 state.questionsList = action.payload
-                state.status = 'success';
+                state.status = 'idle';
             })
-            .addCase(getQuestionsByCategory.rejected || createQuestionByCategory.rejected, (state, action) => {
-                state.error = action.payload
-                state.status = 'failed';
-             })
             .addCase(createQuestionByCategory.fulfilled, (state, action) => {
                 state.status = 'success';
             })
+            .addCase(getQuestionsByCategory.rejected, (state, action) => {
+                state.error = action.payload
+                state.status = 'failed';
+             })
+            .addCase(createQuestionByCategory.rejected, (state, action) => {
+                state.error = action.payload
+                state.status = 'failed';
+             })
     },
     // }
 })
 
-export const { resetQuestionsList } = questionsSlice.actions
+export const { setStatusSuccess } = questionsSlice.actions
 
 
 

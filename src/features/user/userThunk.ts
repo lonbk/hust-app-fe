@@ -5,9 +5,9 @@ export const getUserInfo = createAsyncThunk(
     'user/getUserInfo',
     async (user: User, ThunkAPI) => {
         try {
-            const 
+            
         }
-        catch (err) {
+        catch (error) {
             return error
         }
     }

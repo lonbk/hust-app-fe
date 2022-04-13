@@ -4,12 +4,14 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import userReducer from '../features/user/userSlice';
 import categoriesReducer from '../features/categories/categoriesSlice';
 import quesionsReducer from '../features/questions/questionsSlice';
+import answersReducer from '../features/answers/answersSlice';
 
 export const store = configureStore({
   reducer: {
     categories: categoriesReducer,
     user: userReducer,
-    questions: quesionsReducer
+    questions: quesionsReducer,
+    answers: answersReducer
   },
 })
 

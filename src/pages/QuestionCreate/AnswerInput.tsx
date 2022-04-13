@@ -41,7 +41,7 @@ const AnswerInput: React.FC<Props> = ({
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={6} sm={6} md={8} lg={10}>
+      <Grid item xs={6} sm={6} md={8} lg={9}>
         <FormControl fullWidth sx={{ marginBottom: "20px" }}></FormControl>
         <FormControl fullWidth sx={{ marginBottom: "20px" }}>
           <InputLabel htmlFor="my-input">Insert answer {index + 1}</InputLabel>
@@ -61,7 +61,7 @@ const AnswerInput: React.FC<Props> = ({
         xs={6}
         sm={6}
         md={4}
-        lg={2}
+        lg={3}
         sx={{ display: "flex", alignItems: "center" }}
       >
         <FormControlLabel

@@ -60,10 +60,10 @@ export const userSlice = createSlice({
       .addCase(getUserInfo.pending, (state, action) => {
         state.status = 'pending';
       })
-      .addCase(getUserInfo.fulfilled, (state, action) => {
-        state.status = 'success';
-        state.info = action.payload;
-      })
+      // .addCase(getUserInfo.fulfilled, (state, action) => {
+      //   state.status = 'success';
+      //   state.info = action.payload;
+      // })
       .addCase(getUserInfo.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;

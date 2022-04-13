@@ -1,15 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from 'axios';
+import type { BaseArgument } from  '../../utils/axiosInstance';
 
 export const getCategories = createAsyncThunk(
     'categories/getCategories',
-    async (accessToken: string, thunkAPI) => {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }    
-        }
-        const { data } = await axios.get("https://questionare01.herokuapp.com/categories", config);
+    async ({ axiosInstance }: BaseArgument, thunkAPI) => {
+        const { data } = await axiosInstance.instance.get(
+            "https://questionare01.herokuapp.com/categories", 
+            axiosInstance.config);
         return data;
     }
 )
