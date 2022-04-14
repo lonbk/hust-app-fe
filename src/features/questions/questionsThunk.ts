@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { BaseArgument } from '../../utils/axiosInstance';
-import { setStatusSuccess } from './questionsSlice';
+import { StatusType } from '../global';
 
 interface GetQuestionsArguments extends BaseArgument {
     category: string;
@@ -18,32 +18,41 @@ interface CreateQuestionArguments  extends BaseArgument {
 
 export const getQuestionsByCategory = createAsyncThunk(
     'questions/getQuestionsByCategory',
-    async ({axiosInstance, category}: GetQuestionsArguments , ThunkAPI) => {
+    async ({axiosInstance, category}: GetQuestionsArguments , { dispatch }) => {
         try {
             const { data } = await axiosInstance.instance.get(
                 `/categories/search?title=${category}`, 
                 axiosInstance.config);
-            ThunkAPI.dispatch(setStatusSuccess);
-            return data;
+            return {
+                status: StatusType.STATUS_SUCCESS,
+                questionsList: data
+            };
         }
-        catch (error) {
-            return error
+        catch (error: any) {
+            return {
+                status: StatusType.STATUS_FAILED,
+                error: error?.message
+            }
         }
     }
 )
 
+
 export const createQuestionByCategory = createAsyncThunk(
     'questions/createQuestionByCategory',
-    async ({axiosInstance, questionToUpload}: CreateQuestionArguments, ThunkAPI) => {
+    async ({axiosInstance, questionToUpload}: CreateQuestionArguments, { dispatch }) => {
         try {
             const { data } = await axiosInstance.instance.post(
                 "https://questionare01.herokuapp.com/questions/create", 
                 questionToUpload, 
                 axiosInstance.config);
-            return data
+            return { status: StatusType.STATUS_SUCCESS};
         }
-        catch (error) {
-            return error
+        catch (error: any) {
+            return {
+                status: StatusType.STATUS_FAILED,
+                error: error?.message
+            }
         }
     }
 )

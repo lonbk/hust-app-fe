@@ -1,33 +1,49 @@
 /* Libs */
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Stack, Alert } from "@mui/material";
+/* Redux */
+import { StatusType } from '../../features/global';
 /* Type */
 type Props = {
-  status: "idle" | "pending" | "success" | "failed";
+  status: StatusType;
 };
 
 const StyledAlert: React.FC<Props> = ({ status, children }) => {
+  const [visisble, setVisible] = useState<boolean>(false);
+
   const checkStatus = () => {
     switch (status) {
-      case "idle":
+      case StatusType.STATUS_IDLE:
         return;
-      case "pending":
+      case StatusType.STATUS_PENDING:
         return "warning";
-      case "success":
+      case StatusType.STATUS_SUCCESS:
         return "success";
-      case "failed":
+      case StatusType.STATUS_FAILED:
         return "error";
       default:
         return;
     }
   };
 
-  if (status === "idle") return null;
+  /* Effects */
+  useEffect(() => {
+    if(status === StatusType.STATUS_PENDING) {
+      setVisible(true)
+    }
+    else if(status === StatusType.STATUS_SUCCESS || StatusType.STATUS_FAILED) {
+      setTimeout(() => {
+        setVisible(false);
+      }, 2000)
+    }
+  }, [status])
 
   return (
-    <Stack sx={{ width: "100%" }} spacing={2}>
-      <Alert severity={checkStatus()}>{children}</Alert>
-    </Stack>
+    <>
+      {visisble && <Stack sx={{ width: "100%" }} spacing={2}>
+        <Alert severity={checkStatus()}>{children}</Alert>
+      </Stack>}
+    </>
   );
 };
 

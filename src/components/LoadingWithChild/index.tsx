@@ -1,46 +1,49 @@
 /* Libs */
-import React from "react";
-import { styled as muiStyled, CircularProgress } from "@mui/material";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+/* Redux */
+import { StatusType } from '../../features/global';
+/* Styled */
+import { CircularProgress_styled, DivLoadding } from "./styles";
 /* Types */
 type Props = {
-  status: "idle" | "pending" | "success" | "failed";
-  onIdle: string;
+  status: StatusType;
   onError: any;
+  autoDisappear: boolean;
+  fullScreen: boolean;
 };
-/* Styled components */
-const CircularProgress_styled = muiStyled(CircularProgress)`
-  margin-right: 30px;
-`;
-const DivLoadding = styled.div`
-  width: 100%;
-  height: 500px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
-const LoadingWithChild: React.FC<Props> = ({ status, onIdle, onError, children }) => {
+const LoadingWithChild: React.FC<Props> = ({ status, onError, autoDisappear, children, fullScreen }) => {
+  const [visisble, setVisible] = useState<boolean>(false);
+
   const loadingIcon = (
-    <DivLoadding>
+    <DivLoadding fullScreen={fullScreen}>
       {/* eslint-disable-next-line react/jsx-pascal-case */}
-      <CircularProgress_styled />
-      <p>Loading</p>
+      <CircularProgress_styled size={fullScreen ? 50 : 20} />
     </DivLoadding>
   );
 
-  switch (status) {
-    case "idle":
-        return <p>{onIdle}</p>
-    case "pending":
-        return loadingIcon;
-    case "success":
-        return <>{children}</>
-    case "failed":
-        return <p>{onError}</p>
-    default: 
-      return loadingIcon;
+  useEffect(() => {
+    if(status === StatusType.STATUS_PENDING) {
+      setVisible(true);
+    } 
+    else if((status === StatusType.STATUS_SUCCESS || StatusType.STATUS_FAILED) && autoDisappear) {
+        setTimeout(() => {
+        setVisible(false);
+      }, 3000)
+    }
+  }, [status])
+  
+  if(status === StatusType.STATUS_PENDING) {
+    return loadingIcon;
   }
+
+  return (
+    <>
+      {visisble && (
+        status === StatusType.STATUS_SUCCESS ? children : onError
+      )}
+    </>
+  )
 };
 
 export default LoadingWithChild;

@@ -96,7 +96,7 @@ const Sidebar = ({ isOpen, onDrawerClose }: Props) => {
                   justifyContent: "center",
                 }}
               >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {route.icon}
               </ListItemIcon>
               <ListItemText
                 primary={route.title}

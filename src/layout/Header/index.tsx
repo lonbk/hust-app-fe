@@ -18,7 +18,7 @@ import SettingsTwoToneIcon from "@mui/icons-material/SettingsTwoTone";
 import ExitToAppTwoToneIcon from "@mui/icons-material/ExitToAppTwoTone";
 // import PublicIcon from "@mui/icons-material/Public";
 /* Components */
-import { drawerWidth, DrawerHeader } from "../DrawerHeader";
+import { drawerWidth } from "../DrawerHeader";
 /* Hooks */
 import { useAuth0 } from '@auth0/auth0-react';
 /* Styles */
@@ -77,12 +77,13 @@ const AppBar = muiStyled(MuiAppBar, {
 }));
 
 const Header = ({ isOpen, onDrawerOpen }: Props) => {
+  /* Hooks */
   const { logout } = useAuth0();
-
+  /* Local states */
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElChild, setAnchorElChild] = useState(null);
   const open = Boolean(anchorEl);
-
+  /* Local methods */
   const handleMenu = (event: any) => {
     setAnchorEl(event.currentTarget);
   };

@@ -49,7 +49,7 @@ const AnswerInput: React.FC<Props> = ({
             id="description"
             name="answers"
             aria-describedby="my-helper-text"
-            defaultValue={answer.description}
+            value={answer.description}
             onChange={(e) => {
                 onInputChange(e.target.name, e.target.value, e.target.id, index)
             }}

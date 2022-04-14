@@ -21,8 +21,9 @@ import StyledAlert from "../../components/StyledAlert";
 /*Redux */
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectCategories } from "../../features/categories/categoriesSelector";
-import { selectQuestions } from "../../features/questions/questionsSelector";
+import { selectCreateQuestionsState } from "../../features/questions/questionsSelector";
 import { createQuestionByCategory } from '../../features/questions/questionsThunk';
+import { StatusType } from '../../features/global';
 /* Hooks */
 import { useAxiosInstance } from '../../utils/axiosInstance';
 /* Types */
@@ -41,13 +42,23 @@ const FlexContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+const initQuestionToUpload: QuestionToUpload = {
+  question: "",
+  category: "",
+  answers: [
+    {
+      description: "",
+      isTrue: false,
+    },
+  ],
+}
 
 const QuestionCreate: React.FC = () => {
   /* Dispatch */
   const dispatch = useAppDispatch();
   /* Selector */
   const categories = useAppSelector(selectCategories);
-  const { status, error } = useAppSelector(selectQuestions);
+  const { status, error } = useAppSelector(selectCreateQuestionsState);
   const axiosInstance = useAxiosInstance();
   /* Local state */
   const [category, setCategory] = useState<string>("");
@@ -56,18 +67,7 @@ const QuestionCreate: React.FC = () => {
       return [...categories.map((category) => category.title), "Other"];
     return [];
   });
-  const [questionToUpload, setQuestionToUpload] = useState<QuestionToUpload>(
-    {
-      question: "",
-      category: "",
-      answers: [
-        {
-          description: "",
-          isTrue: false,
-        },
-      ],
-    }
-  );
+  const [questionToUpload, setQuestionToUpload] = useState<QuestionToUpload>(initQuestionToUpload);
   /* Local methods */
   const handleCategoryChange = (inputCategory: string | any) => {
     setCategory(inputCategory);
@@ -118,6 +118,10 @@ const QuestionCreate: React.FC = () => {
       return prev;
     });
   };
+  const handleResetQuestionToUpload = () => {
+    setQuestionToUpload(initQuestionToUpload);
+    setCategory("");
+  }
 
   const handleAddQuestion = () => {
     dispatch(createQuestionByCategory({
@@ -125,6 +129,11 @@ const QuestionCreate: React.FC = () => {
       questionToUpload
     }))
   }
+
+  /* Effects */
+  useEffect(() => {
+    if(status === StatusType.STATUS_SUCCESS) {handleResetQuestionToUpload(); console.log('reset')}
+  }, [status]);
 
   return (
     <>
@@ -178,7 +187,7 @@ const QuestionCreate: React.FC = () => {
                   id="selectCategory"
                   name="category"
                   aria-describedby="my-helper-text"
-                  defaultValue=""
+                  value={questionToUpload.category}
                   onChange={(e) => {
                     handleQuestionToUploadChange(e.target.name, e.target.value);
                   }}
@@ -195,7 +204,7 @@ const QuestionCreate: React.FC = () => {
                   <Input
                     name="question"
                     aria-describedby="my-helper-text"
-                    defaultValue={questionToUpload.question}
+                    value={questionToUpload.question}
                     onChange={(e) => {
                       handleQuestionToUploadChange(e.target.name, e.target.value);
                     }}

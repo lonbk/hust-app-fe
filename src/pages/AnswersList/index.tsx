@@ -1,40 +1,36 @@
+/* Libs */
 import React, { useState, useEffect } from "react";
 import {
-  // styled as muiStyled,
   Grid,
-  Select,
-  Button,
-  Paper,
-  MenuItem,
-  InputLabel,
   FormControl,
+  InputLabel,
+  Select,
+  Paper,
+  Button,
+  MenuItem,
 } from "@mui/material";
 /* Components */
 import Loading from "../../components/Loading";
 import LoadingWithChild from "../../components/LoadingWithChild";
-import Question from "../../components/Question";
-import { StyledLink } from "../../styles";
+import AnswerCard from "./AnswerCard";
 /* Redux */
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectCategories } from "../../features/categories/categoriesSelector";
-import { selectGetQuestionsState } from "../../features/questions/questionsSelector";
+import { selectGetAnswersState } from "../../features/answers/answersSelector";
 import { selectUserAuth } from "../../features/user/userSelector";
+import { selectCategories } from "../../features/categories/categoriesSelector";
 import { getCategories } from "../../features/categories/categoriesThunk";
-import { getQuestionsByCategory } from "../../features/questions/questionsThunk";
 import { StatusType } from "../../features/global";
-// import { resetStatus } from "../../features/questions/questionsSlice";
 /* Hooks */
 import { useAxiosInstance } from "../../utils/axiosInstance";
-/* Types */
-/* Styles */
+/* Styled */
+import { StyledLink } from "../../styles";
 
-const QuestionsList: React.FC = () => {
+const AnswersList: React.FC = () => {
   /* Dispatch */
   const dispatch = useAppDispatch();
   /* Selector */
-  const { questionsList, status, error } = useAppSelector(selectGetQuestionsState);
-  const { accessToken } = useAppSelector(selectUserAuth);
-  const categories = useAppSelector(selectCategories); 
+  const { userAnswers, status, error } = useAppSelector(selectGetAnswersState);
+  const categories = useAppSelector(selectCategories);
   const axiosInstance = useAxiosInstance();
   /* Local state */
   const [category, setCategory] = useState<string>("");
@@ -44,18 +40,18 @@ const QuestionsList: React.FC = () => {
   };
   /* Effects */
   useEffect(() => {
-    if (accessToken) dispatch(getCategories({ axiosInstance }));
-  }, [accessToken]);
-
-  useEffect(() => {
-    if (category)
-      dispatch(
-        getQuestionsByCategory({
-          axiosInstance,
-          category: category,
-        })
-      );
+    if (category) dispatch(getCategories({ axiosInstance }));
   }, [category]);
+
+//   useEffect(() => {
+//     if (category)
+//       dispatch(
+//         getQuestionsByCategory({
+//           axiosInstance,
+//           category: category,
+//         })
+//       );
+//   }, [category]);
 
   if (!categories) {
     return <Loading />;
@@ -98,9 +94,9 @@ const QuestionsList: React.FC = () => {
               justifyContent: "flex-end",
             }}
           >
-            <StyledLink to="/questions-create">
+            <StyledLink to="/questions-list">
               <Button variant="contained" color="primary">
-                Create questions
+                Edit your answers
               </Button>
             </StyledLink>
           </Grid>
@@ -112,16 +108,16 @@ const QuestionsList: React.FC = () => {
         ) : (
           <LoadingWithChild
             fullScreen={true}
-            status={status}
             autoDisappear={false}
+            status={status}
             onError={error}
           >
-            {questionsList ? questionsList.questions.map((question, index) => (
-              <Question
-                key={question.id}
+            {userAnswers ? userAnswers.map((userAnswer, index) => (
+              <AnswerCard
+                key={userAnswer.id}
                 index={index}
-                question={question}
-                withAnswer={question.answers.length > 0}
+                question={userAnswer.question}
+                answer={userAnswer.answer}
               />
             )) : null}
           </LoadingWithChild>
@@ -131,4 +127,4 @@ const QuestionsList: React.FC = () => {
   );
 };
 
-export default QuestionsList;
+export default AnswersList;

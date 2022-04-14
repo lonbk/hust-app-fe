@@ -1,11 +1,15 @@
 /* Libs */
 import React from "react";
 import { Route } from "react-router-dom";
+import CreateIcon from '@mui/icons-material/Create';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import CommentIcon from '@mui/icons-material/Comment';
 /* Components */
 import ProtectedRoute from "../components/ProtectedRoute";
 import Dashboard from "../pages/Dashboard";
 import QuestionsList from '../pages/QuestionsList';
 import QuestionCreate from "../pages/QuestionCreate";
+import AnswersList from "../pages/AnswersList";
 import NotFound from "../pages/NotFound";
 import Login from "../pages/Login";
 
@@ -13,6 +17,7 @@ interface BasicRouteType {
     title: string;
     path: string;
     component: React.ReactElement;
+    icon?: React.ReactElement;
     hideInMenu: boolean;
     requireAdmin: boolean;
     requireLogin: boolean; 
@@ -25,16 +30,27 @@ export interface RouteType extends BasicRouteType {
 export const routes: RouteType[] = [
     {
         title: 'Questions List',
-        path: '/questions-list/',
+        path: '/questions-list',
         component: <QuestionsList />,
+        icon: <ListAltIcon />,
         hideInMenu: false,
         requireAdmin: false,
         requireLogin: true,
     },
     {
         title: 'Create question',
-        path: '/questions-create/',
+        path: '/questions-create',
         component: <QuestionCreate />,
+        icon: <CreateIcon />,
+        hideInMenu: false,
+        requireAdmin: true,
+        requireLogin: true,
+    },
+    {
+        title: 'Your answers',
+        path: '/answers-list',
+        component: <AnswersList />,
+        icon: <CommentIcon />,
         hideInMenu: false,
         requireAdmin: true,
         requireLogin: true,

@@ -1,48 +1,61 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createAnswers } from './answersThunk';
+import { createAnswers, getUserAnswers } from './answersThunk';
+import { StatusType } from '../global';
 // Define a type for the slice state
 export interface AnswerType {
   questionId: string;
   answerId: string; 
 }
 
-interface AnswersState {
-  userAnswers: {
-    id: string;
-    createdAt: string;
-    updatedAt: string;
-    question: {
+export interface AnswersState {
+  getAnswersState: {
+    userAnswers: {
       id: string;
       createdAt: string;
       updatedAt: string;
-      description: string;
-      questionCategoryId: string;
-      questionCategory: {
+      question: {
         id: string;
         createdAt: string;
         updatedAt: string;
-        title: string;
+        description: string;
+        questionCategoryId: string;
+        questionCategory: {
+          id: string;
+          createdAt: string;
+          updatedAt: string;
+          title: string;
+        }
+      },
+      answer: {
+        id: string;
+        createdAt: string;
+        updatedAt: string;
+        description: string;
+        isTrue: boolean;
+        questionId: string;
       }
-    },
-    answer: {
-      id: string;
-      createdAt: string;
-      updatedAt: string;
-      description: string;
-      isTrue: boolean;
-      questionId: string;
-    }
-  }[];
-  total: number;
-  loading: boolean;
-  error: unknown;
+    }[];
+    total: number;
+    status: StatusType;
+    error: any;
+  },
+  createAnswersState: {
+    status: StatusType;
+    error: any;
+  }
 }
 // Define the initial state using that type
 const initialState: AnswersState = {
-  userAnswers: [],
-  total: 0,
-  loading: false,
-  error: undefined,
+  getAnswersState: {
+    userAnswers: [],
+    total: 0,
+    status: StatusType.STATUS_IDLE,
+    error: undefined,
+  },
+  createAnswersState: {
+    status: StatusType.STATUS_IDLE,
+    error: undefined
+  }
 }
 
 export const answersSlice = createSlice({
@@ -50,26 +63,44 @@ export const answersSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    validateAnswers: (state, action) => {
+      const answers  = action.payload
+      if(answers.length < 1) {
+        state.createAnswersState.status = StatusType.STATUS_FAILED;
+        state.createAnswersState.error = "Please select your answers";
+      }
+    }
 
   },
   // extraReducers: {
   extraReducers: (builder) => {
     builder
       .addCase(createAnswers.pending, (state, action) => {
-        state.loading = true;
+        state.createAnswersState.status = StatusType.STATUS_PENDING;
+      })
+      .addCase(getUserAnswers.pending, (state, action) => {
+        state.getAnswersState.status = StatusType.STATUS_PENDING;
       })
       .addCase(createAnswers.fulfilled, (state, action) => {
-        state.loading = false;
+        state.createAnswersState.status = action.payload.status;
       })
-      .addCase(createAnswers.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload
+      .addCase(getUserAnswers.fulfilled, (state, action) => {
+        state.getAnswersState.status = action.payload.status;
+        state.getAnswersState.userAnswers = action.payload.userAnswers;
+      })
+      .addCase(createAnswers.rejected, (state, action: any) => {
+        state.createAnswersState.status = action.payload.status;
+        state.createAnswersState.error = action.payload.error;
+      })
+      .addCase(getUserAnswers.rejected, (state, action: any) => {
+        state.getAnswersState.status = action.payload.status;
+        state.getAnswersState.error = action.payload.error;
       })
   }, 
   // }
 })
 
-// export const { getCategories } = categoriesSlice.actions
+export const { validateAnswers } = answersSlice.actions
 
 
 

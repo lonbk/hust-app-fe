@@ -13,7 +13,7 @@ type Props = {
 };
 
 const MainBox = styled(Box)`
-  min-height: 95vh;
+  min-height: calc(100vh - 64px);
 `
 
 const Content = ({ children }: Props) => {

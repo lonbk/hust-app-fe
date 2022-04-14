@@ -1,6 +1,5 @@
 /* Libs */
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -10,12 +9,19 @@ import {
   Checkbox,
 } from "@mui/material";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
+import CheckIcon from '@mui/icons-material/Check';
 /* Components */
+import LoadingWithChild from "../LoadingWithChild";
 /* Redux */
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { createAnswers } from "../../features/answers/answersThunk";
+import { selectCreateAnswersState } from "../../features/answers/answersSelector";
+import { StatusType } from "../../features/global";
+// import { loading } from "../../"
 /* Hooks */
 import { useAxiosInstance } from "../../utils/axiosInstance";
+/* Styled */
+import { FlexBox } from '../../styles';
 /* Types */
 import type { QuestionType } from "../../features/questions/questionsSlice";
 import type { AnswerType } from "../../features/answers/answersSlice";
@@ -24,11 +30,12 @@ type Props = {
   question: QuestionType;
   withAnswer: boolean;
 };
-/* Styled */
 
 const Question: React.FC<Props> = ({ index, question, withAnswer }) => {
   /* Dispatch */
   const dispatch = useAppDispatch();
+  /*  Selector */
+  const { status, error } = useAppSelector(selectCreateAnswersState);
   const axiosInstance = useAxiosInstance();
   /* Local states */
   const [isVisibleAnswer, setIsVisibleAnswer] = useState<boolean>(false);
@@ -47,15 +54,24 @@ const Question: React.FC<Props> = ({ index, question, withAnswer }) => {
       return prev.filter((answer) => answer.answerId !== id);
     });
   };
+  const handleClose = () => {
+    setAnswers([]);
+    setTimeout(() => {
+      setIsVisibleAnswer(false)
+    }, 1000)
+  }
+
   const handleSubmit = () => {
       dispatch(createAnswers({
           axiosInstance,
-          answers,
+          userAnswers: answers,
           categoryId: question.questionCategoryId
       }))
   }
-
-  console.log(answers);
+  /* Effects */
+  useEffect(() => {
+    if(status === StatusType.STATUS_SUCCESS) handleClose();
+  }, [status])
 
   return (
     <Card sx={{ maxWidth: "100%", marginBottom: "5px" }}>
@@ -75,6 +91,7 @@ const Question: React.FC<Props> = ({ index, question, withAnswer }) => {
             <FormGroup>
               {question.answers.map((answer) => (
                 <FormControlLabel
+                  key={answer.id}
                   value={answer.id}
                   control={
                     <Checkbox
@@ -89,9 +106,16 @@ const Question: React.FC<Props> = ({ index, question, withAnswer }) => {
               ))}
             </FormGroup>
             <br />
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-              Save
-            </Button>
+            <FlexBox column={false} justify="flex-start" align="center">
+              <Button variant="contained" color="primary" onClick={handleSubmit}>
+                Save
+              </Button>
+              <LoadingWithChild fullScreen={false} status={status} autoDisappear={true} onError={error}>
+                <Button variant="text" disabled startIcon={<CheckIcon />}>
+                  Your answers have been saved
+                </Button>
+              </LoadingWithChild>
+            </FlexBox>
           </>
         )}
       </CardContent>

@@ -3,6 +3,12 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material'; 
 
+interface FlexBoxProps {
+  column: boolean;
+  justify: 'flex-start' | 'flex-end' | 'center' |' space-between' | 'space-around' | 'space-evenly' | 'initial' | 'inherit';
+  align: 'flex-start' | 'flex-end' | 'center' |' space-between' | 'space-around' | 'space-evenly' | 'initial' | 'inherit';
+}
+
 export const MainGrid = styled(Grid)`
   height: 100vh;
 `;
@@ -28,4 +34,11 @@ export const ContentContainer = styled.div`
 export const StyledLink = styled(Link)`
   text-decoration: none;
   color: #000000;
+`
+
+export const FlexBox = styled.div<FlexBoxProps>`
+  display: flex;
+  flex-direction: ${props => props.column ? 'column' : 'row'};
+  justify-content: ${props => props.justify};
+  align-items: ${props => props.align};
 `
