@@ -10,10 +10,13 @@ import Dashboard from "../pages/Dashboard";
 import QuestionsList from '../pages/QuestionsList';
 import QuestionCreate from "../pages/QuestionCreate";
 import AnswersList from "../pages/AnswersList";
+import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
 import Login from "../pages/Login";
+import Verify from "../pages/Verify";
 
 interface BasicRouteType {
+    name: string;
     title: string;
     path: string;
     component: React.ReactElement;
@@ -29,6 +32,7 @@ export interface RouteType extends BasicRouteType {
 
 export const routes: RouteType[] = [
     {
+        name: 'questionsList',
         title: 'Questions List',
         path: '/questions-list',
         component: <QuestionsList />,
@@ -38,6 +42,7 @@ export const routes: RouteType[] = [
         requireLogin: true,
     },
     {
+        name: 'createQuestion',
         title: 'Create question',
         path: '/questions-create',
         component: <QuestionCreate />,
@@ -47,11 +52,21 @@ export const routes: RouteType[] = [
         requireLogin: true,
     },
     {
+        name: 'answersList',
         title: 'Your answers',
         path: '/answers-list',
         component: <AnswersList />,
         icon: <CommentIcon />,
         hideInMenu: false,
+        requireAdmin: false,
+        requireLogin: true,
+    },
+    {
+        name: 'profile',
+        title: 'Your profile',
+        path: '/profile',
+        component: <Profile />,
+        hideInMenu: true,
         requireAdmin: true,
         requireLogin: true,
     },
@@ -64,20 +79,31 @@ export const routes: RouteType[] = [
     //     requireLogin: true,
     // },
     {
+        name: 'login',
         title: 'Login',
         path: '/login',
         component: <Login />,
         hideInMenu: true,
-        requireAdmin: true,
+        requireAdmin: false,
+        requireLogin: false,
+    },
+    {
+        name: 'verify',
+        title: 'Verify',
+        path: '/verify',
+        component: <Verify />,
+        hideInMenu: true,
+        requireAdmin: false,
         requireLogin: true,
     },
     {
+        name: 'notFound',
         title: 'Not Found',
-        path: '404',
+        path: '/404',
         component: <NotFound />,
         hideInMenu: true,
-        requireAdmin: true,
-        requireLogin: true,
+        requireAdmin: false,
+        requireLogin: false,
     }
 ]
 
