@@ -1,31 +1,56 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { getQuestionsByCategory, createQuestionByCategory } from './questionsThunk';
+import { StatusType } from '../global';
 
 // Define a type for the slice state
-interface QuestionType {
+export interface AnswerType {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    description: string;
+    questionId: string; 
+}
+export interface QuestionType {
     id: string;
     createdAt: string;
     updatedAt: string;
     description: string;
     questionCategoryId: string;
+    answers: AnswerType[];
 }
-interface QuestionsList {
+export interface QuestionsList {
     id: string;
     createdAt: string;
     updatedAt: string;
     questions: QuestionType[];
 }
 interface QuestionsState {
-    questionsList: QuestionsList | undefined;
-    status: 'idle' | 'pending' | 'success' | 'failed';
-    error: unknown
+    getQuestionsState: {
+        questionsList: QuestionsList | undefined;
+        status: StatusType;
+        error: any;
+    },
+    createQuestionsState: {
+        status: StatusType;
+        error: any;
+    }
 }
+
+const questionsListFromStorage = localStorage.getItem('questionsList') ?
+    JSON.parse(localStorage.getItem('questionsList') || '[]') :
+    undefined;
 
 // Define the initial state using that type
 const initialState: QuestionsState = {
-    questionsList: undefined,
-    status: 'idle',
-    error: undefined,
+    getQuestionsState: {
+        questionsList: questionsListFromStorage,
+        status: StatusType.STATUS_IDLE,
+        error: undefined,
+    },
+    createQuestionsState: {
+        status: StatusType.STATUS_IDLE,
+        error: undefined,
+    }
 }
 
 export const questionsSlice = createSlice({
@@ -33,34 +58,35 @@ export const questionsSlice = createSlice({
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
-        resetQuestionsList: (state) => {
-            state.questionsList = undefined;
-            state.status = 'idle';
-        }
     },
     // extraReducers: {
     extraReducers: (builder) => {
         builder
-            .addCase(getQuestionsByCategory.pending || createQuestionByCategory.pending, (state, action) => {
-                state.status = 'pending';
+            .addCase(getQuestionsByCategory.pending, (state, action) => {
+                state.getQuestionsState.status = StatusType.STATUS_PENDING;
             })
+            .addCase(createQuestionByCategory.pending, (state, action) => {
+                state.createQuestionsState.status = StatusType.STATUS_PENDING;
+            })   
             .addCase(getQuestionsByCategory.fulfilled, (state, action) => {
-                state.questionsList = action.payload
-                state.status = 'success';
+                state.getQuestionsState.questionsList = action.payload.questionsList;
+                state.getQuestionsState.status = action.payload.status;
             })
-            .addCase(getQuestionsByCategory.rejected || createQuestionByCategory.rejected, (state, action) => {
-                state.error = action.payload
-                state.status = 'failed';
-             })
             .addCase(createQuestionByCategory.fulfilled, (state, action) => {
-                state.status = 'success';
+                state.createQuestionsState.status = action.payload.status;
             })
+            .addCase(getQuestionsByCategory.rejected, (state, action: any) => {
+                state.getQuestionsState.error = action.payload.error;
+                state.getQuestionsState.status = StatusType.STATUS_FAILED;
+             })
+            .addCase(createQuestionByCategory.rejected, (state, action: any) => {
+                state.createQuestionsState.error = action.payload.error;
+                state.createQuestionsState.status = StatusType.STATUS_FAILED;
+             })
     },
     // }
 })
 
-export const { resetQuestionsList } = questionsSlice.actions
-
-
+// export const { setStatus } = questionsSlice.actions
 
 export default questionsSlice.reducer

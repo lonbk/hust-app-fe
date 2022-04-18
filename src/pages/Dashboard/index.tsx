@@ -1,45 +1,46 @@
 /* Libs */
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
 /* Components */
 import Header from "../../layout/Header";
 import Sidebar from "../../layout/Sidebar";
 import Content from "../../layout/Content";
+/* Redux */
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectUser } from '../../features/user/userSelector';
+import { getCategories } from '../../features/categories/categoriesThunk';
 /* Hooks */
-import { useAppDispatch } from '../../app/hooks';
-import { setAccessToken } from '../../features/user/userSlice';
+import { useAxiosInstance } from "../../utils/axiosInstance";
 /* Types */
 /* Styled components */
 
 const Dashboard: React.FC = () => {
+  /* Dispatch */
   const dispatch = useAppDispatch();
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const axiosInstance = useAxiosInstance();
   const navigate = useNavigate();
   const location = useLocation();
-
+  /* Selector */
+  const { auth } = useAppSelector(selectUser);
+  /* Local state */
   const [open, setOpen] = useState(true);
-
+  /* Local methods */
   const handleDrawerOpen = () => {
     setOpen(true);
-  };
-
+  }; 
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  /* Effects */
+  useEffect(() => {
+   if(axiosInstance) dispatch(getCategories({ axiosInstance }));
+  }, []);
 
   useEffect(() => {
-    const getUserAccessToken = async () => {
-      const accessToken = await getAccessTokenSilently();
-      if(accessToken) dispatch(setAccessToken(accessToken));
-    }
-    getUserAccessToken();
-  }, [isAuthenticated])
-
-  useEffect(() => {
-    if (location.pathname === "/") navigate("/questions-list");
-  });
+    console.log('Dashboard', auth.isAuthenticated)
+    if (location.pathname === "/") auth.isAuthenticated ? navigate("/questions-list") : navigate('/verify');
+  }, [location.pathname, auth.isAuthenticated]);
 
   return (
     <Box sx={{ display: "flex" }}>
