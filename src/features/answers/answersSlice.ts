@@ -44,10 +44,15 @@ export interface AnswersState {
     error: any;
   }
 }
+
+const userAnswersFromStorage = localStorage.getItem('userAnswers') ? 
+  JSON.parse(localStorage.getItem('userAnswers') || '[]') :
+  []
+
 // Define the initial state using that type
 const initialState: AnswersState = {
   getAnswersState: {
-    userAnswers: [],
+    userAnswers: userAnswersFromStorage,
     total: 0,
     status: StatusType.STATUS_IDLE,
     error: undefined,

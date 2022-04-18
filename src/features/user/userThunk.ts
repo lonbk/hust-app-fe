@@ -11,6 +11,7 @@ export const getUserInfo = createAsyncThunk(
                 axiosInstance.config
             )
             console.log(data)
+            localStorage.setItem('userInfo', JSON.stringify(data));
             return {
                 status: StatusType.STATUS_SUCCESS,
                 info: data

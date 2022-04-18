@@ -7,6 +7,7 @@ export const getCategories = createAsyncThunk(
         const { data } = await axiosInstance.instance.get(
             "https://questionare01.herokuapp.com/categories", 
             axiosInstance.config);
+        localStorage.setItem('categories', JSON.stringify(data));
         return data;
     }
 )

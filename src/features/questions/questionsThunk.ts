@@ -23,6 +23,7 @@ export const getQuestionsByCategory = createAsyncThunk(
             const { data } = await axiosInstance.instance.get(
                 `/categories/search?title=${category}`, 
                 axiosInstance.config);
+            localStorage.setItem('questionsList', JSON.stringify(data));
             return {
                 status: StatusType.STATUS_SUCCESS,
                 questionsList: data

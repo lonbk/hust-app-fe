@@ -11,9 +11,13 @@ interface CategoriesState {
     value: Category[] | undefined;
 }
 
+const categoriesFromStorage = localStorage.getItem('categories') ? 
+  JSON.parse(localStorage.getItem('categories') || '[]') :
+  undefined;
+
 // Define the initial state using that type
 const initialState: CategoriesState = {
- value: undefined,
+ value: categoriesFromStorage,
 }
 
 export const categoriesSlice = createSlice({

@@ -56,13 +56,15 @@ const AnswersList: React.FC = () => {
   };
   /* Effects */
   useEffect(() => {
-    if (category)
-      if(axiosInstance) dispatch(
+    if (category.id) {
+      console.log('bug', category)
+      if(axiosInstance) {dispatch(
         getUserAnswers({
           axiosInstance,
           categoryId: category.id,
         })
-      );
+      ); console.log('bug 2');};
+    }
   }, [category]);
 
   if (!categories) {

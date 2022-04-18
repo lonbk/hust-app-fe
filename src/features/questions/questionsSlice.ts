@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getQuestionsByCategory, createQuestionByCategory } from './questionsThunk';
 import { StatusType } from '../global';
+
 // Define a type for the slice state
 export interface AnswerType {
     id: string;
@@ -35,10 +36,14 @@ interface QuestionsState {
     }
 }
 
+const questionsListFromStorage = localStorage.getItem('questionsList') ?
+    JSON.parse(localStorage.getItem('questionsList') || '[]') :
+    undefined;
+
 // Define the initial state using that type
 const initialState: QuestionsState = {
     getQuestionsState: {
-        questionsList: undefined,
+        questionsList: questionsListFromStorage,
         status: StatusType.STATUS_IDLE,
         error: undefined,
     },

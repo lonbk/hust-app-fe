@@ -1,6 +1,6 @@
 /* Libs */
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import {
   styled as muiStyled,
@@ -46,24 +46,21 @@ const TitleContext = React.createContext<TitleContextType | null>(null);
 
 const Header = ({ isOpen, onDrawerOpen }: Props) => {
   /* Hooks */
+  const location = useLocation();
   const { logout } = useAuth0();
   const { auth0Info } = useAppSelector(selectUser);
   /* Local states */
-  // const titleOptions = {
-
-  // }
-  const [title, setTitle] = useState("Dashboard");
+  const [title, setTitle] = useState<string>('Dashboard');
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElChild, setAnchorElChild] = useState(null);
   const open = Boolean(anchorEl);
   /* Local methods */
+  const changeTitle = (title: string) => {
+    setTitle(title);
+  }
   const handleMenu = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
-  const changeTitle = (title: string) => {
-    setTitle(title);
-  };
-
   // const handleClick = (event: any) => {
   //   setAnchorElChild(event.currentTarget);
   // };
@@ -81,9 +78,16 @@ const Header = ({ isOpen, onDrawerOpen }: Props) => {
   const handleLogout = () => {
     logout({ returnTo: window.location.origin });
   };
+  /* Effects */
+  useEffect(() => {
+    for(const route of routes) {
+      if(location.pathname === route.path) {
+        changeTitle(route.title)
+      }
+    }
+  }, [location.pathname])
 
   return (
-    <TitleContext.Provider value={{ title, changeTitle }}>
       <AppBar position="fixed" open={isOpen}>
         <Toolbar>
           <IconButton
@@ -100,7 +104,7 @@ const Header = ({ isOpen, onDrawerOpen }: Props) => {
           </IconButton>
           <FlexHeader>
             <Typography variant="h6" noWrap component="div">
-              Mini variant drawer
+              {title}
             </Typography>
             <Button
               aria-label="account of current user"
@@ -146,7 +150,7 @@ const Header = ({ isOpen, onDrawerOpen }: Props) => {
               <MenuItem onClick={handleClose}>
                 <MenuChild variant="h5">
                   <SettingsTwoToneIcon style={{ marginRight: "8px" }} />
-                  <Linkstyles to="/Profile">
+                  <Linkstyles to="/profile">
                     <p>Profile</p>
                   </Linkstyles>
                 </MenuChild>
@@ -200,7 +204,7 @@ const Header = ({ isOpen, onDrawerOpen }: Props) => {
           </FlexHeader>
         </Toolbar>
       </AppBar>
-    </TitleContext.Provider>
+
   );
 };
 

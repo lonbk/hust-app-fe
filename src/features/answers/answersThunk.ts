@@ -51,7 +51,8 @@ export const getUserAnswers = createAsyncThunk(
                 `/answers/categories/${categoryId}`,
                 axiosInstance.config
             )
-            console.log('answers', data)
+
+            localStorage.setItem('userAnswers', JSON.stringify(data.userQuestionAnswers))
             return {
                 status: StatusType.STATUS_SUCCESS,
                 userAnswers: data.userQuestionAnswers

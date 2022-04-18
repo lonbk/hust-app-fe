@@ -3,6 +3,28 @@ import { getUserInfo } from './userThunk';
 import { StatusType } from '../global';
 import type { User } from '@auth0/auth0-react';
 
+const defaultUser = {
+  auth: {
+    accessToken: '',
+    isAuthenticated: false,
+  },
+  auth0Info: undefined,
+  userInfo: undefined,
+  status: StatusType.STATUS_IDLE,
+  error: undefined
+}
+
+const authFromStorage = localStorage.getItem('auth') ? 
+  JSON.parse(localStorage.getItem('auth') || `${defaultUser.auth}`) :
+  defaultUser.auth;
+
+const auth0InfoFromStorage = localStorage.getItem('auth0Info') ?
+  JSON.parse(localStorage.getItem('auth0Info') || `${defaultUser.auth0Info}`) :
+  defaultUser.auth0Info;
+const userInfoFromStorage =  localStorage.getItem('userInfo') ? 
+  JSON.parse(localStorage.getItem('userInfo') || `${defaultUser.userInfo}`) :
+  defaultUser.userInfo;
+
 // Define a type for the slice state
 interface UserState {
   auth: {
@@ -25,15 +47,11 @@ interface UserState {
 
 // Define the initial state using that type
 const initialState: UserState = {
-  auth: {
-    accessToken: '',
-    isAuthenticated: false,
-  },
-  auth0Info: undefined,
-  userInfo: undefined,
-  status: StatusType.STATUS_IDLE,
-  error: undefined
-}
+  ...defaultUser,
+  auth: authFromStorage,
+  userInfo: userInfoFromStorage,
+  auth0Info: auth0InfoFromStorage
+};
 
 export const userSlice = createSlice({
   name: 'user',
@@ -43,9 +61,14 @@ export const userSlice = createSlice({
     getUserAuth: (state, action) => {
       state.auth.accessToken = action.payload.accessToken;
       state.auth.isAuthenticated = action.payload.isAuthenticated;
+      localStorage.setItem('auth', JSON.stringify(action.payload));
     },
     getUserAuth0Info: (state, action) => {
       state.auth0Info = action.payload;
+      localStorage.setItem('auth0Info', JSON.stringify(action.payload))
+    },
+    logout: (state, action) => {
+      localStorage.clear();
     }
   },
   extraReducers: (builder) => {
