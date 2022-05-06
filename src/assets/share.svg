@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="13.545" height="12.572" viewBox="0 0 13.545 12.572">
+  <g id="clarity:users-solid" transform="translate(-2.23 -3.003)">
+    <path id="Vector" d="M3.77,0H3.335A4.335,4.335,0,0,0,.12,1.263L0,1.4v4.14H2.04V3.193l.275-.31.125-.145A5.5,5.5,0,0,1,4.8,1.308,3.3,3.3,0,0,1,3.77,0Z" transform="translate(2.23 8.067)" fill="#fff"/>
+    <path id="Vector-2" data-name="Vector" d="M4.76,1.263A4.335,4.335,0,0,0,1.545,0,5.235,5.235,0,0,0,1,.033,3.3,3.3,0,0,1,0,1.258a5.455,5.455,0,0,1,2.5,1.5l.125.14.27.31V5.563h1.97V1.4Z" transform="translate(10.91 8.052)" fill="#fff"/>
+    <path id="Vector-3" data-name="Vector" d="M2.046,4.07H2.2A3.225,3.225,0,0,1,3.756.925,2.045,2.045,0,1,0,2.046,4.09Z" transform="translate(3.504 3.025)" fill="#fff"/>
+    <path id="Vector-4" data-name="Vector" d="M1.48,3.717a3.27,3.27,0,0,1,0,.345,2.045,2.045,0,0,0,.29.025h.1A2.045,2.045,0,1,0,0,1,3.265,3.265,0,0,1,1.083,2.17a3.265,3.265,0,0,1,.4,1.547Z" transform="translate(10.735 3.003)" fill="#fff"/>
+    <path id="Vector-5" data-name="Vector" d="M4.47,2.235A2.235,2.235,0,1,1,2.235,0,2.235,2.235,0,0,1,4.47,2.235Z" transform="translate(6.7 4.49)" fill="#fff"/>
+    <path id="Vector-6" data-name="Vector" d="M3.68,0A4.845,4.845,0,0,0,.125,1.354L0,1.494V4.659a.785.785,0,0,0,.8.77H6.545a.785.785,0,0,0,.8-.77V1.5l-.12-.15A4.79,4.79,0,0,0,3.68,0Z" transform="translate(5.375 10.146)" fill="#fff"/>
+  </g>
+</svg>

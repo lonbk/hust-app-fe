@@ -13,10 +13,6 @@ export const MainGrid = styled(Grid)`
   height: 100vh;
 `;
 
-export const MainLogo = styled.img`
-  margin: 0px auto;
-`;
-
 export const PaperDiv = styled.div`
   display: flex;
   justify-content: center;
@@ -27,7 +23,7 @@ export const PaperDiv = styled.div`
 export const ContentContainer = styled.div`
     width: 100%;
     height: 100%;
-    background-color: #f2f3f4;
+    background: #FAFBFF;
     padding: 20px;
 `;
 
@@ -41,4 +37,11 @@ export const FlexBox = styled.div<FlexBoxProps>`
   flex-direction: ${props => props.column ? 'column' : 'row'};
   justify-content: ${props => props.justify};
   align-items: ${props => props.align};
+`
+
+export const MainLogo = styled('img')`
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-left: 20px;
 `

@@ -67,7 +67,7 @@ export const userSlice = createSlice({
       state.auth0Info = action.payload;
       localStorage.setItem('auth0Info', JSON.stringify(action.payload))
     },
-    logout: (state, action) => {
+    userLogout: (state) => {
       localStorage.clear();
     }
   },
@@ -87,7 +87,7 @@ export const userSlice = createSlice({
   }
 })
 
-export const { getUserAuth, getUserAuth0Info } = userSlice.actions
+export const { getUserAuth, getUserAuth0Info, userLogout } = userSlice.actions
 
 
 

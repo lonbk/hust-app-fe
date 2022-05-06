@@ -1,0 +1,5 @@
+<svg id="Group" xmlns="http://www.w3.org/2000/svg" width="16" height="14" viewBox="0 0 16 14">
+  <path id="Vector" d="M3,6A3,3,0,1,0,.879,5.121,3,3,0,0,0,3,6Z" transform="translate(3)" fill="#fff"/>
+  <path id="Vector-2" data-name="Vector" d="M6,0a6,6,0,0,1,6,6H0A6,6,0,0,1,6,0Z" transform="translate(0 8)" fill="#fff"/>
+  <path id="Vector-3" data-name="Vector" d="M4,1A1,1,0,0,0,2,1V2H1A1,1,0,0,0,1,4H2V5A1,1,0,0,0,4,5V4H5A1,1,0,1,0,5,2H4Z" transform="translate(10 3)" fill="#fff"/>
+</svg>
