@@ -1,5 +1,6 @@
 import MuiDrawer from "@mui/material/Drawer";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
+import { Typography } from "@mui/material";
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: '240px',
@@ -40,3 +41,10 @@ const openedMixin = (theme: Theme): CSSObject => ({
     }),
   }));
   
+export const LogoTitle = styled(Typography, {
+  shouldForwardProp: (prop) => prop === "component"
+})<{isOpen: boolean}>(({ theme, isOpen }) => ({
+  display: isOpen ? 'block' : 'none',
+  color: theme.palette.primary.main,
+  marginLeft: '15p'
+}))
