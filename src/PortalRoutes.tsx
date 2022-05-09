@@ -5,19 +5,22 @@ import CreateIcon from "@mui/icons-material/Create";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import CommentIcon from "@mui/icons-material/Comment";
 /* Components */
-import Dashboard from "../Dashboard";
-import QuestionsList from "../QuestionsList";
-import QuestionCreate from "../QuestionCreate";
-import AnswersList from "../AnswersList";
-import Profile from "../Profile";
-import Patients from "../Patients";
+import Dashboard from "./pages/Dashboard";
+import QuestionsList from "./pages/QuestionsList";
+import QuestionCreate from "./pages/QuestionCreate";
+import AnswersList from "./pages/AnswersList";
+import Profile from "./pages/Profile";
+import Patients from "./pages/Patients";
+import dashboardIcon from './assets/menuIcons/dashboard.svg';
+import patientIcon from './assets/menuIcons/patient.svg';
+import calendarIcon from './assets/menuIcons/calendar.svg';
 
 interface BasicRouteType {
   name: string;
   title: string;
   path: string;
   element: React.ReactElement;
-  icon?: React.ReactElement;
+  icon?: string;
   hideInMenu: boolean;
   requireAdmin: boolean;
   requireLogin: boolean;
@@ -33,7 +36,7 @@ export const routes: RouteType[] = [
     title: "Dashboard",
     path: "/dashboard",
     element: <Dashboard />,
-    icon: <ListAltIcon />,
+    icon: dashboardIcon,
     hideInMenu: false,
     requireAdmin: false,
     requireLogin: true,
@@ -43,7 +46,17 @@ export const routes: RouteType[] = [
     title: "Patients",
     path: "/patients",
     element: <Patients />,
-    icon: <ListAltIcon />,
+    icon: patientIcon,
+    hideInMenu: false,
+    requireAdmin: false,
+    requireLogin: true,
+  },
+  {
+    name: "calendar",
+    title: "Calendar",
+    path: "/calendar",
+    element: <Patients />,
+    icon: calendarIcon,
     hideInMenu: false,
     requireAdmin: false,
     requireLogin: true,
@@ -53,7 +66,7 @@ export const routes: RouteType[] = [
     title: "Questions List",
     path: "/questions-list",
     element: <QuestionsList />,
-    icon: <ListAltIcon />,
+    // icon: <ListAltIcon />,
     hideInMenu: false,
     requireAdmin: false,
     requireLogin: true,
@@ -63,7 +76,7 @@ export const routes: RouteType[] = [
     title: "Create question",
     path: "/questions-create",
     element: <QuestionCreate />,
-    icon: <CreateIcon />,
+    // icon: <CreateIcon />,
     hideInMenu: false,
     requireAdmin: true,
     requireLogin: true,
@@ -73,7 +86,7 @@ export const routes: RouteType[] = [
     title: "Your answers",
     path: "/answers-list",
     element: <AnswersList />,
-    icon: <CommentIcon />,
+    // icon: <CommentIcon />,
     hideInMenu: false,
     requireAdmin: false,
     requireLogin: true,

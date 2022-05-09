@@ -1,30 +1,35 @@
 /* Libs */
-import React from "react";
-import { Box, styled } from "@mui/material";
+import React from 'react';
 /* Components */
-import { DrawerHeader } from "../Header/DrawerHeader";
-/* Hooks */
+import { DrawerHeader } from '../Header/DrawerHeader';
+import toggleLeftIcon from '../../assets/toggle-left.svg';
+import toggleRightIcon from '../../assets/toggle-right.svg';
 /* Styles */
-import { ContentContainer } from '../../styles'
-/* Configs */
+import { MainBox, ContentContainer, ToggleMenuButton } from './styles';
 /* Types */
 type Props = {
-  children: React.ReactNode;
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
 };
 
-const MainBox = styled(Box)`
-  min-height: calc(100vh - 97px);
-`
-
-const Content = ({ children }: Props) => {
-
+const Content: React.FC<Props> = ({ isOpen, onOpen, onClose, children }) => {
   return (
-      <MainBox component="main" sx={{ flexGrow: 1, p: 0 }}>
-        <DrawerHeader />
-        <ContentContainer>
-          {children}
-        </ContentContainer>
-      </MainBox>
+    <MainBox component='main' sx={{ flexGrow: 1, p: 0 }}>
+      <DrawerHeader />
+      <ContentContainer>
+        {children}
+        <ToggleMenuButton
+          isOpen={isOpen}
+          color='inherit'
+          aria-label='open drawer'
+          onClick={isOpen ? onClose : onOpen}
+          edge='start'
+        >
+            <img src={isOpen ? toggleLeftIcon : toggleRightIcon} alt="toggle" />
+        </ToggleMenuButton>
+      </ContentContainer>
+    </MainBox>
   );
 };
 

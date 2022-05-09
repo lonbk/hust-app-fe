@@ -1,144 +1,120 @@
 /* Libs */
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React from 'react';
 import {
   Toolbar,
   Typography,
-  Button,
-  Menu,
-  MenuItem,
-  Avatar,
-} from "@mui/material";
-import { useAuth0 } from "@auth0/auth0-react";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import SettingsTwoToneIcon from "@mui/icons-material/SettingsTwoTone";
-import ExitToAppTwoToneIcon from "@mui/icons-material/ExitToAppTwoTone";
-/* Configs */
-import { routes } from "../../pages/Portal/PortalRoutes";
+  Badge,
+  IconButton,
+} from '@mui/material';
+/* Components */
+import SearchBox from '../../components/SearchBox';
+import notificationIcon from '../../assets/notification.svg';
 /* Redux */
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectUser } from "../../features/user/userSelector";
-import { userLogout } from "../../features/user/userSlice";
+import { useAppSelector } from '../../app/hooks';
+import { selectUser } from '../../features/user/userSelector';
 /* Styles */
 import {
-  UsernameHeader,
-  MenuChild,
-  Linkstyles,
   FlexHeader,
-  // AppBar,
-  StyledAppBar
-} from "./styles"
+  AppBar,
+  WelcomeBox
+} from './styles';
 /* Types */
 type Props = {
-  isOpen: boolean
+  isOpen: boolean;
 };
 
 const Header: React.FC<Props> = ({ isOpen }: Props) => {
-  /* Hooks */
-  const dispatch = useAppDispatch();
-  const location = useLocation();
-  const { logout } = useAuth0();
+  /* Redux */
   const { auth0Info } = useAppSelector(selectUser);
+  /* Utils */
   /* Local states */
-  const [title, setTitle] = useState<string>('Dashboard');
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [anchorElChild, setAnchorElChild] = useState(null);
-  const open = Boolean(anchorEl);
+  // const [anchorEl, setAnchorEl] = useState(null);
+  // const [anchorElChild, setAnchorElChild] = useState(null);
+  // const open = Boolean(anchorEl);
   /* Local methods */
-  const changeTitle = (title: string) => {
-    setTitle(title);
-  }
-  const handleMenu = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleMenu = (event: any) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
   // const handleClick = (event: any) => {
   //   setAnchorElChild(event.currentTarget);
   // };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-    setAnchorElChild(null);
-  };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  //   setAnchorElChild(null);
+  // };
 
   // const handleCloseChild = () => {
   //   handleClose();
   //   setAnchorElChild(null);
   // };
-  console.log(location.pathname)
-  const handleLogout = () => {
-    dispatch(userLogout());
-    logout({ returnTo: window.location.origin });
-  };
-  /* Effects */
-  useEffect(() => {
-    for(const route of routes) {
-      if(location.pathname === route.path) {
-        
-        changeTitle(route.title)
-      }
-    }
-  }, [location.pathname])
+  // const handleLogout = () => {
+  //   dispatch(userLogout());
+  //   logout({ returnTo: window.location.origin });
+  // };
 
   return (
-      <StyledAppBar position="fixed" sx={{width: `calc(100% - ${isOpen ? '240px' : '120px'}`, bgcolor: 'background.default'}} elevation={0}>
-        <Toolbar sx={{minHeight: '97px !important'}}>
-          <FlexHeader isOpen={isOpen}>
-            <Typography variant="h6" noWrap component="div">
-              {title} 
+    <AppBar
+      position='fixed'
+      style={{ backgroundColor: '#ffffff', color: '#081735' }}
+      sx={{ width: `calc(100% - ${isOpen ? '260px' : '120px'}` }}
+      elevation={0}
+    >
+      <Toolbar sx={{ minHeight: '97px !important' }}>
+        <FlexHeader isOpen={isOpen}>
+          <WelcomeBox>
+            <Typography
+              variant="h3"
+              component="div"
+              sx={{color: 'text.main'}}
+            >
+              Welcome back,
             </Typography>
-            <Button
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
+            <Typography
+              variant="h1"
+              component="div"
+              sx={{color: 'text.main'}}
             >
-              {auth0Info?.picture ? (
-                <Avatar src={auth0Info?.picture} />
-              ) : (
-                <AccountCircle
-                  style={{
-                    marginRight: "8px",
-                    fontSize: 40,
-                    color: "#7d7fff",
-                  }}
-                />
-              )}
-              <UsernameHeader variant="h3">{auth0Info?.name}</UsernameHeader>
-              <ArrowDropDownIcon />
-            </Button>
-            <Menu
-              style={{
-                margin: "8px",
-                boxShadow: "0 3px 3px 0 rgba(18, 37, 63, 0.03)",
-              }}
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              keepMounted
-              elevation={0}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>
-                <MenuChild variant="h5">
-                  <SettingsTwoToneIcon style={{ marginRight: "8px" }} />
-                  <Linkstyles to="/profile">
-                    <p>Profile</p>
-                  </Linkstyles>
-                </MenuChild>
-              </MenuItem>
+              {`Dr. ${auth0Info?.given_name}`}
+            </Typography>
+          </WelcomeBox>
+          <SearchBox />
+          <IconButton sx={{ width: '48px', height: '48px'}}>
+            <Badge badgeContent={2} color="error">
+              <img src={notificationIcon} style={{ maxWidth: "100%" }} alt="notification" />
+            </Badge>
+          </IconButton>
+          {/* <Menu
+            style={{
+              margin: '8px',
+              boxShadow: '0 3px 3px 0 rgba(18, 37, 63, 0.03)',
+            }}
+            id='menu-appbar'
+            anchorEl={anchorEl}
+            keepMounted
+            elevation={0}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={open}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>
+              <MenuChild variant='h5'>
+                <SettingsTwoToneIcon style={{ marginRight: '8px' }} />
+                <Linkstyles to='/profile'>
+                  <p>Profile</p>
+                </Linkstyles>
+              </MenuChild>
+            </MenuItem> */}
 
-              {/* ---------------------------------------------------------------- */}
-              {/* <MenuItem>
+            {/* ---------------------------------------------------------------- */}
+            {/* <MenuItem>
                 <MenuChild variant="h5">
                   <PublicIcon style={{ marginRight: "8px" }} />
                   <Button
@@ -174,18 +150,17 @@ const Header: React.FC<Props> = ({ isOpen }: Props) => {
                   </Menu>
                 </MenuChild>
               </MenuItem> */}
-              {/* ---------------------------------------------------------------- */}
-              <MenuItem onClick={handleLogout}>
-                <MenuChild variant="h5">
-                  <ExitToAppTwoToneIcon style={{ marginRight: "8px" }} />
-                  <p>Log out</p>
-                </MenuChild>
-              </MenuItem>
-            </Menu>
-          </FlexHeader>
-        </Toolbar>
-      </StyledAppBar>
-
+            {/* ---------------------------------------------------------------- */}
+            {/* <MenuItem onClick={handleLogout}>
+              <MenuChild variant='h5'>
+                <ExitToAppTwoToneIcon style={{ marginRight: '8px' }} />
+                <p>Log out</p>
+              </MenuChild>
+            </MenuItem>
+          </Menu> */}
+        </FlexHeader>
+      </Toolbar>
+    </AppBar>
   );
 };
 

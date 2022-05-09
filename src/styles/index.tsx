@@ -20,13 +20,6 @@ export const PaperDiv = styled.div`
   align-items: center;
 `;
 
-export const ContentContainer = styled.div`
-    width: 100%;
-    height: 100%;
-    background: #FAFBFF;
-    padding: 20px;
-`;
-
 export const StyledLink = styled(Link)`
   text-decoration: none;
   color: #000000;

@@ -8,7 +8,7 @@ import DynamicChart from '../../components/DynamicChart';
 const Dashboard: React.FC = () => {
 
   return (
-    <Grid container spacing={4}>
+    <Grid container spacing={4} sx={{ px: 2}}>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={6}>

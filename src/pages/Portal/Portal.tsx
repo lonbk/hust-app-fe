@@ -12,7 +12,7 @@ import { selectUser } from "../../features/user/userSelector";
 import { getCategories } from "../../features/categories/categoriesThunk";
 /* Utils */
 import { useAxiosInstance } from "../../utils/axiosInstance";
-import { getRoutes, routes } from "../Portal/PortalRoutes";
+import { getRoutes, routes } from "../../PortalRoutes";
 
 const Portal: React.FC = () => {
   const axiosInstance = useAxiosInstance();
@@ -42,9 +42,9 @@ const Portal: React.FC = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <Header  isOpen={open}/>
-      <Sidebar isOpen={open} onOpen={handleDrawerOpen} onClose={handleDrawerClose} />
-      <Content>
+      <Header  isOpen={open} />
+      <Sidebar isOpen={open} />
+      <Content isOpen={open} onOpen={handleDrawerOpen} onClose={handleDrawerClose}>
         <Routes>
             {getRoutes(routes)}
         </Routes>
