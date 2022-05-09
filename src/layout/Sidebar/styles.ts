@@ -1,7 +1,7 @@
 import MuiDrawer from "@mui/material/Drawer";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
 import Typography, { TypographyProps } from "@mui/material/Typography";
-import { List, Box, Avatar } from '@mui/material';
+import { List, Box } from '@mui/material';
 
 interface LogoTitleProps extends TypographyProps {
   isOpen: boolean;
