@@ -1,5 +1,5 @@
 /* Libs */
-import React from 'react';
+import React, { memo } from 'react';
 import {
   Toolbar,
   Typography,
@@ -164,4 +164,4 @@ const Header: React.FC<Props> = ({ isOpen }: Props) => {
   );
 };
 
-export default Header;
+export default memo(Header);

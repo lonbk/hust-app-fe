@@ -1,28 +1,15 @@
 /* Libs */
-import React from "react";
-import { Navigate } from "react-router-dom";
-/* Components */
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+/* Redux */
+import { useAppSelector } from '../../app/hooks';
+import { selectUser } from '../../features/user/userSelector';
 
-/* Hooks */
-import { useAppSelector } from "../../app/hooks";
-import { selectUser } from "../../features/user/userSelector";
-/* Styles */
-
-/* Configs */
-/* Types */
-type Props = {
-  children: React.ReactNode;
-};
-
-const ProtectedRoute = ({
-  children,
-}: Props) => {
+const ProtectedRoute: React.FC = ({ children }) => {
   const { auth } = useAppSelector(selectUser);
 
   return (
-    <>
-      {auth.isAuthenticated ? children : <Navigate to="/login" replace /> }    
-    </>
+    <>{auth.isAuthenticated ? children : <Navigate to='/login' replace />}</>
   );
 };
 

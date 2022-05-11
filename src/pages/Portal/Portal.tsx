@@ -1,5 +1,5 @@
 /* Libs */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, Routes } from "react-router-dom";
 import { Box } from "@mui/material";
 /* Components */
@@ -23,12 +23,12 @@ const Portal: React.FC = () => {
 
   const [open, setOpen] = useState(true);
 
-  const handleDrawerOpen = () => {
+  const handleDrawerOpen = useCallback(() => {
     setOpen(true);
-  };
-  const handleDrawerClose = () => {
+  }, [open]);
+  const handleDrawerClose = useCallback(() => {
     setOpen(false);
-  };
+  }, [open]);
 
   useEffect(() => {
     if (axiosInstance) dispatch(getCategories({ axiosInstance }));
@@ -47,6 +47,7 @@ const Portal: React.FC = () => {
       <Content isOpen={open} onOpen={handleDrawerOpen} onClose={handleDrawerClose}>
         <Routes>
             {getRoutes(routes)}
+            {console.log('rourtes', getRoutes(routes))}
         </Routes>
       </Content>
     </Box>

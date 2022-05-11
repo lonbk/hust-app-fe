@@ -11,6 +11,8 @@ import QuestionCreate from "./pages/QuestionCreate";
 import AnswersList from "./pages/AnswersList";
 import Profile from "./pages/Profile";
 import Patients from "./pages/Patients";
+import PatientDetail from "./pages/PatientDetail";
+import { PatientsTable } from "./pages/Patients/views";
 import dashboardIcon from './assets/menuIcons/dashboard.svg';
 import patientIcon from './assets/menuIcons/patient.svg';
 import calendarIcon from './assets/menuIcons/calendar.svg';
@@ -44,12 +46,34 @@ export const routes: RouteType[] = [
   {
     name: "patients",
     title: "Patients",
-    path: "/patients",
+    path: "patients",
     element: <Patients />,
     icon: patientIcon,
     hideInMenu: false,
     requireAdmin: false,
     requireLogin: true,
+    subRoutes: [
+      {
+        name: "patientTable",
+        title: "Patient Table",
+        path: "",
+        element: <PatientsTable />,
+        icon: patientIcon,
+        hideInMenu: true,
+        requireAdmin: false,
+        requireLogin: true,
+      },
+      {
+        name: "patient",
+        title: "Patient Detail",
+        path: "patient",
+        element: <PatientDetail />,
+        icon: patientIcon,
+        hideInMenu: true,
+        requireAdmin: false,
+        requireLogin: true,
+      },
+    ]
   },
   {
     name: "calendar",
@@ -104,7 +128,9 @@ export const routes: RouteType[] = [
 
 export const getRoutes = (routes: RouteType[]) => {
   const portalRoutes = routes.map((route, index) => (
-    <Route key={route.name} path={route.path} element={route.element} />
+    <Route key={route.name} path={route.path} element={route.element}>
+      {route.subRoutes && route.subRoutes.length > 0 && getRoutes(route.subRoutes)}
+    </Route>
   ));
 
   return portalRoutes;

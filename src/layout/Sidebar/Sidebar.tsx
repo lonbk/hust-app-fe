@@ -1,5 +1,5 @@
 /* Libs */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, memo } from 'react';
 import {
   ListItemButton,
   Typography,
@@ -166,6 +166,7 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
                 }}
                 component={StyledNavLink}
                 to={route.path}
+                defaultActiveStyle={true}
               >
                 {route.icon && (
                   <ListItemIcon
@@ -223,4 +224,4 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);

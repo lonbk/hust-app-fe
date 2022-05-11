@@ -1,5 +1,5 @@
 /* Libs */
-import React from 'react';
+import React, { memo } from 'react';
 /* Components */
 import { DrawerHeader } from '../Header/DrawerHeader';
 import toggleLeftIcon from '../../assets/toggle-left.svg';
@@ -11,6 +11,7 @@ type Props = {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
+  children: React.ReactNode;
 };
 
 const Content: React.FC<Props> = ({ isOpen, onOpen, onClose, children }) => {
@@ -33,4 +34,4 @@ const Content: React.FC<Props> = ({ isOpen, onOpen, onClose, children }) => {
   );
 };
 
-export default Content;
+export default memo(Content);
