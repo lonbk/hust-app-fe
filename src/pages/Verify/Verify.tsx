@@ -44,7 +44,8 @@ const Verify: React.FC = () => {
     }, [user, axiosInstance])
 
     useEffect(() => {
-        if(userInfo && auth0Info) navigate('/')
+        // if(userInfo && auth0Info) navigate('/')
+        navigate('/')
         
     }, [userInfo, auth0Info])
 
