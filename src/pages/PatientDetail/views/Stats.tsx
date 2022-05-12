@@ -11,12 +11,14 @@ import {
   Title,
   Tooltip,
   Legend,
+  registerables as registerablesJS
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import { Line } from 'react-chartjs-2';
 import faker from '@faker-js/faker';
 /* Styles */
 import { StyledPaper, FlexBox } from '../../../styles';
+ChartJS.register(...registerablesJS);
 
 ChartJS.register(
     CategoryScale,
