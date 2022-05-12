@@ -2,12 +2,12 @@
 import styled from 'styled-components';
 import { styled as muiStyled } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { Grid, Button } from '@mui/material'; 
+import { Grid, Button, Paper } from '@mui/material'; 
 
 interface FlexBoxProps {
   column: boolean;
-  justify: 'flex-start' | 'flex-end' | 'center' |' space-between' | 'space-around' | 'space-evenly' | 'initial' | 'inherit';
-  align: 'flex-start' | 'flex-end' | 'center' |' space-between' | 'space-around' | 'space-evenly' | 'initial' | 'inherit';
+  justify: 'flex-start' | 'flex-end' | 'center' |'space-between' | 'space-around' | 'space-evenly' | 'initial' | 'inherit';
+  align: 'flex-start' | 'flex-end' | 'center' |'space-between' | 'space-around' | 'space-evenly' | 'initial' | 'inherit';
 }
 
 export const MainGrid = styled(Grid)`
@@ -46,4 +46,10 @@ export const StyledButton = muiStyled(Button)<{width: string; height: string; bo
   width: width,
   height: height,
   borderRadius: borderRadius
+}))
+
+export const StyledPaper = muiStyled(Paper)<{borderRadius: string}>(({ theme, borderRadius }) => ({
+  borderRadius: borderRadius,
+  backgroundColor: theme.palette.background.default,
+  boxShadow: '0px 8px 32px #8F95B226'
 }))
