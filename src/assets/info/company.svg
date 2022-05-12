@@ -1,8 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="12" height="18.667" viewBox="0 0 12 18.667">
-  <g id="akar-icons:mobile-device" transform="translate(1 1)">
-    <g id="Group">
-      <path id="Vector" d="M1.667,0H8.333A1.667,1.667,0,0,1,10,1.667V15a1.667,1.667,0,0,1-1.667,1.667H1.667A1.667,1.667,0,0,1,0,15V1.667A1.667,1.667,0,0,1,1.667,0Z" fill="none" stroke="#3f8cff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-      <path id="Vector-2" data-name="Vector" d="M0,0H.083" transform="translate(4.958 13.333)" fill="none" stroke="#3f8cff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-    </g>
-  </g>
+<svg id="clarity:building-line" xmlns="http://www.w3.org/2000/svg" width="16.111" height="16.667" viewBox="0 0 16.111 16.667">
+  <path id="Vector" d="M4.444,0H0V1.111H4.444V12.778H0v1.111H5.556V1.111A1.111,1.111,0,0,0,4.444,0Z" transform="translate(10.556 2.778)" fill="#3f8cff"/>
+  <path id="Vector-2" data-name="Vector" d="M8.822,0H1.178A1.178,1.178,0,0,0,0,1.178V16.667H10V1.178A1.178,1.178,0,0,0,8.822,0Zm.067,15.556H7.222V13.889H2.778v1.667H1.111V1.178a.067.067,0,0,1,.067-.067H8.822a.067.067,0,0,1,.067.067Z" fill="#3f8cff"/>
+  <path id="Vector-3" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(2.222 2.778)" fill="#3f8cff"/>
+  <path id="Vector-4" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(4.444 2.778)" fill="#3f8cff"/>
+  <path id="Vector-5" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(6.667 2.778)" fill="#3f8cff"/>
+  <path id="Vector-6" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(2.222 5.556)" fill="#3f8cff"/>
+  <path id="Vector-7" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(4.444 5.556)" fill="#3f8cff"/>
+  <path id="Vector-8" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(6.667 5.556)" fill="#3f8cff"/>
+  <path id="Vector-9" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(2.222 8.333)" fill="#3f8cff"/>
+  <path id="Vector-10" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(4.444 8.333)" fill="#3f8cff"/>
+  <path id="Vector-11" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(6.667 8.333)" fill="#3f8cff"/>
+  <path id="Vector-12" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(2.222 11.111)" fill="#3f8cff"/>
+  <path id="Vector-13" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(4.444 11.111)" fill="#3f8cff"/>
+  <path id="Vector-14" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(6.667 11.111)" fill="#3f8cff"/>
+  <path id="Vector-15" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(10.556 5.556)" fill="#3f8cff"/>
+  <path id="Vector-16" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(12.778 5.556)" fill="#3f8cff"/>
+  <path id="Vector-17" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(10.556 8.333)" fill="#3f8cff"/>
+  <path id="Vector-18" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(12.778 8.333)" fill="#3f8cff"/>
+  <path id="Vector-19" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(10.556 11.111)" fill="#3f8cff"/>
+  <path id="Vector-20" data-name="Vector" d="M0,0H1.111V1.111H0Z" transform="translate(12.778 11.111)" fill="#3f8cff"/>
 </svg>

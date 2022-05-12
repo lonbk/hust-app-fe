@@ -15,6 +15,7 @@ import PatientDetail from './pages/PatientDetail';
 import { PatientsTable } from './pages/Patients/views';
 import { Information } from './pages/PatientDetail/views';
 import { Appointments } from './pages/PatientDetail/views';
+import { Stats } from './pages/PatientDetail/views';
 import dashboardIcon from './assets/menuIcons/dashboard.svg';
 import patientIcon from './assets/menuIcons/patient.svg';
 import calendarIcon from './assets/menuIcons/calendar.svg';
@@ -28,7 +29,6 @@ interface BasicRouteType {
   hideInMenu: boolean;
   requireAdmin: boolean;
   requireLogin: boolean;
-  index?: boolean;
 }
 
 export interface RouteType extends BasicRouteType {
@@ -85,7 +85,6 @@ export const routes: RouteType[] = [
             hideInMenu: true,
             requireAdmin: false,
             requireLogin: true,
-            index: true,
           },
           {
             name: 'appointments',
@@ -93,7 +92,17 @@ export const routes: RouteType[] = [
             path: 'appointments',
             element: <Appointments />,
             icon: dashboardIcon,
-            hideInMenu: false,
+            hideInMenu: true,
+            requireAdmin: false,
+            requireLogin: true,
+          },
+          {
+            name: 'stats',
+            title: 'Stats',
+            path: 'stats',
+            element: <Stats />,
+            icon: dashboardIcon,
+            hideInMenu: true,
             requireAdmin: false,
             requireLogin: true,
           },
@@ -154,14 +163,13 @@ export const routes: RouteType[] = [
 
 export const getRoutes = (routes: RouteType[]) => {
   const portalRoutes = routes.map((route, index) => (
-    <>
-      <Route key={route.name} path={route.path} element={route.element}>
+    <React.Fragment key={route.name}>
+      <Route path={route.path} element={route.element}>
         {route.subRoutes &&
           route.subRoutes.length > 0 &&
           getRoutes(route.subRoutes)}
       </Route>
-      {route.index ? <Route index element={route.element} /> : null}
-    </>
+    </React.Fragment>
   ));
 
   return portalRoutes;

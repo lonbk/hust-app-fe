@@ -5,9 +5,6 @@ import {
   Typography,
   Grid,
   IconButton,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   ListProps,
   ListSubheaderProps
 } from '@mui/material';
@@ -20,7 +17,7 @@ import departmentIcon from '../../../assets/info/department.svg';
 import phoneIcon from '../../../assets/info/phone.svg';
 /* Styles */
 import { StyledPaper, FlexBox } from '../../../styles';
-import { InfoList, InfoListHeader } from '../styles';
+import { InfoList, InfoListItem, InfoListHeader, InfoListItemIcon, InfoListItemText } from '../styles';
 
 export const Information: React.FC = () => {
   const listSubHeaders = ["About", "Contact"]
@@ -94,26 +91,50 @@ export const Information: React.FC = () => {
             // subheader={<li />}
           >
             {listSubHeaders.map(header => (
-              <React.Fragment key={header}>
+              <div key={header} style={{ margin: '0px 0px 10px 0px'}}>
                 <InfoListHeader {...infoListHeaderAttrs}>
                   <Typography variant="subtitle1" component="ul" sx={{ textTransform: "uppercase" }}>
                     {header}
                   </Typography>
                 </InfoListHeader>
                 {listItems.map(item => (
-                  item.category === header && <ListItem key={item.title}>
-                    <ListItemIcon>
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={item.title} />
-                  </ListItem>
+                  item.category === header && <InfoListItem key={item.title}>
+                      <InfoListItemIcon>
+                    <FlexBox column={false} justify="center" align="center">
+                        {item.icon}
+                    </FlexBox>
+                      </InfoListItemIcon>
+                    <InfoListItemText primary={item.title} />
+                  </InfoListItem>
                 ))}
-              </React.Fragment>
+              </div>
             ))}
           </InfoList>
         </StyledPaper>
       </Grid>
-      <Grid item xs={false} md={8}></Grid>
+      <Grid item xs={false} md={8}>
+      <StyledPaper borderRadius='16px'>
+          <FlexBox
+            column={false}
+            justify='space-between'
+            align='center'
+            style={{ padding: '14px 24px' }}
+          >
+            <Typography variant='h5' component='div'>
+              Activities
+            </Typography>
+            <IconButton>
+              <img
+                src={actionDotsIcon}
+                alt='dots'
+                style={{ width: '16px', height: '16px' }}
+              />
+            </IconButton>
+          </FlexBox>
+          <Divider />
+        
+        </StyledPaper>
+      </Grid>
     </>
   );
 };

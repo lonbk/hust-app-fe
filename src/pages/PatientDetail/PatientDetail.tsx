@@ -8,6 +8,7 @@ import backgroundTestImg from '../../assets/background.svg';
 import avatarTestImg from '../../assets/avatar.svg';
 import { InformationIcon } from '../../assets/profile/InformationIcon';
 import { AppointmentsIcon } from '../../assets/profile/AppointmentsIcon';
+import { StatsIcon } from '../../assets/profile/StatsIcon';
 import StyledNavLink from '../../components/StyledNavLink';
 /* Styles */
 import { FlexBox, StyledButton } from '../../styles';
@@ -24,11 +25,20 @@ const PatientDetail: React.FC = () => {
       icon: (isActive: boolean) => <InformationIcon isActive={isActive} />
     },
     {
+      name: 'Stats',
+      link: 'stats',
+      icon: (isActive: boolean) => <StatsIcon isActive={isActive} />
+    },
+    {
       name: 'Appointments',
       link: 'appointments',
       icon: (isActive: boolean) => <AppointmentsIcon isActive={isActive} />
     },
   ];
+
+  // const styledButtonAttrs: ButtonProps & { component: React.ElementType } = {
+
+  // }
 
   useEffect(() => {
       navigate('information')
@@ -58,30 +68,31 @@ const PatientDetail: React.FC = () => {
       <Grid container spacing={4}>
         <Grid item xs={false} md={12}>
           <Grid container spacing={2}>
-            <Grid item xs={false} md={4} />
+            <Grid item xs={false} md={3} />
             {userOptions.map((option) => {
               const isActive = location.pathname.includes(option.link)
                 ? true
                 : false;
               return (
-                <Grid item xs={false} md={2}>
+                <Grid key={option.name} item xs={false} md={2}>
                     <FlexBox column={false} justify="center" align="center">
                         <StyledButton
                             width='124px'
                             height='46px'
                             borderRadius='8px'
+                            component={StyledNavLink}
                             variant='text'
                             startIcon={option.icon(isActive)}
+                            to={option.link}
+                            defaultActiveStyle={true} 
                         >
-                            <StyledNavLink defaultActiveStyle={true} to={option.link}>
                             {option.name}
-                            </StyledNavLink>
                         </StyledButton>
                     </FlexBox>
                 </Grid>
               );
             })}
-            <Grid item xs={false} md={2} />
+            <Grid item xs={false} md={1} />
             <Grid item xs={false} md={2}>
                 <FlexBox column={false} justify="center" align="center">
                     <StyledButton

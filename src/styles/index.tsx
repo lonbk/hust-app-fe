@@ -1,6 +1,7 @@
-
+import React from 'react';
 import styled from 'styled-components';
 import { styled as muiStyled } from '@mui/material';
+import { ButtonProps } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Grid, Button, Paper } from '@mui/material'; 
 
@@ -8,6 +9,15 @@ interface FlexBoxProps {
   column: boolean;
   justify: 'flex-start' | 'flex-end' | 'center' |'space-between' | 'space-around' | 'space-evenly' | 'initial' | 'inherit';
   align: 'flex-start' | 'flex-end' | 'center' |'space-between' | 'space-around' | 'space-evenly' | 'initial' | 'inherit';
+}
+
+interface StyledButtonProps extends ButtonProps {
+  width: string; 
+  height: string; 
+  borderRadius: string;
+  component?: React.ElementType;
+  defaultActiveStyle?: boolean;
+  to?: string;
 }
 
 export const MainGrid = styled(Grid)`
@@ -42,7 +52,7 @@ export const MainLogo = styled('img')`
     margin-left: 20px;
 `
 
-export const StyledButton = muiStyled(Button)<{width: string; height: string; borderRadius: string}>(({ theme, width, height, borderRadius }) => ({
+export const StyledButton = muiStyled(Button)<StyledButtonProps>(({ theme, width, height, borderRadius }) => ({
   width: width,
   height: height,
   borderRadius: borderRadius

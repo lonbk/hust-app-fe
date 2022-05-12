@@ -1,9 +1,6 @@
 import { styled as muiStyled } from '@mui/material';
 import {
-    Avatar, Paper,
-    Typography,
-    Grid,
-    IconButton,
+    Avatar,
     List,
     ListSubheader,
     ListItem,
@@ -39,6 +36,21 @@ export const InfoList = muiStyled(List)(({ theme }) => ({
     padding: '14px 24px 50px 24px',
 }))
 
+export const InfoListItem = muiStyled(ListItem)(({ theme }) => ({
+    margin: '3px 0'
+}))
+
 export const InfoListHeader = muiStyled(ListSubheader)(({ theme }) => ({
-    margin: 0
+    margin: 0,
+    marginBottom: '5px',
+}))
+
+export const InfoListItemIcon = muiStyled(ListItemIcon)(({ theme }) => ({
+    marginRight: '11px',
+    padding: 0,
+    minWidth: '24px'
+}))
+
+export const InfoListItemText = muiStyled(ListItemText)(({ theme }) => ({
+    color: theme.palette.info.main
 }))

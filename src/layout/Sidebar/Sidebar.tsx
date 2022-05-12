@@ -130,12 +130,11 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
   
   return (
     <Drawer variant='permanent' open={isOpen} elevation={0}>
-      <DrawerHeader>
+      <DrawerHeader onClick={() => navigate('/dashboard')}>
         <MainLogo className='app-logo' src={logo} />
         <LogoTitle
           isOpen={isOpen}
           {...attrs}
-          onClick={() => navigate('/dashboard')}
         >
           Akahealth
         </LogoTitle>

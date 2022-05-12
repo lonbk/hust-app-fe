@@ -50,7 +50,7 @@ export const Drawer = styled(MuiDrawer, {
 export const LogoTitle = styled(Typography)<LogoTitleProps>(({ theme, isOpen }) => ({
   display: isOpen ? 'block' : 'none',
   color: theme.palette.primary.main,
-  marginLeft: '15px'
+  marginLeft: '15px',
 }))
 
 export const SiderMenuList = styled(List)(({ theme }) => ({
