@@ -4,10 +4,12 @@ import { Box, Grid, Typography } from '@mui/material';
 /* Components */
 import Item from '../../components/Item';
 import DynamicChart from '../../components/DynamicChart';
+import StyledTable from '../../components/StyledTable';
 
 const Dashboard: React.FC = () => {
 
   return (
+    <>
     <Grid container spacing={4} sx={{ px: 2}}>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container spacing={4}>
@@ -133,6 +135,8 @@ const Dashboard: React.FC = () => {
         </Grid>
       </Grid>
     </Grid>
+    <StyledTable />
+    </>
   );
 };
 

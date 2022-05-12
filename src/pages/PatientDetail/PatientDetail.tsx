@@ -94,7 +94,7 @@ const PatientDetail: React.FC = () => {
             })}
             <Grid item xs={false} md={1} />
             <Grid item xs={false} md={2}>
-                <FlexBox column={false} justify="center" align="center">
+                <FlexBox column={false} justify="flex-end" align="center">
                     <StyledButton
                         width='124px'
                         height='46px'
