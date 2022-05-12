@@ -90,6 +90,7 @@ ChartJS.register(
   };
 
 export const Stats: React.FC = () => {
+  console.log('got here')
 
     return (
       <>
