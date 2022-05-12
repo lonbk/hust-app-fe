@@ -1,7 +1,8 @@
 /* Libs */
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 import { Grid, Typography } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 /* Components */
 import backgroundTestImg from '../../assets/background.svg';
 import avatarTestImg from '../../assets/avatar.svg';
@@ -14,6 +15,8 @@ import { BackgroundImage, PatientAvatar } from './styles';
 
 const PatientDetail: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
   const userOptions = [
     {
       name: 'Information',
@@ -26,6 +29,10 @@ const PatientDetail: React.FC = () => {
       icon: (isActive: boolean) => <AppointmentsIcon isActive={isActive} />
     },
   ];
+
+  useEffect(() => {
+      navigate('information')
+  }, [])
 
   return (
     <>
@@ -91,7 +98,9 @@ const PatientDetail: React.FC = () => {
           </Grid>
         </Grid>
         <Grid item xs={false} md={12}>
-          <Grid></Grid>
+          <Grid container spacing={4}>
+            <Outlet />
+          </Grid>
         </Grid>
       </Grid>
     </>
