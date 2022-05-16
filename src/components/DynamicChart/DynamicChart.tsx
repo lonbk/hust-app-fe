@@ -1,3 +1,6 @@
+
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
 /* Libs */
 import React from 'react';
 import { Box, Grid } from '@mui/material';
@@ -121,3 +124,78 @@ const DynamicChart: React.FC<ChartProps> = ({ dataType, disease }: ChartProps) =
 };
 
 export default DynamicChart;
+
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+const getDataByType = (type: keyof PatientData) => {
+  // Get the values of type: type = gender => valuesOfType = [Male, Female]
+  const valuesOfType: string[] = [];
+  for (let i = 0; i < data.length; i++) {
+    const curObj = data[i];
+    const curType = curObj[type] as string;
+    if (valuesOfType.length === 0) {
+      valuesOfType.push(curType);
+    } else {
+      let flag = 0;
+      for (let j = 0; j < valuesOfType.length; j++) {
+        if (curType === valuesOfType[j]) {
+          flag = 1;
+          break;
+        }
+      }
+      if (flag === 0) {
+        valuesOfType.push(curType);
+      }
+    }
+  }
+  // Get all the records that match the type
+  const resArr = [];
+  for (let i = 0; i < valuesOfType.length; i++) {
+    const curType = valuesOfType[i];
+    const curTypeArr = data.filter((item) => item[type] === curType);
+    const res = {
+      label: curType,
+      value: curTypeArr.length,
+      data: curTypeArr,
+    };
+    resArr.push(res);
+  }
+  return resArr;
+};
+const filteredData = getDataByType("gender")
+
+export const testData = {
+  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  datasets: [
+    {
+      label: '# of Votes',
+      data: filteredData,
+      backgroundColor: [
+        '#FF754C',
+        '#3F8CFF',
+        '#FFA2C0',
+        '#FFCE73',
+        '#86F0A4',
+        '#A488F2',
+        '#A0D7E7'
+      ],
+      borderRadius: 500,
+      border: 'none',
+      borderWith: 0
+    },
+  ],
+};
+
+const options = {
+  cutout: 800,
+  radius: 100,
+  legend: {
+    display: true
+  },
+}
+
+export function Donut() {
+
+  return <Doughnut data={testData} options={options} />;
+}
+

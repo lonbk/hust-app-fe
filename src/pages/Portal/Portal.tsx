@@ -35,9 +35,9 @@ const Portal: React.FC = () => {
   }, []);
   console.log('got here')
 
-  useEffect(() => {
-      auth.isAuthenticated ? navigate("/dashboard") : navigate("/login");
-  }, [auth.isAuthenticated]);
+  // useEffect(() => {
+  //     auth.isAuthenticated ? navigate("/dashboard") : navigate("/login");
+  // }, [auth.isAuthenticated]);
 
 
   return (

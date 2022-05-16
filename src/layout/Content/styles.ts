@@ -16,6 +16,8 @@ export const ContentContainer = styled.div`
 
 export const ToggleMenuButton = muiStyled(IconButton)<{isOpen: boolean}>(({ theme, isOpen }) => ({
     position: 'fixed',
+    width: '36px',
+    height: '36px',
     left: isOpen ? '250px' : '110px',
     bottom: '100px',
     zIndex: '1500',

@@ -61,5 +61,6 @@ export const StyledButton = muiStyled(Button)<StyledButtonProps>(({ theme, width
 export const StyledPaper = muiStyled(Paper)<{borderRadius: string}>(({ theme, borderRadius }) => ({
   borderRadius: borderRadius,
   backgroundColor: theme.palette.background.default,
-  boxShadow: '0px 8px 32px #8F95B226'
+  boxShadow: '0px 8px 32px #8F95B226',
+  height: '100%'
 }))

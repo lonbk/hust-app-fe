@@ -2,7 +2,7 @@ import { styled as muiStyled } from '@mui/material';
 import { InputBase } from '@mui/material';
 
 export const PageContainer = muiStyled('div')(({ theme }) => ({
-    padding: '40px 30px',
+    padding: '20px 10px',
     width: '100%', 
     height: '100%'
 }))
