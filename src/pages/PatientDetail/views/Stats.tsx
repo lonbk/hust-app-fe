@@ -375,7 +375,7 @@ export const Stats: React.FC = () => {
           </Grid>
           <Grid item xs={false} md={12}>
             <Grid container spacing={2}>
-              <Grid item xs={false} md={8}>
+              <Grid item xs={false} md={9}>
                 <StyledPaperWithPadding
                   borderRadius='16px'
                   sections={[
@@ -392,7 +392,7 @@ export const Stats: React.FC = () => {
                   ]}
                 />
               </Grid>
-              <Grid item xs={false} md={4}>
+              <Grid item xs={false} md={3}>
                 <StyledPaperWithPadding
                   borderRadius='16px'
                   sections={[
@@ -490,7 +490,7 @@ export const Stats: React.FC = () => {
                 />
               </Grid>
 
-              <Grid item xs={false} md={8}>
+              <Grid item xs={false} md={9}>
                 <StyledPaperWithPadding
                   borderRadius='16px'
                   sections={[
@@ -511,7 +511,7 @@ export const Stats: React.FC = () => {
                   ]}
                 />
               </Grid>
-              <Grid item xs={false} md={4}>
+              <Grid item xs={false} md={3}>
                 <StyledPaperWithPadding
                   borderRadius='16px'
                   sections={[
