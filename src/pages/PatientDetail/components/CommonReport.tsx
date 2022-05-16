@@ -19,13 +19,13 @@ export const CommonReport: React.FC<Props> = ({ title, body, lastChecked }) => {
       borderRadius='16px'
       sections={[
         <FlexBox column={false} justify='space-between' align='center'>
-          <Typography variant='h4' component='div'>
+          <Typography variant='h6' component='div'>
             {title}
           </Typography>
         </FlexBox>,
         body,
-        <FlexBox column={false} justify='flex-end' align='center'>
-            <Typography variant='subtitle1' component='div'>Last checked</Typography>
+        <FlexBox column={false} justify='flex-end' align='flex-end'>
+            <Typography variant='subtitle1' component='div' sx={{ marginRight: '5px'}}>Last checked</Typography>
             <Typography variant='body2' component='div'>{lastChecked}</Typography>
         </FlexBox>
       ]}

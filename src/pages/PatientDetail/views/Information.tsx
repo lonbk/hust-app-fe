@@ -1,7 +1,6 @@
 /* Libs */
 import React from 'react';
 import {
-  Divider,
   Typography,
   Grid,
   IconButton,
@@ -19,7 +18,7 @@ import companyIcon from '../../../assets/info/company.svg';
 import departmentIcon from '../../../assets/info/department.svg';
 import phoneIcon from '../../../assets/info/phone.svg';
 /* Styles */
-import { StyledPaper, FlexBox } from '../../../styles';
+import { FlexBox } from '../../../styles';
 import {
   InfoList,
   InfoListItem,

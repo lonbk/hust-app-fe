@@ -24,6 +24,7 @@ import {
   StyledTable,
   CommonReport,
 } from '../components';
+import StyledDateTimePicker, { RangeSelection } from '../../../components/DateTimePicker';
 /* Styles */
 import { StyledPaper, FlexBox } from '../../../styles';
 /* Types */
@@ -119,12 +120,34 @@ const commonStats = [
     body: (
       <>
         <FlexBox column={true} justify='flex-start' align='flex-start'>
-          <Typography variant='h5' component='div'>
-            148 mg/dL
-          </Typography>
-          <FlexBox column={false} justify='flex-start' align='center'>
-            <Icon component={ArrowDownwardIcon} />
+          <FlexBox
+            column={false}
+            justify='flex-start'
+            align='flex-end'
+            style={{ margin: '10px 0' }}
+          >
+            <Typography
+              variant='h1'
+              component='div'
+              sx={{ marginRight: '10px' }}
+            >
+              148
+            </Typography>
             <Typography variant='h5' component='div'>
+              mg/dL
+            </Typography>
+          </FlexBox>
+          <FlexBox column={false} justify='flex-start' align='center'>
+            <Icon
+              fontSize='small'
+              component={ArrowDownwardIcon}
+              sx={{ color: 'error.main' }}
+            />
+            <Typography
+              variant='h6'
+              component='div'
+              sx={{ color: 'error.main' }}
+            >
               .5 %
             </Typography>
           </FlexBox>
@@ -138,12 +161,34 @@ const commonStats = [
     body: (
       <>
         <FlexBox column={true} justify='flex-start' align='flex-start'>
-          <Typography variant='h5' component='div'>
-            8 readings
-          </Typography>
-          <FlexBox column={false} justify='flex-start' align='center'>
-            <Icon component={ArrowDownwardIcon} />
+          <FlexBox
+            column={false}
+            justify='flex-start'
+            align='flex-end'
+            style={{ margin: '10px 0' }}
+          >
+            <Typography
+              variant='h1'
+              component='div'
+              sx={{ marginRight: '10px' }}
+            >
+              8
+            </Typography>
             <Typography variant='h5' component='div'>
+              readings
+            </Typography>
+          </FlexBox>
+          <FlexBox column={false} justify='flex-start' align='center'>
+            <Icon
+              fontSize='small'
+              component={ArrowDownwardIcon}
+              sx={{ color: 'error.main' }}
+            />
+            <Typography
+              variant='h6'
+              component='div'
+              sx={{ color: 'error.main' }}
+            >
               1 reading
             </Typography>
           </FlexBox>
@@ -155,36 +200,68 @@ const commonStats = [
     title: 'Hypo & Hyper',
     lastUpdate: 'Feb 22, 2022',
     body: (
-      <FlexBox column={false} justify='flex-start' align='flex-start'>
+      <FlexBox column={false} justify='space-between' align='flex-start'>
         <FlexBox column={true} justify='flex-start' align='flex-start'>
-          <FlexBox column={false} justify='flex-start' align='flex-start'>
-            <Typography variant='h5' component='div'>
+          <FlexBox
+            column={false}
+            justify='flex-start'
+            align='flex-end'
+            style={{ margin: '10px 0' }}
+          >
+            <Typography
+              variant='h1'
+              component='div'
+              sx={{
+                marginRight: '5px',
+                textTransform: 'uppercase',
+                color: 'info.main',
+              }}
+            >
               3
             </Typography>
-            <Typography variant='h4' component='div'>
-              HYPER
+            <Typography
+              variant='h5'
+              component='div'
+              sx={{ textTransform: 'uppercase', color: 'info.main' }}
+            >
+              hyper
             </Typography>
           </FlexBox>
           <FlexBox column={false} justify='flex-start' align='center'>
-            <Icon component={ArrowDownwardIcon} />
-            <Typography variant='h5' component='div'>
-              .5 %
+            <Typography variant='subtitle1' component='div'>
+              {'> 250 mg/dL'}
             </Typography>
           </FlexBox>
         </FlexBox>
         <FlexBox column={true} justify='flex-start' align='flex-start'>
-          <FlexBox column={false} justify='flex-start' align='flex-start'>
-            <Typography variant='h5' component='div'>
+          <FlexBox
+            column={false}
+            justify='flex-start'
+            align='flex-end'
+            style={{ margin: '10px 0' }}
+          >
+            <Typography
+              variant='h1'
+              component='div'
+              sx={{
+                marginRight: '5px',
+                textTransform: 'uppercase',
+                color: 'error.main',
+              }}
+            >
               1
             </Typography>
-            <Typography variant='h4' component='div'>
-              HYPO
+            <Typography
+              variant='h5'
+              component='div'
+              sx={{ textTransform: 'uppercase', color: 'error.main' }}
+            >
+              hypo
             </Typography>
           </FlexBox>
           <FlexBox column={false} justify='flex-start' align='center'>
-            <Icon component={ArrowDownwardIcon} />
-            <Typography variant='h5' component='div'>
-              .5 %
+            <Typography variant='subtitle1' component='div'>
+              {'< 70 mg/dL'}
             </Typography>
           </FlexBox>
         </FlexBox>
@@ -197,12 +274,34 @@ const commonStats = [
     body: (
       <>
         <FlexBox column={true} justify='flex-start' align='flex-start'>
-          <Typography variant='h5' component='div'>
-            9.6 %
-          </Typography>
-          <FlexBox column={false} justify='flex-start' align='center'>
-            <Icon component={ArrowDownwardIcon} />
+        <FlexBox
+            column={false}
+            justify='flex-start'
+            align='flex-end'
+            style={{ margin: '10px 0' }}
+          >
+            <Typography
+              variant='h1'
+              component='div'
+              sx={{ marginRight: '10px' }}
+            >
+              9.6
+            </Typography>
             <Typography variant='h5' component='div'>
+              %
+            </Typography>
+          </FlexBox>
+          <FlexBox column={false} justify='flex-start' align='center'>
+            <Icon
+              fontSize='small'
+              component={ArrowDownwardIcon}
+              sx={{ color: 'error.main' }}
+            />
+            <Typography
+              variant='h6'
+              component='div'
+              sx={{ color: 'error.main' }}
+            >
               .5 %
             </Typography>
           </FlexBox>
@@ -248,6 +347,14 @@ export const Stats: React.FC = () => {
             style={{ padding: '16px' }}
           >
             {userNav}
+          </FlexBox>
+        </StyledPaper>
+      </Grid>
+      <Grid item xs={false} md={12}>
+        <StyledPaper borderRadius='8px' sx={{ padding: '14px 24px' }}>
+          <FlexBox column={false} justify='space-between' align='center'>
+            <RangeSelection />
+            <StyledDateTimePicker />
           </FlexBox>
         </StyledPaper>
       </Grid>
