@@ -3,7 +3,11 @@ import styled from 'styled-components';
 import { styled as muiStyled } from '@mui/material';
 import { ButtonProps } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { Grid, Button, Paper } from '@mui/material'; 
+import { 
+  Grid, 
+  Button, 
+  Paper,
+} from '@mui/material'; 
 
 interface FlexBoxProps {
   column: boolean;

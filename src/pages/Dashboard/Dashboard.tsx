@@ -4,7 +4,6 @@ import { Box, Grid, Typography } from '@mui/material';
 /* Components */
 import Item from '../../components/Item';
 import DynamicChart from '../../components/DynamicChart';
-import StyledTable from '../../components/StyledTable';
 
 const Dashboard: React.FC = () => {
 
@@ -135,7 +134,6 @@ const Dashboard: React.FC = () => {
         </Grid>
       </Grid>
     </Grid>
-    <StyledTable />
     </>
   );
 };
