@@ -1,65 +1,114 @@
+/* Libs */
 import * as React from 'react';
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import { useOutletContext, Link } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  Select,
+  MenuItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableSortLabel,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-
-interface Data {
-  calories: number;
-  carbs: number;
-  fat: number;
-  name: string;
-  protein: number;
+/* Components */
+import editIcon from '../../../assets/edit.svg';
+/* Styles */
+import { FlexBox, StyledPaper, StyledButton } from '../../../styles';
+import { StyledInput } from '../styles';
+/* Types */
+import patients from '../../../data/patients.json';
+import { Stage } from '../../../types/data';
+interface PatientType {
+  id: number;
+  fullName: string;
+  email: string;
+  gender: string;
+  disease: string;
+  status: string;
+  phoneNumber: string;
+}
+interface HeadCell {
+  disablePadding: boolean;
+  id: keyof PatientType;
+  label: string;
+  numeric: boolean;
 }
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
-): Data {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-  };
+interface EnhancedTableToolbarProps {
+  numSelected: number;
 }
 
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
-];
+type Order = 'asc' | 'desc';
+
+interface EnhancedTableProps {
+  numSelected: number;
+  onRequestSort: (
+    event: React.MouseEvent<unknown>,
+    property: keyof PatientType
+  ) => void;
+  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  order: Order;
+  orderBy: string;
+  rowCount: number;
+}
+
+const checkDiseaseStatus = (status: number) => {
+  if (status >= 1 && status <= 5) {
+    return {
+      stage: Stage.STAGE_1,
+      display: 'State 1 (1-5)',
+      color: '#6C5DD3',
+    };
+  } else if (status >= 6 && status <= 10) {
+    return {
+      stage: Stage.STAGE_2,
+      display: 'State 2 (6-10)',
+      color: '#FFCE73',
+    };
+  } else if (status >= 11 && status <= 15) {
+    return {
+      stage: Stage.STAGE_3,
+      display: 'State 3 (11-15)',
+      color: '#FF754C',
+    };
+  } else if (status >= 16 && status <= 20) {
+    return {
+      stage: Stage.STAGE_4,
+      display: 'State 4 (16-20)',
+      color: '#C70039',
+    };
+  } else return { display: 'Invalid status' };
+};
+
+const createData = () => {
+  let result: PatientType[] = [];
+  for (const patient of patients) {
+    result.push({
+      id: patient.id,
+      fullName: `${patient.first_name + patient.last_name}`,
+      email: patient.email,
+      gender: patient.gender,
+      disease:
+        patient.disease.charAt(0).toUpperCase() + patient.disease.slice(1),
+      status: JSON.stringify(checkDiseaseStatus(patient.status)),
+      phoneNumber: patient.phone_number,
+    });
+  }
+  return result;
+};
+
+const rows = createData();
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -71,14 +120,12 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-type Order = 'asc' | 'desc';
-
 function getComparator<Key extends keyof any>(
   order: Order,
-  orderBy: Key,
+  orderBy: Key
 ): (
   a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string },
+  b: { [key in Key]: number | string }
 ) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -87,7 +134,10 @@ function getComparator<Key extends keyof any>(
 
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
+function stableSort<T>(
+  array: readonly T[],
+  comparator: (a: T, b: T) => number
+) {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -99,81 +149,71 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
   return stabilizedThis.map((el) => el[0]);
 }
 
-interface HeadCell {
-  disablePadding: boolean;
-  id: keyof Data;
-  label: string;
-  numeric: boolean;
-}
-
 const headCells: readonly HeadCell[] = [
   {
-    id: 'name',
+    id: 'fullName',
     numeric: false,
-    disablePadding: true,
-    label: 'Dessert (100g serving)',
+    disablePadding: false,
+    label: 'Patient Name',
   },
   {
-    id: 'calories',
+    id: 'gender',
     numeric: true,
     disablePadding: false,
-    label: 'Calories',
+    label: 'Gender',
   },
   {
-    id: 'fat',
+    id: 'disease',
     numeric: true,
     disablePadding: false,
-    label: 'Fat (g)',
+    label: 'Disease',
   },
   {
-    id: 'carbs',
+    id: 'status',
     numeric: true,
     disablePadding: false,
-    label: 'Carbs (g)',
+    label: 'Status',
   },
   {
-    id: 'protein',
+    id: 'phoneNumber',
     numeric: true,
     disablePadding: false,
-    label: 'Protein (g)',
+    label: 'Phone number',
   },
 ];
 
-interface EnhancedTableProps {
-  numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string;
-  rowCount: number;
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
+const EnhancedTableHead = (props: EnhancedTableProps) => {
+  const {
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
   const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof PatientType) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
   return (
-    <TableHead>
+    <TableHead sx={{ backgroundColor: '#F9FAFC', height: '70px' }}>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell padding='checkbox'>
           <Checkbox
-            color="primary"
+            color='primary'
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              'aria-label': 'select all desserts',
+              'aria-label': 'select all patients',
             }}
           />
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align='left'
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -182,77 +222,128 @@ function EnhancedTableHead(props: EnhancedTableProps) {
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
-              {headCell.label}
+              <Typography
+                variant='h6'
+                component='div'
+                sx={{ color: '#8F95B2' }}
+              >
+                {headCell.label}
+              </Typography>
               {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
+                <Box component='span' sx={visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
             </TableSortLabel>
           </TableCell>
         ))}
+        <TableCell />
       </TableRow>
     </TableHead>
   );
-}
-
-interface EnhancedTableToolbarProps {
-  numSelected: number;
-}
+};
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const { numSelected } = props;
+  const [gender, setGender] = React.useState<string>('Male');
+
+  const handleChangeGender = (gender: string) => {
+    setGender(gender);
+  };
 
   return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
+    <Toolbar sx={{ padding: '21px 20px' }}>
+      <Box
+        sx={{
+          flexGrow: 1.7,
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
+        <Typography variant='body2' component='div'>
+          Patient Name
         </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Nutrition
+        <StyledInput placeholder='Enter the name' />
+      </Box>
+      <Box
+        sx={{
+          flexGrow: 1.5,
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
+        <Typography variant='body2' component='div'>
+          Gender
         </Typography>
-      )}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+        <FormControl sx={{ m: 1, minWidth: 120, marginLeft: '30px' }}>
+          <Select
+            sx={{
+              borderRadius: '8px',
+              height: '38px',
+              color: 'text.secondary',
+            }}
+            value={gender}
+            onChange={(e) => handleChangeGender(e.target.value)}
+            displayEmpty
+            inputProps={{ 'aria-label': 'Without label' }}
+            placeholder='Select'
+          >
+            <MenuItem value=''>
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value='Male'>Male</MenuItem>
+            <MenuItem value='Female'>Female</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+        }}
+      >
+        <StyledButton
+          borderRadius='8px'
+          width='93px'
+          height='39px'
+          variant='contained'
+          sx={{ marginLeft: '37px' }}
+        >
+          Query
+        </StyledButton>
+        <StyledButton
+          borderRadius='8px'
+          width='93px'
+          height='39px'
+          variant='outlined'
+          sx={{ marginLeft: '37px' }}
+        >
+          Reset
+        </StyledButton>
+        <StyledButton
+          borderRadius='8px'
+          width='93px'
+          height='39px'
+          variant='text'
+          sx={{ marginLeft: '37px' }}
+        >
+          Add new
+        </StyledButton>
+      </Box>
     </Toolbar>
   );
 };
 
 export const PatientsTable = () => {
+  const [links, handleAddNewCrump, handleRemoveCrump] =
+    useOutletContext<any[]>();
+
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
+  const [orderBy, setOrderBy] = React.useState<keyof PatientType>('status');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -260,7 +351,7 @@ export const PatientsTable = () => {
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof Data,
+    property: keyof PatientType
   ) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -269,7 +360,7 @@ export const PatientsTable = () => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows.map((row) => row.fullName);
       setSelected(newSelecteds);
       return;
     }
@@ -289,7 +380,7 @@ export const PatientsTable = () => {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
 
@@ -300,12 +391,18 @@ export const PatientsTable = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
+
+  const handleButtonOnClick = (patientId: number, patientName: string) => {
+    handleAddNewCrump(`patient/${patientId}`, patientName);
+  };
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -313,12 +410,12 @@ export const PatientsTable = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
+      <StyledPaper borderRadius='16px' sx={{ width: '100%', mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
+            aria-labelledby='tableTitle'
             size={dense ? 'small' : 'medium'}
           >
             <EnhancedTableHead
@@ -335,22 +432,22 @@ export const PatientsTable = () => {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.fullName);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
+                      onClick={(event) => handleClick(event, row.fullName)}
+                      role='checkbox'
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.fullName}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
+                      <TableCell padding='checkbox'>
                         <Checkbox
-                          color="primary"
+                          color='primary'
                           checked={isItemSelected}
                           inputProps={{
                             'aria-labelledby': labelId,
@@ -358,17 +455,74 @@ export const PatientsTable = () => {
                         />
                       </TableCell>
                       <TableCell
-                        component="th"
+                        component='th'
                         id={labelId}
-                        scope="row"
-                        padding="none"
+                        scope='row'
+                        padding='normal'
                       >
-                        {row.name}
+                        <FlexBox
+                          column={true}
+                          justify='center'
+                          align='flex-start'
+                        >
+                          <Typography variant='h6' component='div'>
+                            {row.fullName}
+                          </Typography>
+                          <Typography variant='subtitle1' component='div'>
+                            {row.email}
+                          </Typography>
+                        </FlexBox>
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align='left'>
+                        <Typography variant='h6' component='div'>
+                          {row.gender}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align='left'>
+                        <Typography variant='body2' component='div'>
+                          {row.disease}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align='left'>
+                        <FlexBox
+                          column={false}
+                          justify='flex-start'
+                          align='center'
+                        >
+                          <div
+                            style={{
+                              width: '8px',
+                              height: '8px',
+                              backgroundColor: `${
+                                JSON.parse(row.status).color
+                              }`,
+                              borderRadius: '50%',
+                              marginRight: '5px'
+                            }}
+                          />
+                          <Typography variant='body2' component='div'>
+                            {JSON.parse(row.status).display}
+                          </Typography>
+                        </FlexBox>
+                      </TableCell>
+                      <TableCell align='left'>
+                        <Typography variant='body2' component='div'>
+                          {row.phoneNumber}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align='left'>
+                        <Button
+                          to={`patient/${row.id}`}
+                          component={Link}
+                          variant='outlined'
+                          startIcon={<img src={editIcon} alt='Edit' />}
+                          onClick={() =>
+                            handleButtonOnClick(row.id, row.fullName)
+                          }
+                        >
+                          Edit
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -386,14 +540,14 @@ export const PatientsTable = () => {
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
-          component="div"
+          component='div'
           count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Paper>
+      </StyledPaper>
     </Box>
   );
-}
+};

@@ -12,8 +12,10 @@ export const StyledInput = muiStyled(InputBase)(({ theme }) => ({
     borderRadius: '8px',
     fontSize: '0.875rem',
     border: '1px solid #E6E8F0',
+    width: '260px',
     height: '38px',
     padding: '11px 16px',
+    marginLeft: '30px',
     '&:focus-within,:hover': {
         border: `1px solid ${theme.palette.primary.main}`
     },

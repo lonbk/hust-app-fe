@@ -1,14 +1,19 @@
 /* Libs */
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 /* Components */
 import Item from '../../components/Item';
 import DynamicChart from '../../components/DynamicChart';
+import { useTitleContext } from '../Portal';
 
 const Dashboard: React.FC = () => {
+  const handleChangeTitle = useTitleContext();
+
+  useEffect(() => {
+    handleChangeTitle('Traffic');
+  }, [])
 
   return (
-    <>
     <Grid container spacing={4} sx={{ px: 2}}>
       <Grid item xs={12} sm={12} md={12}>
         <Grid container spacing={4}>
@@ -134,7 +139,6 @@ const Dashboard: React.FC = () => {
         </Grid>
       </Grid>
     </Grid>
-    </>
   );
 };
 

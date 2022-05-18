@@ -89,7 +89,7 @@ export const StepIcon = muiStyled('div')<StepIconProps>(
       borderRadius: '50%',
       backgroundColor: detectColor(level),
       position: 'relative',
-      zIndex: 7000,
+      zIndex: 1000,
     }
     if(connect) styleObj['&:not(:last-child)'] = {
       ':after': {
@@ -101,7 +101,7 @@ export const StepIcon = muiStyled('div')<StepIconProps>(
         bottom: '-50px',
         left: '50%',
         transform: 'translate(-50%)',
-        zIndex: 7000
+        zIndex: 1000
       }
     }
     return styleObj

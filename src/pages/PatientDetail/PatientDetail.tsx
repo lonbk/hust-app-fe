@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 /* Components */
 import { InformationIcon } from '../../assets/profile/InformationIcon';
 import { AppointmentsIcon } from '../../assets/profile/AppointmentsIcon';

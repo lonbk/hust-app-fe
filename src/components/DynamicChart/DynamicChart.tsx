@@ -8,7 +8,7 @@ import DonutChart from 'react-donut-chart';
 /* Components */
 import Item from '../../components/Item';
 /* Utils */
-import data from '../../data.json';
+import data from '../../data/patients.json';
 import type { PatientData } from '../../types/data';
 
 interface ChartProps {

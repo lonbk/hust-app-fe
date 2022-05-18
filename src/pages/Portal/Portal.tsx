@@ -1,7 +1,7 @@
 /* Libs */
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, Routes } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Grid, Box, Typography } from "@mui/material";
 /* Components */
 import Header from "../../layout/Header";
 import Sidebar from "../../layout/Sidebar";
@@ -14,6 +14,8 @@ import { getCategories } from "../../features/categories/categoriesThunk";
 import { useAxiosInstance } from "../../utils/axiosInstance";
 import { getRoutes, routes } from "../../PortalRoutes";
 
+export const TitleContext = React.createContext<any>(null);
+
 const Portal: React.FC = () => {
   const axiosInstance = useAxiosInstance();
   const navigate = useNavigate();
@@ -22,6 +24,11 @@ const Portal: React.FC = () => {
   const { auth } = useAppSelector(selectUser);
 
   const [open, setOpen] = useState(true);
+  const [title, setTitle] = useState<string>('');
+
+  const handleChangeTitle = (title: string) => {
+    setTitle(title);
+  }
 
   const handleDrawerOpen = useCallback(() => {
     setOpen(true);
@@ -33,7 +40,6 @@ const Portal: React.FC = () => {
   useEffect(() => {
     if (axiosInstance) dispatch(getCategories({ axiosInstance }));
   }, []);
-  console.log('got here')
 
   // useEffect(() => {
   //     auth.isAuthenticated ? navigate("/dashboard") : navigate("/login");
@@ -45,10 +51,16 @@ const Portal: React.FC = () => {
       <Header  isOpen={open} />
       <Sidebar isOpen={open} />
       <Content isOpen={open} onOpen={handleDrawerOpen} onClose={handleDrawerClose}>
-        <Routes>
-            {getRoutes(routes)}
-            {console.log('rourtes', getRoutes(routes))}
-        </Routes>
+        <Grid container spacing={4} sx={{ px: 2, py: 2 }}>
+          <Grid item xs={12} md={12}>
+            <Typography variant="h1" component="div">{title}</Typography>
+          </Grid>
+        </Grid>
+        <TitleContext.Provider value={[handleChangeTitle]}>
+          <Routes>
+              {getRoutes(routes)}
+          </Routes>
+        </TitleContext.Provider>
       </Content>
     </Box>
   );
