@@ -12,7 +12,7 @@ export const theme = createTheme({
       main: '#3F8CFF',
     },
     error: {
-      main: '#FF754C'
+      main: '#D2042D'
     },
     background: {
       default: '#ffffff',
@@ -22,6 +22,9 @@ export const theme = createTheme({
       primary: '#081735',
       secondary: '#8F95B2'
     }
+  },
+  zIndex: {
+    modal: 2000
   },
   typography: {
     fontFamily: [

@@ -1,10 +1,11 @@
 /* Libs */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 /* Components */
+import CallRoom from '../CallRoom';
 import { InformationIcon } from '../../assets/profile/InformationIcon';
 import { AppointmentsIcon } from '../../assets/profile/AppointmentsIcon';
 import { StatsIcon } from '../../assets/profile/StatsIcon';
@@ -15,6 +16,16 @@ import { FlexBox, StyledButton } from '../../styles';
 const PatientDetail: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const [visisbleCallVideo, setVisisbleCallVideo] = useState<boolean>(false);
+
+  const handleOpenCallVideo = () => {
+    setVisisbleCallVideo(true);
+  }
+
+  const handleCloseCallVideo= () => {
+    setVisisbleCallVideo(false);
+  }
 
   const userOptions = [
     {
@@ -44,6 +55,7 @@ const PatientDetail: React.FC = () => {
 
   return (
     <>
+      <CallRoom open={visisbleCallVideo} handleClose={handleCloseCallVideo} />
       <Grid container spacing={2}>
         <Grid item xs={false} md={12}>
           <FlexBox column={false} justify='space-between' align='center'>
@@ -75,6 +87,7 @@ const PatientDetail: React.FC = () => {
               borderRadius="8px"
               variant="contained"
               startIcon={<PhoneIcon />}
+              onClick={() => handleOpenCallVideo()}
             >
               Call
             </StyledButton>
