@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { useLocation, useNavigate } from 'react-router-dom';
 /* Components */
 import CallRoom from '../CallRoom';
 import { InformationIcon } from '../../assets/profile/InformationIcon';
@@ -21,11 +22,11 @@ const PatientDetail: React.FC = () => {
 
   const handleOpenCallVideo = () => {
     setVisisbleCallVideo(true);
-  }
+  };
 
-  const handleCloseCallVideo= () => {
+  const handleCloseCallVideo = () => {
     setVisisbleCallVideo(false);
-  }
+  };
 
   const userOptions = [
     {
@@ -58,6 +59,18 @@ const PatientDetail: React.FC = () => {
       <CallRoom open={visisbleCallVideo} handleClose={handleCloseCallVideo} />
       <Grid container spacing={2}>
         <Grid item xs={false} md={12}>
+          <StyledButton
+            borderRadius='8px'
+            width='auto'
+            height='30px'
+            startIcon={<KeyboardBackspaceIcon />}
+            variant='contained'
+            onClick={() => navigate('/patients')}
+          >
+            Back to patients table
+          </StyledButton>
+        </Grid>
+        <Grid item xs={false} md={12}>
           <FlexBox column={false} justify='space-between' align='center'>
             <FlexBox column={false} justify='flex-start' align='center'>
               {userOptions.map((option) => {
@@ -82,10 +95,10 @@ const PatientDetail: React.FC = () => {
               })}
             </FlexBox>
             <StyledButton
-              width="100px"
-              height="46px"
-              borderRadius="8px"
-              variant="contained"
+              width='100px'
+              height='46px'
+              borderRadius='8px'
+              variant='contained'
               startIcon={<PhoneIcon />}
               onClick={() => handleOpenCallVideo()}
             >

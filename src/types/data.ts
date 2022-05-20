@@ -23,3 +23,10 @@ export enum Stage {
     STAGE_3 = 'Stage 3',
     STAGE_4 = 'Stage 4'
 }
+
+export enum AppointmentStatus {
+    STATUS_PENDING = 'Pending',
+    STATUS_ACTIVE = 'Active',
+    STATUS_NEW = 'New',
+    STATUS_CLOSED = 'Closed',
+}

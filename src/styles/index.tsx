@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { styled as muiStyled } from '@mui/material';
+import { InputBase } from '@mui/material';
 import { ButtonProps } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { 
@@ -67,4 +68,20 @@ export const StyledPaper = muiStyled(Paper)<{borderRadius: string}>(({ theme, bo
   backgroundColor: theme.palette.background.default,
   boxShadow: '0px 8px 32px #8F95B226',
   height: '100%'
+}))
+
+export const StyledInput = muiStyled(InputBase)(({ theme }) => ({
+  borderRadius: '8px',
+  fontSize: '0.875rem',
+  border: '1px solid #E6E8F0',
+  width: '260px',
+  height: '38px',
+  padding: '11px 16px',
+  marginLeft: '30px',
+  '&:focus-within,:hover': {
+      border: `1px solid ${theme.palette.primary.main}`
+  },
+  '&::placeholder': {
+      color: '#D8DAE5',
+  }
 }))

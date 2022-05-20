@@ -78,7 +78,7 @@ const Header: React.FC<Props> = ({ isOpen }: Props) => {
               {`Dr. ${auth0Info?.given_name}`}
             </Typography>
           </WelcomeBox>
-          <SearchBox />
+          <SearchBox textcolor="#8F95B2" background="#E6E8F0" width={214} height={48} />
           <IconButton sx={{ width: '48px', height: '48px'}}>
             <Badge badgeContent={2} color="error">
               <img src={notificationIcon} style={{ maxWidth: "100%" }} alt="notification" />

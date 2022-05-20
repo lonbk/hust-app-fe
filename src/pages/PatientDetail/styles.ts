@@ -1,6 +1,7 @@
 import { styled as muiStyled } from '@mui/material';
 import {
   Avatar,
+  InputBase,
   List,
   ListSubheader,
   ListItem,
@@ -12,10 +13,15 @@ import {
 import { tableCellClasses } from '@mui/material/TableCell';
 /* Types */
 import { Levels } from '../../types/levels';
+import { AppointmentStatus } from '../../types/data';
 
 interface StepIconProps {
   connect?: boolean;
   level: Levels;
+}
+
+interface AppointmentStatusTagProps {
+  status: AppointmentStatus;
 }
 
 export const BackgroundImage = muiStyled('img')<{ src: string }>(({ theme }) => ({
@@ -127,3 +133,35 @@ export const StyledTableRow = muiStyled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
+
+export const AppointmentStatusTag = muiStyled('div')<AppointmentStatusTagProps>(({ theme, status }) => {
+  const colorScheme = {
+    [AppointmentStatus.STATUS_ACTIVE]: {
+      background: '#6C5DD31A',
+      text: '#9D90FA'
+    },
+    [AppointmentStatus.STATUS_PENDING]: {
+      background: '#FFF3DC',
+      text: '#FF9A7B'
+    },
+    [AppointmentStatus.STATUS_NEW]: {
+      background: '#CDF4FF',
+      text: '#3F8CFF'
+    },
+    [AppointmentStatus.STATUS_CLOSED]: {
+      background: '#FFEBF6',
+      text: '#FF754C'
+    },
+  }
+
+  return {
+    width: '88px',
+    height: '32px',
+    borderRadius: '24px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colorScheme[status].background,
+    color: colorScheme[status].text
+  }
+})

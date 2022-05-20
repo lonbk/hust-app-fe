@@ -24,7 +24,9 @@ import {
   StyledTable,
   CommonReport,
 } from '../components';
-import StyledDateTimePicker, { RangeSelection } from '../../../components/DateTimePicker';
+import StyledDateTimePicker, {
+  RangeSelection,
+} from '../../../components/DateTimePicker';
 /* Styles */
 import { StyledPaper, FlexBox } from '../../../styles';
 /* Types */
@@ -274,7 +276,7 @@ const commonStats = [
     body: (
       <>
         <FlexBox column={true} justify='flex-start' align='flex-start'>
-        <FlexBox
+          <FlexBox
             column={false}
             justify='flex-start'
             align='flex-end'
@@ -353,7 +355,26 @@ export const Stats: React.FC = () => {
       <Grid item xs={false} md={12}>
         <StyledPaper borderRadius='8px' sx={{ padding: '14px 24px' }}>
           <FlexBox column={false} justify='space-between' align='center'>
-            <RangeSelection />
+            <RangeSelection
+              selections={[
+                {
+                  range: 'Today',
+                  active: true,
+                },
+                {
+                  range: 'Last 7 days',
+                  active: false,
+                },
+                {
+                  range: 'Last 30 days',
+                  active: false,
+                },
+                {
+                  range: 'Last 365 days',
+                  active: false,
+                },
+              ]}
+            />
             <StyledDateTimePicker />
           </FlexBox>
         </StyledPaper>

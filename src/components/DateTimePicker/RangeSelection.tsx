@@ -1,27 +1,18 @@
 /* Libs */
 import React, { useState } from 'react';
+import { Typography } from '@mui/material';
 /* Styles */
 import { StyledPaper, StyledButton, FlexBox } from '../../styles';
 
-export const RangeSelection: React.FC = () => {
-  const [rangeButtons, setRangeButtons] = useState([
-    {
-      range: 'Today',
-      active: true,
-    },
-    {
-      range: 'Last 7 days',
-      active: false,
-    },
-    {
-      range: 'Last 30 days',
-      active: false,
-    },
-    {
-      range: 'Last 365 days',
-      active: false,
-    },
-  ]);
+interface Props {
+  selections: {
+    range: string;
+    active: boolean;
+  }[]
+}
+
+export const RangeSelection: React.FC<Props> = ({ selections }) => {
+  const [rangeButtons, setRangeButtons] = useState(selections);
 
   const handleChangeActive = (range: string) => {
     setRangeButtons((prev) =>
@@ -34,20 +25,23 @@ export const RangeSelection: React.FC = () => {
   };
 
   return (
-    <FlexBox column={false} justify='flex-start' align='center'>
-      {rangeButtons.map((button) => (
-        <StyledButton
-          key={button.range}
-          borderRadius='8px'
-          width='auto'
-          height='46px'
-          sx={{ marginRight: '10px' }}
-          variant={button.active ? 'contained' : 'text'}
-          onClick={() => handleChangeActive(button.range)}
-        >
-          {button.range}
-        </StyledButton>
-      ))}
-    </FlexBox>
+    <StyledPaper borderRadius="8px" sx={{ backgroundColor: '#E6E8F0', padding: '5px' }}>
+      <FlexBox column={false} justify='flex-start' align='center'>
+        {rangeButtons.map((button) => (
+          <StyledButton
+            key={button.range}
+            borderRadius='8px'
+            width='auto'
+            height='40px'
+            sx={{ minWidth: '80px', marginRight: '10px', color: 'primary.main', bgcolor: button.active ? '#FFFFFF' : 'none', '&:hover': { bgcolor: '#FFFFFF' }}}
+            onClick={() => handleChangeActive(button.range)}
+          >
+            <Typography variant="h6" component="div">
+              {button.range}
+            </Typography>
+          </StyledButton>
+        ))}
+      </FlexBox>
+    </StyledPaper>
   );
 };

@@ -1,6 +1,6 @@
 /* Libs */
 import * as React from 'react';
-import { useOutletContext, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -17,7 +17,6 @@ import {
   TableRow,
   TableSortLabel,
   Toolbar,
-  Tooltip,
   Typography,
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
@@ -25,7 +24,7 @@ import { visuallyHidden } from '@mui/utils';
 import editIcon from '../../../assets/edit.svg';
 /* Styles */
 import { FlexBox, StyledPaper, StyledButton } from '../../../styles';
-import { StyledInput } from '../styles';
+import { StyledInput } from '../../../styles';
 /* Types */
 import patients from '../../../data/patients.json';
 import { Stage } from '../../../types/data';
@@ -339,11 +338,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 };
 
 export const PatientsTable = () => {
-  const [links, handleAddNewCrump, handleRemoveCrump] =
-    useOutletContext<any[]>();
-
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof PatientType>('status');
+  const [orderBy, setOrderBy] = React.useState<keyof PatientType>('fullName');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -399,10 +395,6 @@ export const PatientsTable = () => {
   };
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
-
-  const handleButtonOnClick = (patientId: number, patientName: string) => {
-    handleAddNewCrump(`patient/${patientId}`, patientName);
-  };
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -511,17 +503,17 @@ export const PatientsTable = () => {
                         </Typography>
                       </TableCell>
                       <TableCell align='left'>
-                        <Button
+                        <StyledButton
+                          width="93px"
+                          height="38px"
+                          borderRadius="8px"
                           to={`patient/${row.id}`}
                           component={Link}
                           variant='outlined'
                           startIcon={<img src={editIcon} alt='Edit' />}
-                          onClick={() =>
-                            handleButtonOnClick(row.id, row.fullName)
-                          }
                         >
                           Edit
-                        </Button>
+                        </StyledButton>
                       </TableCell>
                     </TableRow>
                   );

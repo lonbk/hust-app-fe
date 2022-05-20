@@ -8,7 +8,8 @@ import {
   ListSubheaderProps,
 } from '@mui/material';
 /* Components */
-import { StyledPaperWithPadding } from '../components/StyledPapperWithPadding';
+import { ExerciseCard } from '../components';
+import { StyledPaperWithPadding } from '../components';
 import backgroundTestImg from '../../../assets/background.svg';
 import avatarTestImg from '../../../assets/avatar.svg';
 import actionDotsIcon from '../../../assets/actionDots.svg';
@@ -17,6 +18,8 @@ import emailIcon from '../../../assets/info/email.svg';
 import companyIcon from '../../../assets/info/company.svg';
 import departmentIcon from '../../../assets/info/department.svg';
 import phoneIcon from '../../../assets/info/phone.svg';
+import mindfulDragonImg from '../../../assets/exercises/mindfulDragon.png';
+import journalingImg from '../../../assets/exercises/journaling.png';
 /* Styles */
 import { FlexBox } from '../../../styles';
 import {
@@ -172,7 +175,15 @@ export const Information: React.FC = () => {
                   style={{ width: '16px', height: '16px' }}
                 />
               </IconButton>
-            </FlexBox>
+            </FlexBox>,
+            <Grid container spacing={2}>
+              <Grid item xs={false} md={3}>
+                <ExerciseCard title="Journaling" time="04 April 2022" image={journalingImg} />
+              </Grid>
+              <Grid item xs={false} md={3}>
+                <ExerciseCard title="The Mindful Dragon" time="05 April 2022" image={mindfulDragonImg} />
+              </Grid>
+            </Grid>
           ]}
         />
       </Grid>
