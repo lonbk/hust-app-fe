@@ -1,0 +1,18 @@
+.Cell-dayView {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 27px 0;
+}
+
+.Cell-dayOfMonth {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #081735 !important;
+}
+
+.Cell-dayOfWeek {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #081735 !important;
+}

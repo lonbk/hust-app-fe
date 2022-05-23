@@ -12,6 +12,7 @@ import AnswersList from './pages/AnswersList';
 import Profile from './pages/Profile';
 import Patients from './pages/Patients';
 import PatientDetail from './pages/PatientDetail';
+import Calendar from './pages/Calendar';
 import { PatientsTable } from './pages/Patients/views';
 import { Information } from './pages/PatientDetail/views';
 import { Appointments } from './pages/PatientDetail/views';
@@ -114,7 +115,7 @@ export const routes: RouteType[] = [
     name: 'calendar',
     title: 'Calendar',
     path: '/calendar',
-    element: <Patients />,
+    element: <Calendar />,
     icon: calendarIcon,
     hideInMenu: false,
     requireAdmin: false,
