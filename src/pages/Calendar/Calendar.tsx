@@ -1,6 +1,6 @@
 /* Libs */
 import React, { useState, useEffect } from 'react';
-import Paper from '@mui/material/Paper';
+import { Grid } from '@mui/material';
 import {
   ViewState,
   EditingState,
@@ -22,10 +22,12 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 /* Components */
 import { RangeSelection } from '../../components/DateTimePicker';
-
+/* Utils */
 import { appointments } from './appointments';
 import { useTitleContext } from '../Portal';
-
+/* Styles */
+import { StyledPaper } from '../../styles';
+import { RangeSelectionWrapper } from './style';
 import './calendar.css'
 
 const Calendar: React.FC = () => {
@@ -40,7 +42,7 @@ const Calendar: React.FC = () => {
     title: 'Type',
     instances: [
       { id: 'private', text: 'Private', color: '#EC407A' },
-      { id: 'work', text: 'Work', color: '#7E57C2' },
+      { id: 'work', text: 'Work', color: '#6C5DD3' },
     ],
   }];
 
@@ -106,34 +108,37 @@ const Calendar: React.FC = () => {
 
   
   return (
-    <Paper>
-      <Scheduler data={data} height={660}>
-        <div style={{ position: 'absolute', right: '0'}}>
+    <Grid container spacing={2}>
+      <Grid item xs={false} md={12}>
+        <StyledPaper borderRadius="16px" sx={{ paddingBottom: '10px', position: 'relative' }}>
+          <Scheduler data={data} height={"auto"}>
+            <RangeSelectionWrapper>
+              <RangeSelection selections={dateOptions} />
+            </RangeSelectionWrapper>
+            <ViewState
+              currentDate={currentDate}
+              onCurrentDateChange={handleCurrentDateChange}
+            />
+            <Toolbar />
+            <DateNavigator />
+            <WeekView startDayHour={9} endDayHour={19} />
+            <TodayButton />
+            <EditingState onCommitChanges={commitChanges} />
+            <IntegratedEditing />
+            {/* <DayView startDayHour={9} endDayHour={19} /> */}
+            <ConfirmationDialog />
+            
+            <Appointments />
+            <AppointmentTooltip showCloseButton showOpenButton />
+            <AppointmentForm />
 
-        <RangeSelection selections={dateOptions} />
-        </div>
-        <ViewState
-          currentDate={currentDate}
-          onCurrentDateChange={handleCurrentDateChange}
-        />
-        <Toolbar />
-        <DateNavigator />
-        <WeekView startDayHour={9} endDayHour={19} />
-        <TodayButton />
-        <EditingState onCommitChanges={commitChanges} />
-        <IntegratedEditing />
-        {/* <DayView startDayHour={9} endDayHour={19} /> */}
-        <ConfirmationDialog />
-        
-        <Appointments />
-        <AppointmentTooltip showCloseButton showOpenButton />
-        <AppointmentForm />
-
-        <Resources
-          data={resources}
-        />
-      </Scheduler>
-    </Paper>
+            <Resources
+              data={resources}
+            />
+          </Scheduler>
+        </StyledPaper>
+      </Grid>
+    </Grid>
   );
 };
 

@@ -3,20 +3,21 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 /* Libs */
 import React from 'react';
-import { Box, Grid } from '@mui/material';
-import DonutChart from 'react-donut-chart';
-/* Components */
-import Item from '../../components/Item';
 /* Utils */
 import data from '../../data/patients.json';
 import type { PatientData } from '../../types/data';
 
+import { theme } from '../../theme'
+
 interface ChartProps {
   dataType?: keyof PatientData;
   disease?: string;
+  size: 'small' | 'big'
 }
 
-const DynamicChart: React.FC<ChartProps> = ({ dataType, disease }: ChartProps) => {
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+const DynamicChart: React.FC<ChartProps> = ({ size, dataType, disease }: ChartProps) => {
   const getDataByType = (type: keyof PatientData) => {
     // Get the values of type: type = gender => valuesOfType = [Male, Female]
     const valuesOfType: string[] = [];
@@ -110,92 +111,50 @@ const DynamicChart: React.FC<ChartProps> = ({ dataType, disease }: ChartProps) =
     };
   });
 
+  const chartData = {
+    labels: ['1', '2', '3', '4', '5', '6', '7'],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: dataType ? formatedData : filteredData,
+        backgroundColor: [
+          '#FF754C',
+          '#3F8CFF',
+          '#FFA2C0',
+          '#FFCE73',
+          '#86F0A4',
+          '#A488F2',
+          '#A0D7E7'
+        ],
+        borderRadius: 5,
+        border: 'none',
+        borderWidth: 1
+      },
+    ],
+  };
+
+  const options = {
+    aspectRatio: 1,
+    cutout: size === 'small' ? 100 : 110,
+    radius: size === 'small' ? 100 : 130,
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: size === 'small' ? 'bottom' as const : 'right' as const,
+      },
+    },
+    layout: {
+      padding: 0
+    },
+  }
+
+  console.log('theme', theme)
+
   return (
-    <DonutChart
-      className='dchart'
-      innerRadius={0.8}
-      outerRadius={0.7}
-      width={300}
-      height={300}
-      colors={chartColors}
-      data={dataType ? formatedData : filteredData}
-    />
+      <Doughnut data={chartData} options={options} />
   );
 };
 
 export default DynamicChart;
-
-
-ChartJS.register(ArcElement, Tooltip, Legend);
-const getDataByType = (type: keyof PatientData) => {
-  // Get the values of type: type = gender => valuesOfType = [Male, Female]
-  const valuesOfType: string[] = [];
-  for (let i = 0; i < data.length; i++) {
-    const curObj = data[i];
-    const curType = curObj[type] as string;
-    if (valuesOfType.length === 0) {
-      valuesOfType.push(curType);
-    } else {
-      let flag = 0;
-      for (let j = 0; j < valuesOfType.length; j++) {
-        if (curType === valuesOfType[j]) {
-          flag = 1;
-          break;
-        }
-      }
-      if (flag === 0) {
-        valuesOfType.push(curType);
-      }
-    }
-  }
-  // Get all the records that match the type
-  const resArr = [];
-  for (let i = 0; i < valuesOfType.length; i++) {
-    const curType = valuesOfType[i];
-    const curTypeArr = data.filter((item) => item[type] === curType);
-    const res = {
-      label: curType,
-      value: curTypeArr.length,
-      data: curTypeArr,
-    };
-    resArr.push(res);
-  }
-  return resArr;
-};
-const filteredData = getDataByType("gender")
-
-export const testData = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: filteredData,
-      backgroundColor: [
-        '#FF754C',
-        '#3F8CFF',
-        '#FFA2C0',
-        '#FFCE73',
-        '#86F0A4',
-        '#A488F2',
-        '#A0D7E7'
-      ],
-      borderRadius: 500,
-      border: 'none',
-      borderWith: 0
-    },
-  ],
-};
-
-const options = {
-  cutout: 800,
-  radius: 100,
-  legend: {
-    display: true
-  },
-}
-
-export function Donut() {
-
-  return <Doughnut data={testData} options={options} />;
-}
 

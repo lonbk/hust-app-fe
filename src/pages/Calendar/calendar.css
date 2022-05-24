@@ -16,3 +16,7 @@
   font-weight: 700 !important;
   color: #081735 !important;
 }
+
+.Toolbar-toolbar {
+  height: 90px;
+}

@@ -67,7 +67,7 @@ export const StyledPaper = muiStyled(Paper)<{borderRadius: string}>(({ theme, bo
   borderRadius: borderRadius,
   backgroundColor: theme.palette.background.default,
   boxShadow: '0px 8px 32px #8F95B226',
-  height: '100%'
+  height: '100%',
 }))
 
 export const StyledInput = muiStyled(InputBase)(({ theme }) => ({

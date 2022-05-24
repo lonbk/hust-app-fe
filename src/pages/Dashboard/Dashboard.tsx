@@ -1,5 +1,5 @@
 /* Libs */
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 /* Components */
 import Item from '../../components/Item';
@@ -44,7 +44,9 @@ const Dashboard: React.FC = () => {
                   Customers that use our service
                 </Typography>
               </Box>
-              <DynamicChart dataType='gender' />
+              <div style={{ maxWidth: '50%' }}>
+                <DynamicChart size="big" dataType='gender' />
+              </div>
             </Item>
           </Grid>
           {/* ************************************ */}
@@ -65,7 +67,9 @@ const Dashboard: React.FC = () => {
                   Customers that use our service
                 </Typography>
               </Box>
-              <DynamicChart dataType='disease' />
+              <div style={{ maxWidth: '50%' }}>
+                <DynamicChart size="big" dataType='disease' />
+              </div>
             </Item>
           </Grid>
         </Grid>
@@ -85,7 +89,9 @@ const Dashboard: React.FC = () => {
               <Typography variant='h5' component='div'>
                 Anxiety
               </Typography>
-              <DynamicChart disease='anxiety' />
+              <div style={{ maxWidth: '100%' }}>
+                <DynamicChart size="small" disease='anxiety' />
+              </div>
             </Item>
           </Grid>
           {/* ************************************ */}
@@ -101,7 +107,9 @@ const Dashboard: React.FC = () => {
               <Typography variant='h5' component='div'>
                 Depression
               </Typography>
-              <DynamicChart disease='depression' />
+              <div style={{ maxWidth: '100%' }}>
+                <DynamicChart size="small" disease='depression' />
+              </div>
             </Item>
           </Grid>
           {/* ************************************ */}
@@ -117,7 +125,9 @@ const Dashboard: React.FC = () => {
               <Typography variant='h5' component='div'>
                 ADHD
               </Typography>
-              <DynamicChart disease='ADHD' />
+              <div style={{ maxWidth: '100%' }}>
+                <DynamicChart size="small" disease='ADHD' />
+              </div>
             </Item>
           </Grid>
           {/* ************************************ */}
@@ -133,7 +143,9 @@ const Dashboard: React.FC = () => {
               <Typography variant='h5' component='div'>
                 Isomia
               </Typography>
-              <DynamicChart disease='isomia' />
+              <div style={{ maxWidth: '100%' }}>
+                <DynamicChart size="small" disease='isomia' />
+              </div>
             </Item>
           </Grid>
         </Grid>
