@@ -51,7 +51,7 @@ const ChatBox: React.FC<Props> = ({ roomName, username }) => {
   };
 
   const getToken = async (username: string) => {
-    const response = await axios.get(`http://localhost:5000/token/${username}`);
+    const response = await axios.get(`https://mental-health-chat-test.herokuapp.com/token/${username}`);
     const { data } = response;
     return data.token;
   };
