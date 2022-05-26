@@ -6,6 +6,7 @@ import React from 'react';
 /* Utils */
 import data from '../../data/patients.json';
 import type { PatientData } from '../../types/data';
+import { useViewport } from '../../utils/viewPort';
 
 import { theme } from '../../theme'
 
@@ -18,6 +19,8 @@ interface ChartProps {
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DynamicChart: React.FC<ChartProps> = ({ size, dataType, disease }: ChartProps) => {
+  const { width, height } = useViewport();
+
   const getDataByType = (type: keyof PatientData) => {
     // Get the values of type: type = gender => valuesOfType = [Male, Female]
     const valuesOfType: string[] = [];
@@ -135,8 +138,8 @@ const DynamicChart: React.FC<ChartProps> = ({ size, dataType, disease }: ChartPr
 
   const options = {
     aspectRatio: 1,
-    cutout: size === 'small' ? 100 : 110,
-    radius: size === 'small' ? 100 : 130,
+    cutout: size === 'small' ? (width <= 1440 ? 45 : 100) : (width <= 1440 ? 70 : 110),
+    radius: size === 'small' ? (width <= 1440 ? 60 : 100) : (width <= 1440 ? 85 : 130),
     responsive: true,
     plugins: {
       legend: {

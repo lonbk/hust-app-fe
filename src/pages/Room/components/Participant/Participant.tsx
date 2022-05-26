@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Typography } from '@mui/material';
 import Video from 'twilio-video';
-import { VideoBackground, UserNameWrapper } from '../styles';
+import { VideoBackground, UserNameWrapper } from '../../styles';
 
 type videoTrack = Video.LocalVideoTrack | Video.RemoteVideoTrack | null;
 type audioTrack = Video.LocalAudioTrack | Video.RemoteAudioTrack | null;

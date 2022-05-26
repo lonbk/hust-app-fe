@@ -6,7 +6,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useLocation, useNavigate } from 'react-router-dom';
 /* Components */
-import CallRoom from '../CallRoom';
+import Room from '../Room';
 import { InformationIcon } from '../../assets/profile/InformationIcon';
 import { AppointmentsIcon } from '../../assets/profile/AppointmentsIcon';
 import { StatsIcon } from '../../assets/profile/StatsIcon';
@@ -56,7 +56,7 @@ const PatientDetail: React.FC = () => {
 
   return (
     <>
-      <CallRoom open={visisbleCallVideo} handleClose={handleCloseCallVideo} />
+      <Room open={visisbleCallVideo} handleClose={handleCloseCallVideo} />
       <Grid container spacing={2}>
         <Grid item xs={false} md={12}>
           <StyledButton

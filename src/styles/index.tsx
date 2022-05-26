@@ -14,6 +14,7 @@ interface FlexBoxProps {
   column: boolean;
   justify: 'flex-start' | 'flex-end' | 'center' |'space-between' | 'space-around' | 'space-evenly' | 'initial' | 'inherit';
   align: 'flex-start' | 'flex-end' | 'center' |'space-between' | 'space-around' | 'space-evenly' | 'initial' | 'inherit';
+  maxHeight?: boolean;
 }
 
 interface StyledButtonProps extends ButtonProps {
@@ -44,7 +45,7 @@ export const StyledLink = styled(Link)`
 export const FlexBox = styled.div<FlexBoxProps>`
   display: flex;
   width: 100%;
-  height: auto;
+  height: ${props => props.maxHeight ? '100%' : 'auto'};
   flex-direction: ${props => props.column ? 'column' : 'row'};
   justify-content: ${props => props.justify};
   align-items: ${props => props.align};

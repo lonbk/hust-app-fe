@@ -8,7 +8,7 @@ interface Props {
   selections: {
     range: string;
     active: boolean;
-  }[]
+  }[];
 }
 
 export const RangeSelection: React.FC<Props> = ({ selections }) => {
@@ -25,7 +25,10 @@ export const RangeSelection: React.FC<Props> = ({ selections }) => {
   };
 
   return (
-    <StyledPaper borderRadius="8px" sx={{ backgroundColor: '#E6E8F0', padding: '5px' }}>
+    <StyledPaper
+      borderRadius='8px'
+      sx={{ backgroundColor: '#E6E8F0', padding: '5px' }}
+    >
       <FlexBox column={false} justify='flex-start' align='center'>
         {rangeButtons.map((button) => (
           <StyledButton
@@ -33,10 +36,16 @@ export const RangeSelection: React.FC<Props> = ({ selections }) => {
             borderRadius='8px'
             width='auto'
             height='40px'
-            sx={{ minWidth: '80px', marginRight: '10px', color: 'primary.main', bgcolor: button.active ? '#FFFFFF' : 'none', '&:hover': { bgcolor: '#FFFFFF' }}}
+            sx={{
+              minWidth: '80px',
+              color: 'primary.main',
+              bgcolor: button.active ? '#FFFFFF' : 'none',
+              '&:hover': { bgcolor: '#FFFFFF' },
+              '&:not(:last-child)': { marginRight: '10px' },
+            }}
             onClick={() => handleChangeActive(button.range)}
           >
-            <Typography variant="h6" component="div">
+            <Typography variant='h6' component='div'>
               {button.range}
             </Typography>
           </StyledButton>

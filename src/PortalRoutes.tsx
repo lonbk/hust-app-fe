@@ -1,15 +1,8 @@
 /* Libs */
 import React from 'react';
 import { Route } from 'react-router-dom';
-import CreateIcon from '@mui/icons-material/Create';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import CommentIcon from '@mui/icons-material/Comment';
 /* Components */
 import Dashboard from './pages/Dashboard';
-import QuestionsList from './pages/QuestionsList';
-import QuestionCreate from './pages/QuestionCreate';
-import AnswersList from './pages/AnswersList';
-import Profile from './pages/Profile';
 import Patients from './pages/Patients';
 import PatientDetail from './pages/PatientDetail';
 import Calendar from './pages/Calendar';
@@ -119,45 +112,6 @@ export const routes: RouteType[] = [
     icon: calendarIcon,
     hideInMenu: false,
     requireAdmin: false,
-    requireLogin: true,
-  },
-  {
-    name: 'questionsList',
-    title: 'Questions List',
-    path: '/questions-list',
-    element: <QuestionsList />,
-    // icon: <ListAltIcon />,
-    hideInMenu: true,
-    requireAdmin: false,
-    requireLogin: true,
-  },
-  {
-    name: 'createQuestion',
-    title: 'Create question',
-    path: '/questions-create',
-    element: <QuestionCreate />,
-    // icon: <CreateIcon />,
-    hideInMenu: true,
-    requireAdmin: true,
-    requireLogin: true,
-  },
-  {
-    name: 'answersList',
-    title: 'Your answers',
-    path: '/answers-list',
-    element: <AnswersList />,
-    // icon: <CommentIcon />,
-    hideInMenu: true,
-    requireAdmin: false,
-    requireLogin: true,
-  },
-  {
-    name: 'profile',
-    title: 'Your profile',
-    path: '/profile',
-    element: <Profile />,
-    hideInMenu: true,
-    requireAdmin: true,
     requireLogin: true,
   },
 ];
