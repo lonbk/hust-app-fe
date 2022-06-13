@@ -21,7 +21,7 @@ const ChatItem: React.FC<Props> = ({ message, username }) => {
     <MessageWrapper isOwnMessage={isOwnMessage}>
       <MessageAuthor>{message.author}</MessageAuthor>
       <MessageContainer isOwnMessage={isOwnMessage}>
-      <MessageBody>{message.body}</MessageBody>
+        <MessageBody>{message.body}</MessageBody>
         <MessageTimeStamp isOwnMessage={isOwnMessage}>
           {new Date(message.dateCreated.toISOString()).toLocaleString()}
         </MessageTimeStamp>

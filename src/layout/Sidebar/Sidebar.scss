@@ -1,0 +1,13 @@
+.list-item-btn {
+
+  &:hover {
+    .list-item-menu-icon {
+      transform: scale(2);
+      filter: invert(1) brightness(100) !important;
+    }
+
+    .list-item-text {
+      color: #FFFFFF;
+    }
+  }
+}

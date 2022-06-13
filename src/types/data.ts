@@ -30,3 +30,21 @@ export enum AppointmentStatus {
     STATUS_NEW = 'New',
     STATUS_CLOSED = 'Closed',
 }
+
+
+export interface DoctorData {
+    id: number;
+    full_name: string;
+    age: string;
+    birth_date: string;
+    department: string;
+    cirtificate: string;
+    email: string;
+    gender: string;
+    phone_number: string;
+    available_time: {
+      day: string;
+      time: string;
+    }[]
+  }
+  

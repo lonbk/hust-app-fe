@@ -6,12 +6,11 @@ import { VideoBackground, UserNameWrapper } from '../../styles';
 type videoTrack = Video.LocalVideoTrack | Video.RemoteVideoTrack | null;
 type audioTrack = Video.LocalAudioTrack | Video.RemoteAudioTrack | null;
 
-export interface ParticipantProps {
+interface Props {
   participant: Video.Participant;
-  width: number;
 }
 
-const Participant = ({ participant, width }: ParticipantProps) => {
+const Participant: React.FC<Props> = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState<videoTrack[]>([]);
   const [audioTracks, setAudioTracks] = useState<audioTrack[]>([]);
 
@@ -64,7 +63,7 @@ const Participant = ({ participant, width }: ParticipantProps) => {
 
   useEffect(() => {
     const videoTrack = videoTracks[0];
-    console.log(videoTrack)
+
     if (videoTrack) {
       videoTrack.attach(videoRef.current);
     }
@@ -87,7 +86,7 @@ const Participant = ({ participant, width }: ParticipantProps) => {
     };
   }, [audioTracks]);
 
-  console.log(videoRef)
+  console.log(videoRef);
 
   return (
     <VideoBackground>
@@ -96,8 +95,16 @@ const Participant = ({ participant, width }: ParticipantProps) => {
           {participant.identity}
         </Typography>
       </UserNameWrapper>
-      <video ref={videoRef as unknown as React.LegacyRef<HTMLVideoElement>} autoPlay={true} style ={{ width: `${width}px` , height: `${width * 4 / 5}px` }} />
-      <audio ref={audioRef as unknown as React.LegacyRef<HTMLAudioElement>} autoPlay={true} muted={true} />
+      <video
+        ref={videoRef as unknown as React.LegacyRef<HTMLVideoElement>}
+        autoPlay={true}
+        style={{ minWidth: '100%', minHeight: '100%' }}
+      />
+      <audio
+        ref={audioRef as unknown as React.LegacyRef<HTMLAudioElement>}
+        autoPlay={true}
+        muted={true}
+      />
     </VideoBackground>
   );
 };

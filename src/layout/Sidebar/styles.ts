@@ -1,10 +1,18 @@
 import MuiDrawer from "@mui/material/Drawer";
-import { styled, Theme, CSSObject } from "@mui/material/styles";
-import Typography, { TypographyProps } from "@mui/material/Typography";
-import { List, Box } from '@mui/material';
+import { styled as muiStyled, Theme, CSSObject } from "@mui/material/styles";
+import { TypographyProps, ListItemButtonProps } from "@mui/material";
+import { List, Box, ListItemButton, Typography, } from '@mui/material';
 
+interface MenuListItemProps extends ListItemButtonProps {
+  component?: React.ReactNode;
+  to?: string;
+  isActive: boolean;
+  isOpen: boolean;
+  defaultActiveStyle: boolean;
+}
 interface LogoTitleProps extends TypographyProps {
   isOpen: boolean;
+  component?: React.ReactNode;
 }
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -28,7 +36,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
   },
 });
 
-export const Drawer = styled(MuiDrawer, {
+export const Drawer = muiStyled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   background: '0% 0% no-repeat padding-box',
@@ -47,25 +55,53 @@ export const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export const LogoTitle = styled(Typography)<LogoTitleProps>(({ theme, isOpen }) => ({
+export const LogoTitle = muiStyled(Typography)<LogoTitleProps>(({ theme, isOpen }) => ({
   display: isOpen ? 'block' : 'none',
   color: theme.palette.primary.main,
   marginLeft: '15px',
 }))
 
-export const SiderMenuList = styled(List)(({ theme }) => ({
+export const SiderMenuList = muiStyled(List)(({ theme }) => ({
   paddingTop: '29px',
   position: 'relative',
 }))
 
-export const UserOuterBox = styled(Box)(({ theme }) => ({
-  display: 'flex', 
-  padding: '30px 20px', 
-  justifyContent: 'center', 
-  alignItems: 'center'
+export const UserOuterBox = muiStyled(Box)<{ isOpen: boolean }>(({ theme, isOpen }) => ({
+  display: 'flex',
+  padding: '30px 20px',
+  justifyContent: isOpen ? 'flex-start' : 'center',
+  alignItems: 'center',
+  transition: 'linear 0.5s'
 }))
 
-export const UserInnerBox = styled(Box)<{ isOpen: boolean }>(({ theme, isOpen }) => ({
-  display: isOpen ? 'flex' : 'none', 
+export const UserInnerBox = muiStyled(Box)<{ isOpen: boolean }>(({ theme, isOpen }) => ({
+  display: isOpen ? 'flex' : 'none',
   flexDirection: 'column'
+}))
+
+export const MenuListItem = muiStyled(ListItemButton)<MenuListItemProps>(({ theme, isOpen, isActive }) => ({
+  minHeight: 48,
+  position: 'relative',
+  paddingTop: '13px',
+  paddingBottom: '13px',
+  margin: '10px 30px 10px 30px',
+  borderRadius: '12px',
+  justifyContent: isOpen ? 'initial' : 'center',
+  px: 2.5,
+  backgroundColor: isActive ? theme.palette.primary.main : theme.palette.secondary.light,
+  '&:hover': {
+    backgroundColor: theme.palette.primary.main,
+    color: '#FFFFFF',
+  },
+  '&:before': isActive ? {
+    display: isOpen ? 'block' : 'none',
+    content: '" "',
+    position: 'absolute',
+    top: 0,
+    left: '-30px',
+    backgroundColor: theme.palette.primary.main,
+    width: '10px',
+    height: '60px',
+    borderRadius: '0px 16px 16px 0px',
+  } : 'undefined'
 }))

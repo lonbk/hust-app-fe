@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { styled as muiStyled } from '@mui/material';
 import { InputBase } from '@mui/material';
 import { ButtonProps } from '@mui/material';
@@ -11,7 +10,7 @@ import {
 } from '@mui/material'; 
 
 interface FlexBoxProps {
-  column: boolean;
+  column?: boolean;
   justify: 'flex-start' | 'flex-end' | 'center' |'space-between' | 'space-around' | 'space-evenly' | 'initial' | 'inherit';
   align: 'flex-start' | 'flex-end' | 'center' |'space-between' | 'space-around' | 'space-evenly' | 'initial' | 'inherit';
   maxHeight?: boolean;
@@ -26,23 +25,23 @@ interface StyledButtonProps extends ButtonProps {
   to?: string;
 }
 
-export const MainGrid = styled(Grid)`
+export const MainGrid = muiStyled(Grid)`
   height: 100vh;
 `;
 
-export const PaperDiv = styled.div`
+export const PaperDiv = muiStyled('div')`
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
 `;
 
-export const StyledLink = styled(Link)`
+export const StyledLink = muiStyled(Link)`
   text-decoration: none;
   color: #000000;
 `
 
-export const FlexBox = styled.div<FlexBoxProps>`
+export const FlexBox = muiStyled('div')<FlexBoxProps>`
   display: flex;
   width: 100%;
   height: ${props => props.maxHeight ? '100%' : 'auto'};
@@ -51,7 +50,7 @@ export const FlexBox = styled.div<FlexBoxProps>`
   align-items: ${props => props.align};
 `
 
-export const MainLogo = styled('img')`
+export const MainLogo = muiStyled('img')`
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -85,4 +84,8 @@ export const StyledInput = muiStyled(InputBase)(({ theme }) => ({
   '&::placeholder': {
       color: '#D8DAE5',
   }
+}))
+
+export const StyledText = muiStyled('div')(({ theme }) => ({
+  fontFamily: "'Nunito', sans-serif"
 }))

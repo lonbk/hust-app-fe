@@ -31,7 +31,13 @@ import { userLogout } from '../../features/user/userSlice';
 import { routes } from '../../PortalRoutes';
 /* Styles */
 import { MainLogo } from '../../styles';
-import { Drawer, LogoTitle, SiderMenuList, UserOuterBox, UserInnerBox } from './styles';
+import { Drawer,
+  LogoTitle,
+  SiderMenuList,
+  UserOuterBox,
+  UserInnerBox,
+  MenuListItem } from './styles';
+import './Sidebar.scss';
 /* Types */
 interface Props {
   isOpen: boolean;
@@ -41,10 +47,6 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
   /* Utils */
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout } = useAuth0();
-  /* Redux */
-  const { auth0Info, userInfo } = useAppSelector(selectUser);
-  const dispatch = useAppDispatch();
   /* States */
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
@@ -65,59 +67,51 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
     setOpen(false);
   };
 
-  const handleListKeyDown =(event: React.KeyboardEvent) => {
+  const handleListKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Tab') {
       event.preventDefault();
       setOpen(false);
     } else if (event.key === 'Escape') {
       setOpen(false);
     }
-  }
-
-  const handleLogout = () => {
-    dispatch(userLogout());
-    logout({ returnTo: window.location.origin });
-  }
-  
-  const attrs: TypographyProps & { component: React.ElementType } = {
-    variant: 'h2',
-    component: 'a',
   };
 
   const userMenu = (
     <Popper
-    open={open}
-    anchorEl={anchorRef.current}
-    role={undefined}
-    placement="bottom-start"
-    transition
-    disablePortal
+      open={open}
+      anchorEl={anchorRef.current}
+      role={undefined}
+      placement="bottom-start"
+      transition
+      disablePortal
     >
-    {({ TransitionProps, placement }) => (
-      <Grow
-      {...TransitionProps}
-      style={{
-          transformOrigin:
-          placement === 'bottom-start' ? 'left top' : 'left bottom',
-        }}
-      >
-        <Paper>
-          <ClickAwayListener onClickAway={handleClose}>
-            <MenuList
-              autoFocusItem={open}
-              id="composition-menu"
-              aria-labelledby="composition-button"
-              onKeyDown={handleListKeyDown}
+      {({ TransitionProps, placement }) => (
+        <Grow
+          {...TransitionProps}
+          style={{
+            transformOrigin:
+              placement === 'bottom-start' ? 'left top' : 'left bottom',
+          }}
+        >
+          <Paper>
+            <ClickAwayListener onClickAway={handleClose}>
+              <MenuList
+                autoFocusItem={open}
+                id="composition-menu"
+                aria-labelledby="composition-button"
+                onKeyDown={handleListKeyDown}
               >
-              <MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-              <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
-            </MenuList>
-          </ClickAwayListener>
-        </Paper>
-      </Grow>
-    )}
-  </Popper>
+                <MenuItem onClick={() => navigate('/profile')}>
+                  Profile
+                </MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem>Logout</MenuItem>
+              </MenuList>
+            </ClickAwayListener>
+          </Paper>
+        </Grow>
+      )}
+    </Popper>
   );
 
   useEffect(() => {
@@ -127,19 +121,23 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
 
     prevOpen.current = open;
   }, [open]);
-  
+
   return (
-    <Drawer variant='permanent' open={isOpen} elevation={0}>
+    <Drawer variant="permanent" open={isOpen} elevation={0}>
       <DrawerHeader onClick={() => navigate('/dashboard')}>
-        <MainLogo className='app-logo' src={logo} />
-        <LogoTitle
-          isOpen={isOpen}
-          {...attrs}
-        >
+        <MainLogo className="app-logo" src={logo} />
+        <LogoTitle isOpen={isOpen} variant="h2" component="a">
           Akahealth
         </LogoTitle>
       </DrawerHeader>
-      <Box sx={{ display: "flex", flexDirection: "column", justifyContent: 'space-between', height: '100%' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '100%',
+        }}
+      >
         <SiderMenuList>
           {routes.map((route, index) => {
             const isActive = location.pathname.includes(route.path)
@@ -147,25 +145,14 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
               : false;
 
             return route.hideInMenu ? null : (
-              <ListItemButton
+              <MenuListItem
+                className="list-item-btn"
                 key={index}
-                sx={{
-                  minHeight: 48,
-                  position: 'relative',
-                  justifyContent: isOpen ? 'initial' : 'center',
-                  px: 2.5,
-                  paddingTop: '13px',
-                  paddingBottom: '13px',
-                  bgcolor: isActive ? 'primary.main' : '#FAFBFF',
-                  margin: '10px 30px 10px 30px',
-                  borderRadius: '12px',
-                  '&:hover': {
-                    bgcolor: 'primary.main',
-                  },
-                }}
                 component={StyledNavLink}
                 to={route.path}
                 defaultActiveStyle={true}
+                isActive={isActive}
+                isOpen={isOpen}
               >
                 {route.icon && (
                   <ListItemIcon
@@ -179,19 +166,22 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
                   </ListItemIcon>
                 )}
                 <ListItemText
-                  primary={<Typography variant="h6" component="span">
-                    {route.title}
-                  </Typography>}
+                  className="list-item-text"
+                  primary={
+                    <Typography variant="h6" component="span">
+                      {route.title}
+                    </Typography>
+                  }
                   sx={{
                     opacity: isOpen ? 1 : 0,
                     color: isActive ? '#FFFFFF' : 'text.secondary',
                   }}
                 />
-              </ListItemButton>
+              </MenuListItem>
             );
           })}
         </SiderMenuList>
-        <UserOuterBox>
+        <UserOuterBox isOpen={isOpen}>
           <IconButton
             ref={anchorRef}
             id="composition-button"
@@ -200,21 +190,19 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
             aria-haspopup="true"
             onClick={handleToggle}
           >
-              <Avatar src={auth0Info?.picture} alt="ava" sx={{ width: '40px', height: '40px' }} />
+            <Avatar
+              src={logo}
+              alt="ava"
+              sx={{ width: '40px', height: '40px' }}
+            />
           </IconButton>
           {userMenu}
           <UserInnerBox isOpen={isOpen}>
-            <Typography
-              variant="h6"
-              component="div"
-            >
-              {`${auth0Info?.given_name} ${auth0Info?.family_name}`}
+            <Typography variant="h6" component="div">
+              USERNAME
             </Typography>
-            <Typography
-              variant="subtitle2"
-              component="div"
-            >
-              {userInfo?.role}
+            <Typography variant="subtitle2" component="div">
+              User
             </Typography>
           </UserInnerBox>
         </UserOuterBox>

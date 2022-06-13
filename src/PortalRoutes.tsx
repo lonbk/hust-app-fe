@@ -4,15 +4,18 @@ import { Route } from 'react-router-dom';
 /* Components */
 import Dashboard from './pages/Dashboard';
 import Patients from './pages/Patients';
+import Doctors from './pages/Doctors';
 import PatientDetail from './pages/PatientDetail';
 import Calendar from './pages/Calendar';
 import { PatientsTable } from './pages/Patients/views';
 import { Information } from './pages/PatientDetail/views';
 import { Appointments } from './pages/PatientDetail/views';
 import { Stats } from './pages/PatientDetail/views';
+/* Icons */
 import dashboardIcon from './assets/menuIcons/dashboard.svg';
 import patientIcon from './assets/menuIcons/patient.svg';
 import calendarIcon from './assets/menuIcons/calendar.svg';
+import doctorsIcon from './assets/menuIcons/doctors.svg';
 
 interface BasicRouteType {
   name: string;
@@ -110,6 +113,16 @@ export const routes: RouteType[] = [
     path: '/calendar',
     element: <Calendar />,
     icon: calendarIcon,
+    hideInMenu: false,
+    requireAdmin: false,
+    requireLogin: true,
+  },
+  {
+    name: 'doctors',
+    title: 'Doctors',
+    path: '/doctors',
+    element: <Doctors />,
+    icon: doctorsIcon,
     hideInMenu: false,
     requireAdmin: false,
     requireLogin: true,

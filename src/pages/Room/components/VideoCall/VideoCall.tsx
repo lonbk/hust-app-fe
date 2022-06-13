@@ -51,7 +51,9 @@ const VideoCall: React.FC<Props> = ({ roomName, username, onClose }) => {
       }
     ).then((res) => res.json());
     Video.connect(data.token, {
+      audio: true,
       name: roomName,
+      video: { width: 1920, height: 1080 },
     })
       .then((room: Video.Room) => {
         setVideoConnecting(false);
@@ -63,9 +65,9 @@ const VideoCall: React.FC<Props> = ({ roomName, username, onClose }) => {
       });
   };
   useEffect(() => {
-      connectToVideoServer();
+    connectToVideoServer();
 
-      return () => handleLogout();
+    return () => handleLogout();
   }, []);
 
   useEffect(() => {
@@ -78,13 +80,13 @@ const VideoCall: React.FC<Props> = ({ roomName, username, onClose }) => {
         prevParticipants.filter((p) => p !== participant)
       );
     };
-    if(room) {
+    if (room) {
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
       room.participants.forEach(participantConnected);
     }
     return () => {
-      if(room) {
+      if (room) {
         room.off('participantConnected', participantConnected);
         room.off('participantDisconnected', participantDisconnected);
       }
@@ -92,45 +94,42 @@ const VideoCall: React.FC<Props> = ({ roomName, username, onClose }) => {
   }, [room]);
 
   const remoteParticipants = participants.map((participant) => (
-    <Participant width={700} key={participant.sid} participant={participant} />
+    <Participant key={participant.sid} participant={participant} />
   ));
 
-  console.log('ab', remoteParticipants);
-
   return (
-    !videoConnecting ? <FlexBox
-      column={false}
-      justify='center'
-      align='center'
-      style={{
-        height: '100%',
-      }}
-    >
-      <VideoWrapper width={650}>
-        {remoteParticipants.length > 0 ? (
+    <VideoWrapper>
+      {!videoConnecting ? (
+        remoteParticipants.length > 0 ? (
           remoteParticipants
         ) : (
-          <VideoBackground>
-            <Typography variant='h6' component='div' sx={{ color: '#FFFFFF' }}>
-              Waiting for patient...
-            </Typography>
-          </VideoBackground>
-        )}
-
-        {room ? (
-          <VideoWrapper local width={150}>
-            <Participant
-              key={room.localParticipant.sid}
-              participant={room.localParticipant}
-              width={200}
-            />
-          </VideoWrapper>
-        ) : (
-          ''
-        )}
-        <Control onCallEndClick={handleLogout} />
-      </VideoWrapper>
-    </FlexBox> : <Loading message="Connecting..." />
+          <>
+            <VideoBackground>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ color: '#FFFFFF' }}
+              >
+                Waiting for patient...
+              </Typography>
+            </VideoBackground>
+            {room ? (
+              <VideoWrapper local>
+                <Participant
+                  key={room.localParticipant.sid}
+                  participant={room.localParticipant}
+                />
+              </VideoWrapper>
+            ) : (
+              ''
+            )}
+            <Control onCallEndClick={handleLogout} />
+          </>
+        )
+      ) : (
+        <Loading message="Connecting..." />
+      )}
+    </VideoWrapper>
   );
 };
 

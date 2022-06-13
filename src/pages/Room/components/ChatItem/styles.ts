@@ -26,14 +26,15 @@ export const MessageContainer = muiStyled('div')<{ isOwnMessage: boolean }>(({ t
 }))
 
 export const MessageTimeStamp = muiStyled('div')<{isOwnMessage: boolean}>(({ theme, isOwnMessage }) => ({
-    fontSize: '8px', 
-    color: isOwnMessage ? '#FFFFFF' : theme.palette.text.secondary, 
-    textAlign: "right", 
+    fontSize: '8px',
+    color: isOwnMessage ? '#FFFFFF' : theme.palette.text.secondary,
+    textAlign: "right",
     paddingTop: 4
 }))
 
 export const MessageBody = muiStyled('div')(({ theme }) => ({
-    maxWidth: '100%',
-    textAlign: 'justify',
-    wordWrap: 'break-word'
+  maxWidth: '100%',
+  textAlign: 'justify',
+  wordWrap: 'break-word'
 }))
+

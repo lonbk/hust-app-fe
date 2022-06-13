@@ -3,7 +3,6 @@ import { InputBase, ListItem } from '@mui/material';
 
 interface VideoWrapperProps {
     local?: boolean;
-    width: number;
 }
 
 export const UserNameWrapper = muiStyled('div')(({ theme }) => ({
@@ -36,9 +35,9 @@ export const Message = muiStyled('div')(({ theme }) => ({
 }))
 
 
-export const VideoWrapper = muiStyled('div')<VideoWrapperProps>(({ theme, local, width }) => ({
-    width: `${width}px`,
-    height: `${width * 4 / 5}px`,
+export const VideoWrapper = muiStyled('div')<VideoWrapperProps>(({ theme, local }) => ({
+    width: local ? '200px' : '100%',
+    aspectRatio: '16 / 9',
     ...(local ? {
         position: 'absolute',
         bottom: '15px',

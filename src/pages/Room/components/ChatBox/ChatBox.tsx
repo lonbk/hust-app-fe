@@ -1,22 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  Backdrop,
-  CircularProgress,
-  Container,
-  CssBaseline,
-  Grid,
-  List,
-} from '@mui/material';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SendIcon from '@mui/icons-material/Send';
 import axios from 'axios';
 import ChatItem from '../ChatItem';
 import { Message, Channel, Client } from 'twilio-chat';
-
+/* Styles */
 import {
   Inbox,
-  StyledTextField,
   SendButton,
+  ChatWrapper,
+  TextInput,
 } from './styles';
 import { FlexBox } from '../../../../styles';
 
@@ -29,29 +22,17 @@ const ChatBox: React.FC<Props> = ({ roomName, username }) => {
   const [chatConnecting, setChatConnecting] = useState<boolean>(false);
   const [channel, setChannel] = useState<Channel>();
   const [messages, setMessages] = useState<Message[]>([]);
-  const [text, setText] = useState<string>('');
+  const [text, setText] = useState<string | null>('');
 
   const scrollDiv = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
 
-  const scrollToBottom = () => {
-    if (scrollDiv.current) {
-      const scrollHeight = scrollDiv.current.scrollHeight;
-      const height = scrollDiv.current.clientHeight;
-      const maxScrollTop = scrollHeight - height;
-      scrollDiv.current.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
-    }
-    console.log('scrollDiv',scrollDiv.current)
-  };
-
-  const handleMessageAdded = (message: Message) => {
-    setMessages((prev) => [...prev, message]);
-    scrollToBottom();
-  };
-
   const getToken = async (username: string) => {
-    const response = await axios.get(`https://mental-health-chat-test.herokuapp.com/token/${username}`);
+    const response = await axios.get(
+      `https://mental-health-chat-test.herokuapp.com/token/${username}`
+    );
     const { data } = response;
     return data.token;
   };
@@ -66,17 +47,6 @@ const ChatBox: React.FC<Props> = ({ roomName, username }) => {
 
     channel.on('messageAdded', handleMessageAdded);
     scrollToBottom();
-  };
-
-  const sendMessage = () => {
-    if (text) {
-      setChatConnecting(true);
-      if (channel) {
-        channel.sendMessage(String(text).trim());
-      }
-      setText('');
-      setChatConnecting(false);
-    }
   };
 
   const connectToChatServer = async () => {
@@ -130,52 +100,92 @@ const ChatBox: React.FC<Props> = ({ roomName, username }) => {
     }
   };
 
+  const sendMessage = () => {
+    if (text) {
+      console.log(text)
+      setChatConnecting(true);
+      if (channel) {
+        channel.sendMessage(String(text).trim());
+      }
+      setText('');
+      setChatConnecting(false);
+    }
+  };
+
+  const handleTextChange = (event: React.FormEvent) => {
+    setText(event.currentTarget.textContent);
+  };
+
+  const scrollToBottom = () => {
+    if (scrollDiv.current) {
+      const scrollHeight = scrollDiv.current.scrollHeight;
+      const height = scrollDiv.current.clientHeight;
+      const maxScrollTop = scrollHeight - height;
+      scrollDiv.current.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+    }
+  };
+
+  const handleMessageAdded = (message: Message) => {
+    setMessages((prev) => [...prev, message]);
+    scrollToBottom();
+  };
+
+  const handleOnKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      console.log('text', text)
+      sendMessage();
+      event.preventDefault();
+      if(inputRef.current) {
+        inputRef.current.innerText = '';
+        console.dir(inputRef.current)
+      }
+    }
+  };
+
+  useEffect(() => {
+    inputRef.current && inputRef.current.focus();
+  }, [text])
+
   useEffect(() => {
     connectToChatServer();
   }, []);
 
   return (
-    <Grid container direction='column' spacing={2} sx={{ height: '100%', maxHeight: '100%', paddingTop: 5, paddingBottom: 5 }} wrap="nowrap">
-      <Grid item xs={false} md={10}>
-        <Inbox ref={scrollDiv}>
-            {messages &&
-              messages.map((message) => (
-                <ChatItem
-                  key={message.index}
-                  message={message}
-                  username={username}
-                />
-              ))}
-        </Inbox>
-      </Grid>
-      <Grid item xs={false} md={2}>
-        <Grid container spacing={2}>
-          <Grid item xs={false} md={10}>
-            <StyledTextField
-              required
-              autoFocus
-              placeholder='Enter message'
-              variant='outlined'
-              multiline
-              rows={2}
-              value={text}
-              disabled={!channel}
-              onChange={(event) => setText(event.target.value)}
-              onKeyDown={(event) => {
-                if(event.key === 'Enter') sendMessage()
-              }}
+    <ChatWrapper>
+      <Inbox margin={inputRef.current?.offsetHeight} ref={scrollDiv}>
+        {messages &&
+          messages.map((message) => (
+            <ChatItem
+              key={message.index}
+              message={message}
+              username={username}
             />
-          </Grid>
-          <Grid item xs={false} md={2}>
-            <FlexBox column={false} justify='center' align='center' maxHeight>
-              <SendButton onClick={sendMessage} disabled={!channel}>
-                <SendIcon />
-              </SendButton>
-            </FlexBox>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
+          ))}
+      </Inbox>
+      <FlexBox
+        justify="space-between"
+        align="center"
+      >
+        <TextInput //styled component for a <div>
+          aria-label="Enter message..."
+          ref={inputRef}
+          className="size-14px weight-400 text-justify"
+          role="textbox"
+          data-content={true}
+          spellCheck={true}
+          contentEditable
+          onInput={(event: any) => handleTextChange(event)}
+          onKeyPress={(event: any) => handleOnKeyPress(event)}
+        />
+        <SendButton
+          onClick={sendMessage}
+          disabled={!channel}
+          sx={{ marginLeft: '8px' }}
+        >
+          <SendIcon />
+        </SendButton>
+      </FlexBox>
+    </ChatWrapper>
   );
 };
 

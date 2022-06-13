@@ -10,7 +10,7 @@ import Verify from "./pages/Verify";
 import NotFound from "./pages/NotFound";
 import Portal from "./pages/Portal";
 /* Styles */
-import './App.css';
+import './app.scss'
 
 const App: React.FC = () => {
   const { isLoading } = useAuth0();

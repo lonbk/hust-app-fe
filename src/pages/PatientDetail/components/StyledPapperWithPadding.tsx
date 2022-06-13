@@ -3,7 +3,6 @@ import React from 'react';
 import { Divider } from '@mui/material';
 /* Styles */
 import { StyledPaper } from '../../../styles';
-import { SelectionState } from '@devexpress/dx-react-chart';
 
 interface Props {
   borderRadius: string;
