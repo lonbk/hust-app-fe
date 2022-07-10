@@ -9,7 +9,6 @@ import Content from "../../layout/Content";
 /* Redux */
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectUser } from "../../features/user/userSelector";
-import { getCategories } from "../../features/categories/categoriesThunk";
 /* Utils */
 import { useAxiosInstance } from "../../utils/axiosInstance";
 import { getRoutes, routes } from "../../PortalRoutes";
@@ -37,13 +36,10 @@ const Portal: React.FC = () => {
     setOpen(false);
   }, [open]);
 
-  useEffect(() => {
-    if (axiosInstance) dispatch(getCategories({ axiosInstance }));
-  }, []);
 
-  // useEffect(() => {
-  //     auth.isAuthenticated ? navigate("/dashboard") : navigate("/login");
-  // }, [auth.isAuthenticated]);
+  useEffect(() => {
+      auth.isAuthenticated ? navigate("/students") : navigate("/login");
+  }, [auth.isAuthenticated]); 
 
 
   return (

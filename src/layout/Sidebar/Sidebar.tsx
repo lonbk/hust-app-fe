@@ -44,9 +44,11 @@ interface Props {
 }
 
 const Sidebar: React.FC<Props> = ({ isOpen }) => {
+  const dispatch = useAppDispatch();
   /* Utils */
   const navigate = useNavigate();
   const location = useLocation();
+  const { logout } = useAuth0();
   /* States */
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
@@ -67,6 +69,11 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
     setOpen(false);
   };
 
+  const handleLogout = () => {
+    dispatch(userLogout());
+    logout({ returnTo: window.location.origin })
+  }
+
   const handleListKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Tab') {
       event.preventDefault();
@@ -75,6 +82,7 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
       setOpen(false);
     }
   };
+  const { auth0Info } = useAppSelector(selectUser);
 
   const userMenu = (
     <Popper
@@ -101,11 +109,11 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
                 aria-labelledby="composition-button"
                 onKeyDown={handleListKeyDown}
               >
-                <MenuItem onClick={() => navigate('/profile')}>
-                  Profile
-                </MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem>Logout</MenuItem>
+                {/* <MenuItem onClick={() => navigate('/students/student/3/information')}>
+                  Hồ sơ
+                </MenuItem> */}
+                {/* <MenuItem onClick={handleClose}>Tài khoản của tôi</MenuItem> */}
+                <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
               </MenuList>
             </ClickAwayListener>
           </Paper>
@@ -124,10 +132,10 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
 
   return (
     <Drawer variant="permanent" open={isOpen} elevation={0}>
-      <DrawerHeader onClick={() => navigate('/dashboard')}>
+      <DrawerHeader onClick={() => navigate('/students')}>
         <MainLogo className="app-logo" src={logo} />
         <LogoTitle isOpen={isOpen} variant="h2" component="a">
-          Akahealth
+          HUST App
         </LogoTitle>
       </DrawerHeader>
       <Box
@@ -199,7 +207,7 @@ const Sidebar: React.FC<Props> = ({ isOpen }) => {
           {userMenu}
           <UserInnerBox isOpen={isOpen}>
             <Typography variant="h6" component="div">
-              USERNAME
+            {`${auth0Info?.given_name}`}
             </Typography>
             <Typography variant="subtitle2" component="div">
               User

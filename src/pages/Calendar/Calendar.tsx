@@ -21,7 +21,7 @@ import {
   Resources
 } from '@devexpress/dx-react-scheduler-material-ui';
 /* Components */
-import { RangeSelection } from '../../components/DateTimePicker';
+// import { RangeSelection } from '../../components/DateTimePicker';
 /* Utils */
 import { appointments } from './appointments';
 import { useTitleContext } from '../Portal';
@@ -35,7 +35,7 @@ const Calendar: React.FC = () => {
   const [view, setView] = useState('Week');
   
   const [data, setData] = useState(appointments);
-  const [currentDate, setCurrentDate] = useState<Date | string>('2018-06-27');
+  const [currentDate, setCurrentDate] = useState<Date | string>('2022-06-27');
   
   const resources = [{
     fieldName: 'type',
@@ -72,38 +72,38 @@ const Calendar: React.FC = () => {
       });
     };
     
-    const dateOptions = [
-      {
-      range: 'Day',
-      active: false,
-    },
-    {
-      range: 'Week',
-      active: true,
-    },
-    {
-      range: 'Month',
-      active: false,
-    },
-  ];
+  //   const dateOptions = [
+  //     {
+  //     range: 'Ngày',
+  //     active: false,
+  //   },
+  //   {
+  //     range: 'Tuần',
+  //     active: true,
+  //   },
+  //   {
+  //     range: 'Tháng',
+  //     active: false,
+  //   },
+  // ];
 
   const views = [
     {
-      range: 'Day',
-      view: <DayView startDayHour={9} endDayHour={19} />
+      range: 'Ngày',
+      view: <DayView startDayHour={6} endDayHour={19} />
     },
     {
-      range: 'Week',
-      view: <WeekView startDayHour={9} endDayHour={19} />
+      range: 'Tuần',
+      view: <WeekView startDayHour={6} endDayHour={19} />
     },
     {
-      range: 'Month',
+      range: 'Tháng',
       view: <MonthView  />
     }
   ]
 
   useEffect(() => {
-    handleChangeTitle('Calendar');
+    handleChangeTitle('Thời khóa biểu');
   }, [])
 
   
@@ -112,16 +112,16 @@ const Calendar: React.FC = () => {
       <Grid item xs={false} md={12}>
         <StyledPaper borderRadius="16px" sx={{ paddingBottom: '10px', position: 'relative' }}>
           <Scheduler data={data} height={"auto"}>
-            <RangeSelectionWrapper>
+            {/* <RangeSelectionWrapper>
               <RangeSelection selections={dateOptions} />
-            </RangeSelectionWrapper>
+            </RangeSelectionWrapper> */}
             <ViewState
               currentDate={currentDate}
               onCurrentDateChange={handleCurrentDateChange}
             />
             <Toolbar />
             <DateNavigator />
-            <WeekView startDayHour={9} endDayHour={19} />
+            <WeekView startDayHour={6} endDayHour={19} />
             <TodayButton />
             <EditingState onCommitChanges={commitChanges} />
             <IntegratedEditing />

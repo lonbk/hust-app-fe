@@ -19,7 +19,7 @@ const SearchBox: React.FC<Props> = ({ width, height, textcolor, background }) =>
       </SearchIconWrapper>
       <StyledInputBase
         textcolor={textcolor}
-        placeholder='Search…'
+        placeholder='Tìm kiếm…'
         inputProps={{ 'aria-label': 'search' }}
       />
     </Search>

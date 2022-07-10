@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { CircularProgress } from '@mui/material';
 /* Components */
-import NotFound from "../NotFound/";
+import NotFound from '../NotFound';
 /* Redux */
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { getUserAuth, getUserAuth0Info } from '../../features/user/userSlice';
@@ -15,7 +15,7 @@ import { selectUser } from '../../features/user/userSelector';
 import { useAxiosInstance } from "../../utils/axiosInstance";
 import { StatusType } from "../../features/global";
 
-const Verify: React.FC = () => {
+const Verify: React.FC = () => { 
     /* Redux */
     const dispatch = useAppDispatch();  
     const { status, error, userInfo, auth0Info } = useAppSelector(selectUser);
@@ -59,7 +59,7 @@ const Verify: React.FC = () => {
     return (
         <>
             <CircularProgress disableShrink />
-            <p>Verifying</p>
+            <p>Đang xác thực</p>
         </>
     )
 }

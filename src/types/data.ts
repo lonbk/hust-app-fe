@@ -1,18 +1,12 @@
-export interface PatientData {
-    id: number;
-    first_name: string;
-    last_name: string;
+export interface StudentData {
+    id: number; 
+    full_name: string;
     email: string;
     gender: string;
-    disease: string;
-    phone_number: string;
-    address: string;
-    family_stand: string;
-    status: string;
-    ocupation: string;
+    class: string;
+    mssv: string;
+    status: number;
     avatar: string;
-    nationality: string;
-    company_name: string;
     department_name: string;
     date_of_birth: string;
 }
@@ -25,26 +19,12 @@ export enum Stage {
 }
 
 export enum AppointmentStatus {
-    STATUS_PENDING = 'Pending',
-    STATUS_ACTIVE = 'Active',
-    STATUS_NEW = 'New',
-    STATUS_CLOSED = 'Closed',
+    STATUS_PENDING = 'Đang chờ',
+    STATUS_ACTIVE = 'Đã xong',
+    STATUS_NEW = 'Mới',
+    STATUS_CLOSED = 'Đã hủy',
 }
 
 
-export interface DoctorData {
-    id: number;
-    full_name: string;
-    age: string;
-    birth_date: string;
-    department: string;
-    cirtificate: string;
-    email: string;
-    gender: string;
-    phone_number: string;
-    available_time: {
-      day: string;
-      time: string;
-    }[]
-  }
+
   

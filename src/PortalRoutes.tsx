@@ -2,20 +2,15 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 /* Components */
-import Dashboard from './pages/Dashboard';
-import Patients from './pages/Patients';
-import Doctors from './pages/Doctors';
-import PatientDetail from './pages/PatientDetail';
+import Students from './pages/Students';
+import StudentDetail from './pages/StudentDetail';
 import Calendar from './pages/Calendar';
-import { PatientsTable } from './pages/Patients/views';
-import { Information } from './pages/PatientDetail/views';
-import { Appointments } from './pages/PatientDetail/views';
-import { Stats } from './pages/PatientDetail/views';
+import { StudentsTable } from './pages/Students/views';
+import { Information } from './pages/StudentDetail/views';
+import { Stats } from './pages/StudentDetail/views';
 /* Icons */
-import dashboardIcon from './assets/menuIcons/dashboard.svg';
-import patientIcon from './assets/menuIcons/patient.svg';
+import studentIcon from './assets/menuIcons/student.svg';
 import calendarIcon from './assets/menuIcons/calendar.svg';
-import doctorsIcon from './assets/menuIcons/doctors.svg';
 
 interface BasicRouteType {
   name: string;
@@ -34,41 +29,31 @@ export interface RouteType extends BasicRouteType {
 
 export const routes: RouteType[] = [
   {
-    name: 'dashboard',
-    title: 'Dashboard',
-    path: '/dashboard',
-    element: <Dashboard />,
-    icon: dashboardIcon,
-    hideInMenu: false,
-    requireAdmin: false,
-    requireLogin: true,
-  },
-  {
-    name: 'patients',
-    title: 'Patients',
-    path: 'patients',
-    element: <Patients />,
-    icon: patientIcon,
+    name: 'students',
+    title: 'Sinh viên',
+    path: 'students',
+    element: <Students />,
+    icon: studentIcon,
     hideInMenu: false,
     requireAdmin: false,
     requireLogin: true,
     subRoutes: [
       {
-        name: 'patientTable',
-        title: 'Patient Table',
+        name: 'studentTable',
+        title: 'Student Table',
         path: '',
-        element: <PatientsTable />,
-        icon: patientIcon,
+        element: <StudentsTable />,
+        icon: studentIcon,
         hideInMenu: true,
         requireAdmin: false,
         requireLogin: true,
       },
       {
-        name: 'patientDetail',
-        title: 'Patient Detail',
-        path: 'patient/:patientId',
-        element: <PatientDetail />,
-        icon: patientIcon,
+        name: 'studentDetail',
+        title: 'Student Detail',
+        path: 'student/:studentId',
+        element: <StudentDetail />,
+        icon: studentIcon,
         hideInMenu: true,
         requireAdmin: false,
         requireLogin: true,
@@ -78,17 +63,6 @@ export const routes: RouteType[] = [
             title: 'Information',
             path: 'information',
             element: <Information />,
-            icon: dashboardIcon,
-            hideInMenu: true,
-            requireAdmin: false,
-            requireLogin: true,
-          },
-          {
-            name: 'appointments',
-            title: 'Appointments',
-            path: 'appointments',
-            element: <Appointments />,
-            icon: dashboardIcon,
             hideInMenu: true,
             requireAdmin: false,
             requireLogin: true,
@@ -98,7 +72,6 @@ export const routes: RouteType[] = [
             title: 'Stats',
             path: 'stats',
             element: <Stats />,
-            icon: dashboardIcon,
             hideInMenu: true,
             requireAdmin: false,
             requireLogin: true,
@@ -109,20 +82,10 @@ export const routes: RouteType[] = [
   },
   {
     name: 'calendar',
-    title: 'Calendar',
+    title: 'Thời khóa biểu',
     path: '/calendar',
     element: <Calendar />,
     icon: calendarIcon,
-    hideInMenu: false,
-    requireAdmin: false,
-    requireLogin: true,
-  },
-  {
-    name: 'doctors',
-    title: 'Doctors',
-    path: '/doctors',
-    element: <Doctors />,
-    icon: doctorsIcon,
     hideInMenu: false,
     requireAdmin: false,
     requireLogin: true,

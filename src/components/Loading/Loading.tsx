@@ -12,7 +12,7 @@ const Loading: React.FC<Props> = ({ message }) => {
     <DivLoadding>
       {/* eslint-disable-next-line react/jsx-pascal-case */}
       <CircularProgress_styled />
-      <p>{message ? message : 'Loading'}</p>
+      <p>{message ? message : 'Đang tải'}</p>
     </DivLoadding>
   );
 };

@@ -61,7 +61,7 @@ const ChatBox: React.FC<Props> = ({ roomName, username }) => {
     try {
       token = await getToken(username);
     } catch {
-      throw new Error('Unable to get token, please reload this page');
+      throw new Error('Không thể nhận token, vui lòng tải lại trang này');
     }
 
     const client = await Client.create(token);
@@ -95,7 +95,7 @@ const ChatBox: React.FC<Props> = ({ roomName, username }) => {
 
         joinChannel(channel);
       } catch {
-        throw new Error('Unable to create channel, please reload this page');
+        throw new Error('Không thể tạo kênh, vui lòng tải lại trang này');
       }
     }
   };
@@ -106,6 +106,10 @@ const ChatBox: React.FC<Props> = ({ roomName, username }) => {
       setChatConnecting(true);
       if (channel) {
         channel.sendMessage(String(text).trim());
+      }
+      if(inputRef.current) {
+        inputRef.current.innerText = '';
+        console.dir(inputRef.current)
       }
       setText('');
       setChatConnecting(false);
@@ -166,8 +170,8 @@ const ChatBox: React.FC<Props> = ({ roomName, username }) => {
         justify="space-between"
         align="center"
       >
-        <TextInput //styled component for a <div>
-          aria-label="Enter message..."
+        <TextInput 
+          aria-label="Soạn tin nhắn..."
           ref={inputRef}
           className="size-14px weight-400 text-justify"
           role="textbox"

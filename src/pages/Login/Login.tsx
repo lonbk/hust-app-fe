@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { useAuth0 } from "@auth0/auth0-react";
 /* Components */
 /* Hooks */
-/* Styles */
+/* Styles */ 
 import { MainGrid, MainLogo } from '../../styles';
 /* Types */
 /* Styled components */
@@ -44,7 +44,7 @@ const Login: React.FC = () => {
         <PaperDiv>
         <MainLogo className="app-logo" src={logo} />
           <Button variant="contained" color="primary" onClick={loginWithRedirect}>
-            Log in with Auth0
+            Đăng nhập
           </Button>
         </PaperDiv>
       </Grid>

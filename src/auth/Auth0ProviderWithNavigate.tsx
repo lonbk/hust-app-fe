@@ -1,12 +1,7 @@
-/* Libs */
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
-/* Components */
-
-/* Styles */
-
-/* Configs */
 
 type Props = {
   children: React.ReactNode;
@@ -26,7 +21,7 @@ const Auth0ProviderWithNavigate = ({ children }: Props) => {
       navigate(appState?.returnTo || window.location.pathname);
     };
   
-    return (
+    return ( 
       <Auth0Provider
         domain={domain}
         clientId={clientId}

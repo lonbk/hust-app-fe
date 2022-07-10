@@ -50,7 +50,7 @@ export const TextInput = muiStyled(StyledText)(({ theme }) => ({
   cursor: 'text',
   display: 'inline-block',
   '&:empty::before': {
-    content: '"Enter message..."',
+    content: '"Soạn tin nhắn..."',
     color: theme.palette.secondary.main
   }
 }))

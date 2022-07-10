@@ -41,13 +41,13 @@ const NotFound: React.FC = () => {
       <Grid item xs={false} sm={false} md={5}>
         <PaperDiv>
           <MainLogo className="app-logo" src={logo}></MainLogo>
-          <p>Nothing here</p>
+          <p>Không tồn tại</p>
           <Button
             variant="contained"
             color="primary"
             onClick={() => navigate("/")}
           >
-            Go back
+            Quay lại
           </Button>
         </PaperDiv>
       </Grid>
